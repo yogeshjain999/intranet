@@ -10,4 +10,10 @@
  *
  *= require_self
  *= require_tree .
+ *= require bootstrap
+ *= require bootstrap-responsive
  */
+
+.alert {
+  text-align:center;
+}

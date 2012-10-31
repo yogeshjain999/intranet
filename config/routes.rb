@@ -1,5 +1,17 @@
 JoshIntranet::Application.routes.draw do
-  devise_for :users
+
+  devise_for :users, :path_names => {
+      :sign_in => 'login',
+      :sign_out => 'logout',
+      :root_path => 'dashboard#show'
+  }
+
+  match '/signup' => 'organizations#new', via: :get, as: :signup 
+  match '/signup' => 'organizations#create', via: :post, as: :signup
+
+  constraints(OrganizationRoutes) do
+    match "/" => 'dashboard#index'
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -50,7 +62,7 @@ JoshIntranet::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
