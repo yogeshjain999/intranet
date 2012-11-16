@@ -32,7 +32,6 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  belongs_to :organization
 
   ## Confirmable
   field :confirmation_token,   :type => String
@@ -54,4 +53,6 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
+  belongs_to :organization
+  has_many :leaves
 end
