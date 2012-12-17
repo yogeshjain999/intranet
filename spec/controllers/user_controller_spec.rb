@@ -2,6 +2,6 @@ require 'spec_helper'
 
 describe UserController do
  it "Should able to edit profile"
- it "Should able to update the profile"
- it "Should view the profile"
+ # Profile should be public so, any user can view
+ it "Profile should be public"
 end

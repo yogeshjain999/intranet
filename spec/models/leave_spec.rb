@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Leave do
- context "When applying leaves"
+ context "Validations"
   it "Should select leave type"
   it "Should mention start date"
   it "Should mention end date"
@@ -9,8 +9,9 @@ describe Leave do
   it "Should have reason"
   it "Should mention contact details"
  end
- context "Rules for applying leaves"
-  it "Casual leaves should not be more than 2"
-  it "Leaves  should not be mixed, such as casual leaves are 2 and 2 sick leaves"
+ context "Leaves cannot club together"
+  it "Casual leaves should not be more than 2 days"
+  it "Leaves  should not be mixed"
+  # such as casual leaves are 2 and 2 sick leaves
  end
 end

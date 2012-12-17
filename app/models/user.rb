@@ -54,5 +54,5 @@ class User
   ## Token authenticatable
   # field :authentication_token, :type => String
   belongs_to :organization
-  has_many :leaves
+  has_many :leaves, class_name: "Leave"
 end

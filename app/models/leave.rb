@@ -4,7 +4,7 @@ class Leave
   belongs_to :user
   has_one :leave_type
 
-  field :reason, type: Text
+  field :reason
   field :starts_at, type: Date
   field :ends_at, type: Date
   field :contact_address
