@@ -7,9 +7,10 @@
 
     = f.input :max_no_of_leaves
 
-    = check_box_tag( :id  => "chkNumber", :onclick  => "coffeescrift:toggleField(:number_of_leaves)")
+    = f.input :auto_increament, :label => 'auto increment leaves', :as => :boolean
 
-    = hidden_field_tag :number_of_leaves
+    = f.input :number_of_leaves
+
 
 
   .form-actions
