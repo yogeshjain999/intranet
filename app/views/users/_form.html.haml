@@ -1,0 +1,18 @@
+= simple_form_for @user, :url => {:action => "create"}, html: {:class => 'form-horizontal'} do |f|
+  = f.error_notification
+  .form-inputs
+  = f.input :email
+  = f.input :password
+  = f.input :name
+  = f.input :local_address
+  = f.input :permanent_address
+  = f.input :pan_number
+  = f.input :github_handle
+  = f.input :twitter_handle
+  = f.input :phone_number
+  = f.input :dateOfBirth
+  = f.input :join_date
+  = f.input :employee_id
+  = f.input :passport_number
+  = f.button :submit
+

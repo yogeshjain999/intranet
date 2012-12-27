@@ -1,6 +1,6 @@
 JoshIntranet::Application.routes.draw do
 
-  resources :leave_types
+  resources :leave_type
   resources :users
   devise_for :users, :path_names => {
       :sign_in => 'login',
