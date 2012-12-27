@@ -1,5 +1,7 @@
 JoshIntranet::Application.routes.draw do
 
+  resources :leave_types
+
   devise_for :users, :path_names => {
       :sign_in => 'login',
       :sign_out => 'logout',
@@ -13,7 +15,6 @@ JoshIntranet::Application.routes.draw do
     match "/" => 'dashboard#index'
   end
 
-    resources :leave_types
   
 
   # The priority is based upon order of creation:
