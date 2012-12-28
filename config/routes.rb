@@ -1,5 +1,9 @@
 JoshIntranet::Application.routes.draw do
 
+  resources :leaves do
+ resources :leavetype
+end
+
   resources :leave_types
   resources :users
 

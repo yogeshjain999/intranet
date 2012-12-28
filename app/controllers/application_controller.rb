@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+<<<<<<< HEAD
   #before_filter :authenticate_user!
+=======
+#  before_filter :authenticate_user!
+>>>>>>> 5ea262ac23ade070f5d8ca86b6312d04663e4d96
 
 
   def current_organization
