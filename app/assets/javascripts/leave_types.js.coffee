@@ -2,13 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-txtNumberOfLeaves = $ ('#leave_type_number_of_leaves')
-txtNumberOfLeaves.hide()
+$('#leave_type_number_of_leaves').parent().parent().hide()
 chkAutoIncreament = $ ('#leave_type_auto_increament')
 chkAutoIncreament.click ->
  
  if chkAutoIncreament.is(':checked')
-   txtNumberOfLeaves.show()
+   $('#leave_type_number_of_leaves').parent().parent().show()
  else
-  txtNumberOfLeaves.hide()
+  $('#leave_type_number_of_leaves').parent().parent().hide()
 

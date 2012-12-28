@@ -16,6 +16,5 @@ class Organization
 
   validates :name, :address1, :city, :country, :zip, :contact_number, presence: true
   validates :name, uniqueness: true
-  
   accepts_nested_attributes_for :users, allow_destory: true
 end
