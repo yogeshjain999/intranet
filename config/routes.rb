@@ -1,11 +1,12 @@
 JoshIntranet::Application.routes.draw do
 
-  resources :leave_types
-<<<<<<< HEAD
-  resources :users
-=======
+  resources :leaves do
+ resources :leavetype
+end
 
->>>>>>> b48bd89e320b4006a026e9c8689479e88d594a60
+  resources :leave_types
+  resources :users
+
   devise_for :users, :path_names => {
       :sign_in => 'login',
       :sign_out => 'logout',

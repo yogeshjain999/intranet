@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
  it "Organization first user should be assigned as Admin"
- it "should have atleast 1 manager assigned except Admin & HR"
+ it "should have at least 1 manager assigned except Admin & HR"
  context "When editing and updating profile"
   it "Should have name"
   it "Should have local address"

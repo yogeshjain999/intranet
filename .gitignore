@@ -13,3 +13,5 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+#Ignore files by created Edit+ editer
+*.bak
