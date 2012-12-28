@@ -2,7 +2,10 @@
   = f.error_notification
   .form-inputs
   = f.input :email
+
   = f.input :password
+  = f.input :password_confirmation
+
   = f.input :name
   = f.input :local_address
   = f.input :permanent_address
@@ -10,9 +13,9 @@
   = f.input :github_handle
   = f.input :twitter_handle
   = f.input :phone_number
-  = f.input :dateOfBirth
-  = f.input :join_date
-  = f.input :employee_id
+  = f.input :dateOfBirth, :label => 'Date Of Birth'
+  = f.input :join_date, :label => 'Joining Date'
+  = f.input :employee_id, :label => 'Employee Id'
   = f.input :passport_number
   = f.button :submit
 
