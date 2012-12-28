@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
+  revision: f6059f610ef13e59fd325d12ab073526ea0d510e
+  specs:
+    bootstrap-datepicker-rails (0.6.32)
+      railties (>= 3.0)
+
+GIT
   remote: git://github.com/sferik/rails_admin.git
   revision: 0154ed89466ff23b82a16a822bacf0cc6db592f1
   specs:
@@ -48,6 +55,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
     bootstrap-sass (2.2.1.1)
       sass (~> 3.2)
@@ -80,6 +88,7 @@ GEM
       railties (~> 3.0)
     diff-lcs (1.1.3)
     erubis (2.7.0)
+    eventmachine (1.0.0)
     eventmachine (1.0.0-x86-mingw32)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -133,6 +142,7 @@ GEM
     moped (1.3.1)
     multi_json (1.4.0)
     nested_form (0.3.1)
+    nokogiri (1.5.5)
     nokogiri (1.5.5-x86-mingw32)
     origin (1.0.11)
     orm_adapter (0.4.0)
@@ -198,6 +208,7 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.6)
     sqlite3 (1.3.6-x86-mingw32)
     stringex (1.5.1)
     thin (1.5.0)
@@ -220,6 +231,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  bootstrap-datepicker-rails!
   bootstrap-sass-rails
   bson_ext
   cancan

@@ -55,3 +55,6 @@ gem 'mongoid-simple-roles'
 gem 'cancan'
 gem 'country_select'
 gem "bootstrap-sass-rails"
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+
+
