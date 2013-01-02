@@ -13,23 +13,23 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-     format.json { render json: @user }
+      format.json { render json: @user }
     end
   end
 
   def new
     @user = User.new
-end
+  end
 
   def edit
     @user = User.find(params[:id])
-#respond_to do |format|
-      #format.html # update.html.erb
-     #format.json { render json: @user }
+    #respond_to do |format|
+    #format.html # update.html.erb
+    #format.json { render json: @user }
 
   end
 
-def create
+  def create
     @user = User.new(params[:user])
 
     respond_to do |format|
@@ -39,10 +39,10 @@ def create
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-end
+      end
 
-end
-end
+    end
+  end
   def update
     @user = User.find(params[:id])
 
@@ -56,11 +56,6 @@ end
       end
     end
   end
-
-  
-
-
-  
 
   def destroy
     @user = User.find(params[:id])
