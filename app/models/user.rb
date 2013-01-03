@@ -72,8 +72,8 @@ class User
   field :employee_id, :type => Integer
   field :passport_number, :type => String
 
-validates :pan_number, :length => { :is => 10 } 
-validates :pan_number, :format => { :with => /\A[A-Z]{5}\d{4}[A-Z]{1}\Z/ , :message => 'invalid pan number'}
+  validates :pan_number, :length => { :is => 10 }, :allow_blank => true 
+  validates :pan_number, :format => { :with => /\A[A-Z]{5}\d{4}[A-Z]{1}\Z/ , :message => 'invalid pan number'}, :allow_blank => true 
   
   
   belongs_to :organization

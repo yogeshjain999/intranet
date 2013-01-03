@@ -8,5 +8,4 @@ class LeaveType
   validates :name, :max_no_of_leaves, presence: true
   validates :max_no_of_leaves, :numericality => { :greater_than => 0 } 
 
-  belongs_to :leave
 end
