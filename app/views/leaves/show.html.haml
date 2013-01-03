@@ -1,0 +1,35 @@
+%p 
+
+%p 
+  %b Leave type:
+  %br
+  = @leave.leave_type.name
+%p
+  %b Reason:
+  %br
+  = @leave.reason
+%p
+  %b Start date:
+  %br
+  = @leave.starts_at
+%p
+  %b End date:
+  %br
+  = @leave.ends_at
+%p
+  %b Contact address:
+  %br
+  = @leave.contact_address
+%p
+  %b Contact number:
+  %br
+  = @leave.contact_number
+%p
+  %b Status:
+  %br
+  = @leave.status
+
+%br
+= link_to 'Edit', edit_leafe_path
+|
+= link_to 'Back', leaves_path

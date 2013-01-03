@@ -1,0 +1,19 @@
+%h1 Applyed leaves
+
+%table
+  %tr
+    %th Leave type
+    %th Show
+    %th Edit
+    %th Cancel leaves
+
+  - @leave.each do |leave|                                       
+    %tr
+      %td= leave.leave_type.name
+      %td= link_to 'Show', leave
+      %td= link_to 'Edit', edit_leafe_path(leave)
+      %td= link_to 'Cancel leaves', leave, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'Apply leaves', new_leafe_path
