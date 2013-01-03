@@ -11,7 +11,9 @@
 
     = f.input :number_of_leaves
 
-
-
   .form-actions
     = f.button :submit, class: 'btn-success'
+
+  :javascript
+    var leavetype = #{ @leave_type.to_json};
+

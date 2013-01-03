@@ -8,4 +8,8 @@ class LeaveType
   validates :name, :max_no_of_leaves, presence: true
   validates :max_no_of_leaves, :numericality => { :greater_than => 0 } 
 
+  def as_json(option = {})
+    option = { :only => [:id, :name, :max_no_of_leaves, :auto_increament, :number_of_leaves]} if option.nil?
+      super
+  end
 end

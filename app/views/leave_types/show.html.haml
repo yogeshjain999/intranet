@@ -6,10 +6,12 @@
 %p
   %b Max no of leaves:
   = @leave_type.max_no_of_leaves
-%p
-  %b Number of leaves:
-  = @leave_type.number_of_leaves
+- if @leave_type.auto_increament   
+  %p#numberOfLeaves 
+    %b Number of leaves:
+    = @leave_type.number_of_leaves
 
 = link_to 'Edit', edit_leave_type_path(@leave_type)
 \|
 = link_to 'Back', leave_types_path
+
