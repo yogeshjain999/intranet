@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @profile.name
+%p
+  %b Local address:
+  = @profile.local_address
+%p
+  %b Permanent address:
+  = @profile.permanent_address
+%p
+  %b Pan number:
+  = @profile.pan_number
+%p
+  %b Phone number:
+  = @profile.phone_number
+%p
+  %b dateOfBirth:
+  = @profile.dateOfBirth
+%p
+  %b employee id:
+  = @profile.employee_id
+%p
+  %b Joining date:
+  = @profile.join_date
+%p
+  %b Passport number:
+  = @profile.passport_number
+
+= link_to 'Edit', edit_profile_path(@profile)
+\|
+= link_to 'Back', profiles_path

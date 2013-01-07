@@ -1,0 +1,28 @@
+= simple_form_for(@profile) do |f|
+  = f.error_notification
+
+  .form-inputs
+
+    = f.input :name
+
+    = f.input :local_address
+
+    = f.input :permanent_address
+
+    = f.input :pan_number
+    = f.input :github_handle
+    = f.input :twitter_handle
+    = f.input :phone_number
+    = f.input :dateOfBirth, :label => 'Date Of Birth'
+
+    = f.input :join_date, :label => 'Joining Date'
+
+    = f.input :employee_id, :label => 'Employee Id'
+
+
+
+    = f.input :passport_number
+
+
+  .form-actions
+    = f.button :submit
