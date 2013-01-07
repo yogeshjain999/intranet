@@ -3,26 +3,10 @@
 
 %table.table
   %tr
-    %th name
-    %th Local Address
-    %th Permanent Address
-    %th Pan Card Number
-    %th Phone Number
-    %th Date Of birth
-    %th Joining Date
-    %th Employee Id
-    %th Passport Number
+    %th Email
   - @users.each do |user|
     %tr
-    %td= user.name
-    %td= user.local_address
-    %td= user.permanent_address
-    %td= user.pan_number
-    %td= user.phone_number
-    %td= user.dateOfBirth
-    %td= user.join_date
-    %td= user.employee_id
-    %td= user.passport_number
+    %td= user.email
     %td= link_to 'Show', user
     %td= link_to 'Edit', edit_user_path(user)
     %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }

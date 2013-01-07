@@ -1,0 +1,19 @@
+%h1 Listing profiles
+
+%table
+  %tr
+    %th Name
+
+
+    %th
+    %th
+    %th
+
+  - @profiles.each do |profile|
+    %tr
+      %td= profile.name
+      %td= link_to 'Show', profile
+      %td= link_to 'Edit', edit_profile_path(profile)
+
+
+= link_to 'New Profile', new_profile_path

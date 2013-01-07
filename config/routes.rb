@@ -5,7 +5,9 @@ JoshIntranet::Application.routes.draw do
   end
   resources :leave_deatails
   resources :leave_types
+resources :profiles
 
+  
   devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',

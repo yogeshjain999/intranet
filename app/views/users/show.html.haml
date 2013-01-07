@@ -1,9 +1,6 @@
 
-%p= @user.name
-%br
-%p= @user.local_address
-%br
-%p= @user.permanent_address
+%p= @user.email
 = link_to 'Edit', edit_user_path(@user)
 \|
 = link_to 'Back', users_path
+
