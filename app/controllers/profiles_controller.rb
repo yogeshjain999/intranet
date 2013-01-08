@@ -7,15 +7,18 @@ class ProfilesController < ApplicationController
       format.json { render json: @profiles }
     end
   end
-
   def show
+    @user = User.find(params[:id])
     @profile = Profile.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @profile }
+      format.json { render json: @user }
     end
   end
+
+
+
   def new
     @profile = Profile.new
 

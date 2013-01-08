@@ -6,8 +6,8 @@
     %th Email
   - @users.each do |user|
     %tr
-    %td= user.email
-    %td= link_to 'Show', user
+    @profile = user.email
+    %td= link_to user.email, sho_profile_path(@profile)
     %td= link_to 'Edit', edit_user_path(user)
     %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
