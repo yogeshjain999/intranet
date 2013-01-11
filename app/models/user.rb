@@ -55,4 +55,5 @@ class User
   # field :authentication_token 
     belongs_to :organization
   has_many :leaves, class_name: "Leave"
-end
+  has_many :leave_deatails
+  end
