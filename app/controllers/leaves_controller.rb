@@ -61,16 +61,7 @@ class LeavesController < ApplicationController
   def rejectStatus
     @leave = Leave.find(params[:id])
     @leave.status = "Reject"
-    respond_to do |format|
-      if @leave.update_attributes(params[:leave])
-        format.html { redirect_to @leave, notice: 'Leave is successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.json { render json: @leave.errors, status: :unprocessable_entity }
-      end
-    end
-
-
+    @leave.update_attributes(params[:leave])
+    redirect_to leaves_path
   end
-
 end

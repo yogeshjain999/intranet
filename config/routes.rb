@@ -5,6 +5,7 @@ JoshIntranet::Application.routes.draw do
     put :rejectStatus, on: :member
     resources :leavetype
   end
+
   resources :leave_deatails
   resources :leave_types
 resources :profiles
