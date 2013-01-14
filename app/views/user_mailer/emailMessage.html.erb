@@ -4,8 +4,9 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
   </head>   
   <body>     
-     <p><b>Hello <%= @user.organization.name %>,</b></p><br />
-     <p><%= @user.leafe.reason %><br /><%= @user.leafe.starts_at %> to <%= @user.leafe.ends_at %></p>
+     <p><b>Hello <%= @user.organization.name %>,</b></p>
+     <p><%= @leave.reason %><br /><%= @leave.starts_at %> to <%= @leave.ends_at %></p>
+      To showing leave details click the following link. <%= link_to 'click hear', @url %>
     <br />
     <p>Thanks & regards!<br /></p>   
   </body> 

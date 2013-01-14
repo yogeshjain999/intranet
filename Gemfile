@@ -50,7 +50,7 @@ gem 'mongoid_slug'
 gem "rails_admin", :git => "git://github.com/sferik/rails_admin.git"
 gem "rspec-rails", ">= 2.0.1", :group => [:development, :test]
 gem 'simple_form'
-#gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'mongoid-simple-roles'
 gem 'cancan'
 gem 'country_select'

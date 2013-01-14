@@ -1,19 +1,28 @@
 GIT
   remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
-  revision: c307668810081e71a208660ecefcd9fc9f774b61
+  revision: 14caf686218a8ad1f8f3dada1472b9c7f028a933
   specs:
-    bootstrap-datepicker-rails (0.6.34)
+    bootstrap-datepicker-rails (0.6.35)
       railties (>= 3.0)
 
 GIT
-  remote: git://github.com/sferik/rails_admin.git
-  revision: 9e17443c67f9568e7c409d36794a34aa3d21101c
+  remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
+  revision: 9649b2c0b12a374dfece50a3ae31cc56ad778300
   specs:
-    rails_admin (0.3.0)
+    twitter-bootstrap-rails (2.2.0)
+      actionpack (>= 3.1)
+      execjs
+      railties (>= 3.1)
+
+GIT
+  remote: git://github.com/sferik/rails_admin.git
+  revision: 7355b8ae36ad026ae04a295057f9865e6b200e2e
+  specs:
+    rails_admin (0.4.0)
       bootstrap-sass (~> 2.1)
       builder (~> 3.0)
       coffee-rails (~> 3.1)
-      font-awesome-sass-rails (~> 2.0)
+      font-awesome-sass-rails (>= 3.0.0.1)
       haml (~> 3.1)
       jquery-rails (~> 2.1)
       jquery-ui-rails (~> 2.0)
@@ -75,7 +84,7 @@ GEM
     coffee-script-source (1.4.0)
     country_select (1.1.3)
     daemons (1.1.9)
-    devise (2.1.2)
+    devise (2.2.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (~> 3.1)
@@ -89,7 +98,7 @@ GEM
     eventmachine (1.0.0-x86-mingw32)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    font-awesome-sass-rails (2.0.0.0)
+    font-awesome-sass-rails (3.0.0.1)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
     haml (3.1.7)
@@ -143,10 +152,10 @@ GEM
     origin (1.0.11)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
-    rack (1.4.1)
+    rack (1.4.3)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-pjax (0.6.0)
+    rack-pjax (0.7.0)
       nokogiri (~> 1.5)
       rack (~> 1.3)
     rack-protection (1.3.2)
@@ -178,7 +187,7 @@ GEM
     rspec-expectations (2.12.1)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.12.1)
-    rspec-rails (2.12.0)
+    rspec-rails (2.12.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -246,4 +255,5 @@ DEPENDENCIES
   rspec-rails (>= 2.0.1)
   sass-rails (~> 3.2.3)
   simple_form
+  twitter-bootstrap-rails!
   uglifier (>= 1.0.3)
