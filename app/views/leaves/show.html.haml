@@ -1,37 +1,40 @@
-%p 
-
-%p 
-  %b Leave type:
-  %br
-  = @leave.leave_type.name
-%p
-  %b Reason:
-  %br
-  = @leave.reason
-%p
-  %b Start date:
-  %br
-  = @leave.starts_at
-%p
-  %b End date:
-  %br
-  = @leave.ends_at
-%p
-  %b Contact address:
-  %br
-  = @leave.contact_address
-%p
-  %b Contact number:
-  %br
-  = @leave.contact_number
-%p
-  %b Status:
-  %br
-  = @leave.status
+%table
+  %tr
+    %th Leave type:
+    %th Reason:
+    %th Start date:
+    %th End date:
+    %th Contact address:
+    %th Contact number:
+    %th Status:
+  - if @leave.status == "Reject"
+    %th Rejection reason:
+  %tr
+    %td= @leave.leave_type.name
+    %td= @leave.reason
+    %td= @leave.starts_at
+    %td= @leave.ends_at
+    %td= @leave.contact_address
+    %td= @leave.contact_number
+    %td{:class => "status"}= @leave.status
+  - if @leave.status == "Reject"
+    %td= @leave.reject_reason
 
 %br
+%br
 
-= link_to 'Approve/Reject', 
+= link_to 'Approve', approveStatus_leafe_path, :remote => "true"
+= link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal"
+|
 = link_to 'Edit', edit_leafe_path
+= link_to 'Cancel', @leave, method: :delete, data: { confirm: 'Are you sure?' }
 |
 = link_to 'Back', leaves_path
+%div{:id => "rejectmodal", :class => "modal hide fade", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
+  %div{:class => "modal-header"}
+    %h1 Reject leaves
+  %div{:class => "modal-body"}
+    = simple_form_for @leave, :url => {:action => "rejectStatus"}, html: {:class => 'form-horizontal'} do |f|
+      = f.input :reject_reason, :as => :text, :required => true
+      = f.submit
+  %div{:class => "modal-footer"}

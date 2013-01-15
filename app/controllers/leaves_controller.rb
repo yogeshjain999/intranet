@@ -24,11 +24,14 @@ class LeavesController < ApplicationController
 
  def create
   @leave = Leave.new(params[:leave])
+  @user = User.find(current_user)
   @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
   @leave.status = "Pending"
   respond_to do |format|
    if @leave.save
+    UserMailer.leaveReport(@user, @leave).deliver
     format.html {redirect_to root_url, notice: 'Your request has been noted'}
+    format.html {redirect_to @leave, notice: 'Your request has been noted' }
     format.json {render json: @leave, status: :created}
    end
   end
@@ -52,6 +55,16 @@ class LeavesController < ApplicationController
     end
   end
 
+  def approveStatus
+    @leave = Leave.find(params[:id])
+    @leave.status = "Approved"
+    @leave.save
+  end
 
-
+  def rejectStatus
+    @leave = Leave.find(params[:id])
+    @leave.status = "Reject"
+    @leave.update_attributes(params[:leave])
+    redirect_to leaves_path
+  end
 end
