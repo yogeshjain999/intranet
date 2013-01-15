@@ -1,0 +1,15 @@
+= simple_nested_form_for @user, :url => {:action => "edit"}, html: {:class => 'form-horizontal'} do |f|
+  = f.error_notification
+
+  = f.simple_fields_for :profile do |p|
+  = p.input :name
+  = p.input :local_address
+  = p.input :permanent_address
+  = p.input :pan_number
+  = p.input :phone_number
+  = p.input :bateOfBirth
+    = p.input :employee_id
+    = p.input :join_date
+    = p.input :passport_number
+  .form-actions
+  = f.button :submit, :class => 'btn-success'

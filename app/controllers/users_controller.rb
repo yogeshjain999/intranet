@@ -2,7 +2,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -19,19 +18,20 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+@user.profile
   end
 
   def edit
     @user = User.find(params[:id])
-    #respond_to do |format|
-    #format.html # update.html.erb
-    #format.json { render json: @user }
+  #@profile = @user.profile.build
+    respond_to do |format|
+    format.html # update.html.erb
+    format.json { render json: @user }
 
   end
 
   def create
     @user = User.new(params[:user])
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -45,6 +45,7 @@ class UsersController < ApplicationController
   end
   def update
     @user = User.find(params[:id])
+  #@profile = @user.profile.build(params[:profile])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -66,4 +67,6 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+end
+
 end

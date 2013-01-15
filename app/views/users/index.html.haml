@@ -5,12 +5,14 @@
   %tr
     %th Email
   - @users.each do |user|
+
     %tr
-    @profile = user.email
-    %td= link_to user.email, sho_profile_path(@profile)
+    %td= user.email
     %td= link_to 'Edit', edit_user_path(user)
+    %td=  link_to 'create your profile', profile_path(user)
+    %td= link_to render(:partial => 'users/profile'), edit_user_path
+  
     %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
-
 

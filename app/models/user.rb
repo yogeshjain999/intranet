@@ -1,6 +1,7 @@
 class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
+embeds_one :profile
 
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
@@ -53,7 +54,10 @@ class User
 
   ## Token authenticatable
   # field :authentication_token 
+
     belongs_to :organization
   has_many :leaves, class_name: "Leave"
-has_one :profile
+#has_one :profile
+accepts_nested_attributes_for :profile
+  
 end

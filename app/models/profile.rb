@@ -16,8 +16,7 @@ class Profile
 
   validates :pan_number, :format => { :with => /\A[A-Z]{5}\d{4}[A-Z]{1}\Z/ , :message => 'invalid pan number'}, :allow_blank => true 
 
+embedded_in :user
 
-
-
-belongs_to :user
+#belongs_to :user
 end

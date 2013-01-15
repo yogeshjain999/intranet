@@ -5,8 +5,7 @@ JoshIntranet::Application.routes.draw do
   end
   resources :leave_deatails
   resources :leave_types
-resources :profiles
-
+    #resources :profiles, :controller => "users"
   
   devise_for :users, :path_names => {
     :sign_in => 'login',
@@ -19,10 +18,9 @@ resources :profiles
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'
-    resources :users   
+    resources :users
+
   end
-
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     if @current_organization.present? && current_user && @current_account != current_user.account
       sign_out_and_redirect(current_user)
     end
+    
   end
   helper_method :current_organization
 
