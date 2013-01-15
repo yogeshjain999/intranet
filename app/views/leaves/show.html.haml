@@ -34,7 +34,7 @@
   %div{:class => "modal-header"}
     %h1 Reject leaves
   %div{:class => "modal-body"}
-    = simple_form_for @leave, :url => {:action => "rejectStatus"}, html: {:class => 'form-horizontal'}, :remote => "true" do |f|
-      = f.input :reject_reason
+    = simple_form_for @leave, :url => {:action => "rejectStatus"}, html: {:class => 'form-horizontal'} do |f|
+      = f.input :reject_reason, :as => :text, :required => true
       = f.submit
   %div{:class => "modal-footer"}
