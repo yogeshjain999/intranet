@@ -18,6 +18,7 @@ JoshIntranet::Application.routes.draw do
 
   match '/signup' => 'organizations#new', via: :get, as: :signup 
   match '/signup' => 'organizations#create', via: :post, as: :signup
+match'/users/user_id/createProfile' => 'users#createProfile', :via => [:get, :post]
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'

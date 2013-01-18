@@ -58,7 +58,7 @@ embeds_one :profile
     belongs_to :organization
   has_many :leaves, class_name: "Leave"
 #has_one :profile
-accepts_nested_attributes_for :profile
+accepts_nested_attributes_for :profile, allow_destory: true
   
   has_many :leave_deatails
   end

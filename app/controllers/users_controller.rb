@@ -18,11 +18,13 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-@user.profile
+#@user.profile
+#@profile = @user.profile.build
+  
   end
 
   def edit
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
   #@profile = @user.profile.build
     respond_to do |format|
     format.html # update.html.erb
@@ -68,4 +70,17 @@ class UsersController < ApplicationController
     end
   end
 end
+  def createProfile
+  if request.xhr?
+@user = User.find(params[:user_id])
+  p "In get..."
+  elsif request.post?
+respond_to do |format|
+
+  @user.update_attributes(params[:id])
+  format.html { redirect_to user_show_path, notice: 'Profile was successfully created.' }
+      end
+end
+end
+
 end
