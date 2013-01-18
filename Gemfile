@@ -39,8 +39,8 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem "devise"
-gem 'devise_invitable'
+gem "devise", '2.1.2'
+gem 'devise_invitable', '1.1.2' 
 gem "haml", ">= 3.0.0"
 gem "haml-rails"
 gem "jquery-rails"

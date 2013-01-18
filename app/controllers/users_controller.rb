@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :authenticate_inviter!, :only => [:new, :create]
+
 
   def index
     @users = User.all
@@ -18,7 +20,8 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-@user.profile
+    @user.profile
+
   end
 
   def edit

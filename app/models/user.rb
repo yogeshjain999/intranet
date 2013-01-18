@@ -1,7 +1,7 @@
 class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
-embeds_one :profile
+  embeds_one :profile
 
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
@@ -18,7 +18,7 @@ embeds_one :profile
   validates_presence_of :email
   validates_presence_of :encrypted_password
   
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessible :email, :password, :password_confirmation, :roles
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
