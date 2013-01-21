@@ -8,17 +8,16 @@ JoshIntranet::Application.routes.draw do
 
   resources :leave_deatails
   resources :leave_types
-    #resources :profiles, :controller => "users"
-  
-  devise_for :users, :path_names => {
+devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',
-    :root_path => 'dashboard#show'
+    :root_path => 'dashboard#show'    
   }
-
+  
+  
   match '/signup' => 'organizations#new', via: :get, as: :signup 
   match '/signup' => 'organizations#create', via: :post, as: :signup
-match'/users/user_id/createProfile' => 'users#createProfile', :via => [:get, :post]
+  match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'

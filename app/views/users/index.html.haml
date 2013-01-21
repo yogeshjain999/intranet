@@ -9,7 +9,6 @@
     %tr
     %td= user.email
     %td= link_to 'Edit', edit_user_path(user)
-    %td= link_to 'CreateProfile', ':current_user/createProfile', :remote => true
     %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br

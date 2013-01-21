@@ -3,6 +3,15 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user!
 
+  def after_sign_in_path_for(resource)
+    p "####################"
+    if request.referrer.include?("invitation")	   
+      profile_path(current_user)
+    else
+      super
+    end
+  end
+
   def current_organization
     return @current_organization if @current_organization.present?
     @current_organization = Organization.find_by_slug!( extract_subdomain )
@@ -23,4 +32,10 @@ class ApplicationController < ActionController::Base
     end
     return subdomain
   end
+
+#  protected
+
+#  def authenticate_inviter!
+#    authenticate_user!(:force => true)
+#  end
 end
