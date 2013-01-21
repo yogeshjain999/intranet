@@ -7,10 +7,9 @@ class ApplicationController < ActionController::Base
     return @current_organization if @current_organization.present?
     @current_organization = Organization.find_by_slug!( extract_subdomain )
     # make sure we can only access the current users account!
-    if @current_organization.present? && current_user && @current_account != current_user.account
+    if @current_organization.present? && current_user && @current_organization != current_user.organization
       sign_out_and_redirect(current_user)
     end
-    
   end
   helper_method :current_organization
 
