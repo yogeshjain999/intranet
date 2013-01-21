@@ -1,14 +1,13 @@
 class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
-  embeds_one :profile
 
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+    :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
   ## Database authenticatable
@@ -17,8 +16,8 @@ class User
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
-  
-  attr_accessible :email, :password, :password_confirmation, :roles
+
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -55,10 +54,10 @@ class User
   ## Token authenticatable
   # field :authentication_token 
 
-    belongs_to :organization
+  belongs_to :organization
   has_many :leaves, class_name: "Leave"
-#has_one :profile
-accepts_nested_attributes_for :profile, allow_destory: true
-  
+  embeds_one :profile
+  accepts_nested_attributes_for :profile, allow_destory: true
+
   has_many :leave_deatails
-  end
+end
