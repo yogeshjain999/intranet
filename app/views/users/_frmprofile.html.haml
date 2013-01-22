@@ -1,0 +1,15 @@
+= simple_form_for @user, url: profile_path(@user), method: :post do |u|
+  = u.error_notification
+  = simple_fields_for :profile do |p|
+    .form-inputs
+      = p.input :name
+      = p.input :local_address
+      = p.input :permanent_address
+      = p.input :pan_number
+      = p.input :phone_number
+      = p.input :bateOfBirth
+      = p.input :employee_id
+      = p.input :join_date
+      = p.input :passport_number
+    .form-actions
+      = u.submit"createProfile"

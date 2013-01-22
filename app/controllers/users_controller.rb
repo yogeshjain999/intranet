@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class UsersController  < ApplicationController
   before_filter :authenticate_inviter!, :only => [:new, :create]
 
 
@@ -21,7 +21,6 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user.profile
   end
 
   def edit
@@ -48,7 +47,6 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-  #@profile = @user.profile.build(params[:profile])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -81,5 +79,17 @@ class UsersController < ApplicationController
       end
     end
  end
+
+  def profile
+   if request.get?
+    @user = User.find(params[:user_id])
+   elsif request.post?
+     respond_to do |format|
+       @user.update_attributes(params[:id])
+       format.html { redirect_to user_show_path, notice: 'Profile was successfully created.' }
+     end
+   end
+  end
+
 end
 

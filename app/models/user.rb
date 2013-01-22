@@ -11,7 +11,7 @@ class User
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+    :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
 
   ## Database authenticatable
@@ -20,8 +20,8 @@ class User
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
-  
-  attr_accessible :email, :password, :password_confirmation, :roles
+
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -35,7 +35,6 @@ class User
   field :last_sign_in_at,    :type => Time
   field :current_sign_in_ip 
   field :last_sign_in_ip,    :type => String
-
 
   ## Confirmable
   field :confirmation_token,   :type => String
@@ -58,6 +57,6 @@ class User
   ## Token authenticatable
   # field :authentication_token 
 
-    belongs_to :organization
+  belongs_to :organization
   has_many :leaves, class_name: "Leave"
 end

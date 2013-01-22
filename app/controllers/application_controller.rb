@@ -3,16 +3,32 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate_user!
 
+  def after_sign_in_path_for(resource)
+    if resource && resource.sign_in_count == 1
+      profile_path(resource)
+    else
+      super
+    end
+  end
+
   def current_organization
     return @current_organization if @current_organization.present?
     @current_organization = Organization.find_by_slug!( extract_subdomain )
     # make sure we can only access the current users account!
-    if @current_organization.present? && current_user && @current_account != current_user.account
+    if @current_organization.present? && current_user && @current_organization != current_user.organization
       sign_out_and_redirect(current_user)
     end
-    
+    @current_organization
   end
   helper_method :current_organization
+
+  def default_url_options
+    if @current_organization
+      {host: "http:://#{@current_organization.subdomain}/joshintranet.com:3000"}
+    else
+      {host: "http:://joshintranet.com:3000"}
+    end
+  end
 
   private
 
@@ -24,9 +40,9 @@ class ApplicationController < ActionController::Base
     return subdomain
   end
 
-#  protected
+  #  protected
 
-#  def authenticate_inviter!
-#    authenticate_user!(:force => true)
-#  end
+  #  def authenticate_inviter!
+  #    authenticate_user!(:force => true)
+  #  end
 end
