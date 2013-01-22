@@ -9,6 +9,7 @@ class UsersController < ApplicationController
       format.json { render json: @users }
     end
   end
+
   def show
     @user = User.find(params[:id])
 
@@ -21,16 +22,15 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @user.profile
-
   end
 
   def edit
     @user = User.find(params[:id])
-  #@profile = @user.profile.build
+    #@profile = @user.profile.build
     respond_to do |format|
-    format.html # update.html.erb
-    format.json { render json: @user }
-
+      format.html # update.html.erb
+      format.json { render json: @user }
+    end
   end
 
   def create
@@ -43,9 +43,9 @@ class UsersController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-
     end
   end
+
   def update
     @user = User.find(params[:id])
   #@profile = @user.profile.build(params[:profile])
@@ -70,5 +70,16 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def assignleaves
+    if request.get?
+      @user = User.find(params[:user_id])
+@user.leave_details.build
+    elsif request.post?
+      if @user.update_attributes(params[:user])
+	p "asdasd"	
+      end
+    end
+ end
 end
-end
+

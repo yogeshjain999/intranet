@@ -2,6 +2,9 @@ class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
   embeds_one :profile
+  accepts_nested_attributes_for :profile
+  embeds_many :leave_details
+  accepts_nested_attributes_for :leave_details
 
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
@@ -57,8 +60,4 @@ class User
 
     belongs_to :organization
   has_many :leaves, class_name: "Leave"
-#has_one :profile
-accepts_nested_attributes_for :profile
-  
-  has_many :leave_deatails
-  end
+end
