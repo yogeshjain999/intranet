@@ -78,7 +78,7 @@ class UsersController  < ApplicationController
    elsif request.post?
      respond_to do |format|
        @user.update_attributes(params[:id])
-       format.html { redirect_to user_show_path, notice: 'Profile was successfully created.' }
+       format.html { redirect_to @user, notice: 'Profile was successfully created.' }
      end
    end
   end
