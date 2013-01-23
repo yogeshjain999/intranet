@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   def default_url_options
     if @current_organization
-      {host: "http:://#{@current_organization.subdomain}/joshintranet.com:3000"}
+      {host: "http:://#{@current_organization}/joshintranet.com:3000"}
     else
       {host: "http:://joshintranet.com:3000"}
     end
