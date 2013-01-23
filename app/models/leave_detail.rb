@@ -1,12 +1,10 @@
-class LeaveDeatail
+class LeaveDetail
   include Mongoid::Document
-  belongs_to :user
+  embedded_in :user
   belongs_to :leave_type
   belongs_to :profiles
 
-
   field :assignedDate, type: Date
-  field :remainLeaves, type: Integer
+  field :availableLeaves, type: Integer
   field :finishedLeaves, type: Integer
-
 end

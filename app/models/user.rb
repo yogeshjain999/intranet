@@ -1,6 +1,10 @@
 class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
+  embeds_one :profile
+  accepts_nested_attributes_for :profile
+  embeds_many :leave_details
+  accepts_nested_attributes_for :leave_details
 
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
@@ -32,7 +36,6 @@ class User
   field :current_sign_in_ip 
   field :last_sign_in_ip,    :type => String
 
-
   ## Confirmable
   field :confirmation_token,   :type => String
   field :confirmed_at,         :type => Time
@@ -56,8 +59,4 @@ class User
 
   belongs_to :organization
   has_many :leaves, class_name: "Leave"
-  embeds_one :profile
-  accepts_nested_attributes_for :profile, allow_destory: true
-
-  has_many :leave_deatails
 end

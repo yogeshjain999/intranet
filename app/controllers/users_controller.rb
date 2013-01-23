@@ -21,7 +21,6 @@ class UsersController  < ApplicationController
 
   def new
     @user = User.new
-    #@profile = @user.profile.build
   end
 
   def edit
@@ -46,10 +45,8 @@ class UsersController  < ApplicationController
     end
   end
 
-
   def update
     @user = User.find(params[:id])
-    #@profile = @user.profile.build(params[:profile])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -72,6 +69,17 @@ class UsersController  < ApplicationController
     end
   end
 
+  def assignleaves
+    if request.get?
+      @user = User.find(params[:user_id])
+@user.leave_details.build
+    elsif request.post?
+      if @user.update_attributes(params[:user])
+	p "asdasd"	
+      end
+    end
+ end
+
   def profile
    if request.get?
     @user = User.find(params[:user_id])
@@ -82,5 +90,6 @@ class UsersController  < ApplicationController
      end
    end
   end
+
 end
 

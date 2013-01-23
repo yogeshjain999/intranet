@@ -1,6 +1,0 @@
-= simple_form_for @leaveDeatail, html: {:class => 'form-horizontal'} do |f|
- = f.association :profiles, :collection => Profile.all.entries, :prompt => "Select employee", :label => "Employee"
- = f.input :assignedDate, :label => "Date"
- = f.association :leave_type, :collection => LeaveType.all.entries, :prompt => "Select leave type"
- = f.submit "Assign leaves"
-

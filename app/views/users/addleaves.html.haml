@@ -1,0 +1,3 @@
+%h1 Assign leaves
+= select_tag 'user', options_from_collection_for_select(User.all.entries, :id, :email), :id => "cmbuser", :prompt => "Select user"
+%div{:id => "assign_leaves"}
