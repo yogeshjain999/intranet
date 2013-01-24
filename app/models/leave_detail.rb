@@ -1,8 +1,7 @@
 class LeaveDetail
   include Mongoid::Document
   embedded_in :user
-  belongs_to :leave_type
-  belongs_to :profiles
+  has_many :leave_types
 
   field :assignedDate, type: Date
   field :availableLeaves, type: Integer
