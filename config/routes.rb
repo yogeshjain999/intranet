@@ -11,6 +11,7 @@ JoshIntranet::Application.routes.draw do
 devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',
+    :controller => {:invitations => 'devise/invitations'},
     :root_path => 'dashboard#show'    
   }
   

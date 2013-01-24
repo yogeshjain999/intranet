@@ -13,6 +13,9 @@
       = u.input :email
       = u.input :password
       = u.input :password_confirmation
+      = u.hidden_field :roles, :value => 'Admin'
+
+
 
   .form-actions
     = f.button :submit, class: 'btn-success'
