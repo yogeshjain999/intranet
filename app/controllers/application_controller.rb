@@ -22,14 +22,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_organization
 
-  def default_url_options
-    if @current_organization
-      {host: "http:://#{@current_organization}/joshintranet.com:3000"}
-    else
-      {host: "http:://joshintranet.com:3000"}
-    end
-  end
-
   private
 
   def extract_subdomain

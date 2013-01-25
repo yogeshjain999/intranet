@@ -2,7 +2,7 @@ class LeaveTypesController < ApplicationController
   # GET /leave_types
   # GET /leave_types.json
   def index
-    @leave_types = LeaveType.all
+    @leave_types = current_organization.leave_types.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class LeaveTypesController < ApplicationController
     @leave_type = LeaveType.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      render leave_types_path(@leave_type)
       format.json { render json: @leave_type }
     end
   end
