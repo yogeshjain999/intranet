@@ -4,10 +4,10 @@
 
 chkAutoIncreament = $('#leave_type_auto_increament')
 chkAutoIncreament.click ->
-if chkAutoIncreament.is(':checked')
-  $('#leave_type_number_of_leaves').parent().parent().show()
-else
-  $('#leave_type_number_of_leaves').parent().parent().hide()
+  if chkAutoIncreament.is(':checked')
+    $('#leave_type_number_of_leaves').parent().parent().show()
+  else
+    $('#leave_type_number_of_leaves').parent().parent().hide()
 
 #default action for both new and edit page   
 $('#leave_type_number_of_leaves').parent().parent().hide()
@@ -16,4 +16,5 @@ $('#leave_type_number_of_leaves').parent().parent().hide()
 if leavetype.id != 'nill'
   if chkAutoIncreament.is(':checked')
     $('#leave_type_number_of_leaves').parent().parent().show()
+
 
