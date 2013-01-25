@@ -31,10 +31,4 @@ class ApplicationController < ActionController::Base
     end
     return subdomain
   end
-
-  #  protected
-
-  #  def authenticate_inviter!
-  #    authenticate_user!(:force => true)
-  #  end
 end
