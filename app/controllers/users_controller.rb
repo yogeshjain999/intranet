@@ -21,16 +21,14 @@ class UsersController  < ApplicationController
 
   def new
     @user = User.new
+
   end
 
   def edit
     @user = User.find(params[:id])
-    #@profile = @user.profile.build
-    respond_to do |format|
-      format.html # update.html.erb
-      format.json { render json: @user }
-    end
-  end
+    @user.build_profile if @user.profile.nil?
+
+        end
 
   def create
     @user = User.new(params[:user])
@@ -81,15 +79,16 @@ class UsersController  < ApplicationController
  end
 
   def profile
-   if request.get?
-    @user = User.find(params[:user_id])
-   elsif request.post?
-     respond_to do |format|
-       @user.update_attributes(params[:id])
-       format.html { redirect_to @user, notice: 'Profile was successfully created.' }
-     end
+  @user = User.find(params[:user_id])
+    if request.post?
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to profile_path(@user), notice: 'Profile was successfully created.' }
+    else
+          format.html { render action: "profile" }
+        end
+      end
+    end
    end
-  end
-
-end
+   end
 

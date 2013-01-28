@@ -20,7 +20,6 @@ devise_for :users, :path_names => {
   match '/addleaves' => 'users#addleaves', :via => :get
   match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
   match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
-
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'
     resources :users

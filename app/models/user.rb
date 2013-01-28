@@ -3,6 +3,9 @@ class User
   include Mongoid::Document::Roleable
   embeds_one :profile
   accepts_nested_attributes_for :profile
+  attr_accessible :profile_attributes
+ 
+
   embeds_many :leave_details
   accepts_nested_attributes_for :leave_details
 
