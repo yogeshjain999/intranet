@@ -14,11 +14,13 @@
             = link_to 'Log out', destroy_user_session_path, method: :delete
           %ul.nav
             %li.active
-              %a{:href => "#"} Home
+              %a{:href => root_path} Home
             %li
               = link_to "Apply leaves", new_leafe_path
             %li
               = link_to "Applied leaves", leaves_path
             %li
               = link_to "Users", users_path
-	
+            %li
+              = link_to "Leave types", leave_types_path
+

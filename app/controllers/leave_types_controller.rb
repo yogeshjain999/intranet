@@ -2,22 +2,11 @@ class LeaveTypesController < ApplicationController
   # GET /leave_types
   # GET /leave_types.json
   def index
-    @leave_types = LeaveType.all
+    @leave_types = current_organization.leave_types.all
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @leave_types }
-    end
-  end
-
-  # GET /leave_types/1
-  # GET /leave_types/1.json
-  def show
-    @leave_type = LeaveType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @leave_type }
     end
   end
 
@@ -44,7 +33,7 @@ class LeaveTypesController < ApplicationController
 
     respond_to do |format|
       if @leave_type.save
-        format.html { redirect_to @leave_type, notice: 'Leave type was successfully created.' }
+        format.html { redirect_to leave_types_path, notice: 'Leave type was successfully created.' }
         format.json { render json: @leave_type, status: :created, location: @leave_type }
       else
         format.html { render action: "new" }
@@ -60,7 +49,7 @@ class LeaveTypesController < ApplicationController
 
     respond_to do |format|
       if @leave_type.update_attributes(params[:leave_type])
-        format.html { redirect_to @leave_type, notice: 'Leave type was successfully updated.' }
+        format.html { redirect_to leave_types_path, notice: 'Leave type was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

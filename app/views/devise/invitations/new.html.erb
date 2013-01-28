@@ -7,7 +7,7 @@
   <%= f.input field %>    
 <% end -%>
     <%= f.input :roles, :collection => ["Admin", "HR", "Manager", "Employee"], :prompt => "Select role" %>
-    <%= hidden_field_tag  'user[organization_id]', current_organization.id   %>  
+    <%= hidden_field_tag 'user[organization_id]', current_organization.id   %>  
 
 <%= f.submit t("devise.invitations.new.submit_button") %>
 <% end %>

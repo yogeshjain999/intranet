@@ -23,14 +23,6 @@ p resource
   end
   helper_method :current_organization
 
-  def default_url_options
-    if @current_organization
-      {host: "http:://#{@current_organization.subdomain}/joshintranet.com:3000"}
-    else
-      {host: "http:://joshintranet.com:3000"}
-    end
-  end
-
   private
 
   def extract_subdomain
@@ -40,10 +32,4 @@ p resource
     end
     return subdomain
   end
-
-  #  protected
-
-  #  def authenticate_inviter!
-  #    authenticate_user!(:force => true)
-  #  end
 end

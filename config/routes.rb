@@ -3,7 +3,6 @@ JoshIntranet::Application.routes.draw do
   resources :leaves do
   get :approveStatus, on: :member
     put :rejectStatus, on: :member
-    resources :leavetype
   end
 
   resources :leave_deatails
@@ -11,6 +10,7 @@ JoshIntranet::Application.routes.draw do
 devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',
+    :controller => {:invitations => 'devise/invitations'},
     :root_path => 'dashboard#show'    
   }
   

@@ -3,7 +3,7 @@ class UsersController  < ApplicationController
 
 
   def index
-    @users = User.all
+    @users = current_organization.users.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
