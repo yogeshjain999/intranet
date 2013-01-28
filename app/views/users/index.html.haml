@@ -1,5 +1,5 @@
 = render 'left_menu'
-= link_to 'View My Profile', user_profile_path(user_id)
+= link_to 'My profile', profile_path(current_user)
 %h1 Listing users
 
 %table.table
@@ -8,9 +8,10 @@
   - @users.each do |user|
 
     %tr
-    %td= user.email
+    %td= link_to user.email, profile_path(user)
     %td= link_to 'Edit', edit_user_path(user)
-
     %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
+
+

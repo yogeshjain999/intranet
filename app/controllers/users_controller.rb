@@ -83,7 +83,7 @@ class UsersController  < ApplicationController
     if request.post?
       respond_to do |format|
         if @user.update_attributes(params[:user])
-          format.html { redirect_to profile_path(@user), notice: 'Profile was successfully created.' }
+          format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
     else
           format.html { render action: "profile" }
         end
