@@ -7,17 +7,13 @@ class Ability
 
     if user.has_role?('Admin')
       can :manage, :all
-     # can [:create, :update, :destroy], leave_type
     elsif user.has_role?('HR')
-      can [:create, :update], [ Profile, Leave]
-      cannot :update, Leave, :user_id => @user.id   
+      cannot? :create, LeaveType    
     elsif user.has_role?('Manager')
-      can [:create, :update],  [ Profile, Leave]
-      cannot :update, Leave if user.has_role("HR")?   
-      cannot :update, Leave, :user_id => @user.id
+      cannot? :create, LeaveType   
     elsif user.has_role?('Employee') 
-      can [:create, :update], Profile 
-      can :create, Leave
+      cannot? :create, LeaveType   
+
     end
   end
 end

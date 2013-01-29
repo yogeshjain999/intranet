@@ -12,6 +12,7 @@ class Profile
   field :linkedin_name, type: String
   field :phone_number, type: String
   field :dateOfBirth, type: Date
+
   field :passport_number, type: String
   validates :pan_number, :length => { :is => 10 }, :allow_blank => true 
 
