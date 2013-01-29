@@ -21,14 +21,12 @@ class UsersController  < ApplicationController
 
   def new
     @user = User.new
-
   end
 
   def edit
     @user = User.find(params[:id])
     @user.build_profile if @user.profile.nil?
-
-        end
+  end
 
   def create
     @user = User.new(params[:user])
