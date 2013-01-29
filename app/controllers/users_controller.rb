@@ -79,16 +79,33 @@ class UsersController  < ApplicationController
  end
 
   def profile
-  @user = User.find(params[:user_id])
-    if request.post?
+    @user = User.find(params[:user_id])
+    if request.get? && @user.profile.nil?
+
+
+
+  redirect_to users_path
+    elsif request.post?
+    @user = User.find(params[:user_id])
+
       respond_to do |format|
         if @user.update_attributes(params[:user])
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
-    else
+        else
           format.html { render action: "profile" }
         end
       end
     end
-   end
-   end
+  end
+
+
+  def reinvite
+    @user = User.find(params[:user_id])
+    respond_to do |format|
+      if @user.invite!(current_user)
+        format.html { redirect_to users_path, notice: 'The Invitation has been send to user. '  }
+      end
+    end
+  end
+end
 
