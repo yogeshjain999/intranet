@@ -1,6 +1,5 @@
 = simple_form_for @user, url: assignleaves_path(@user), method: :post, html: {:class => 'form-horizontal'} do |f|
- = f.simple_fields_for :leave_details do |l|
-  = l.input :assignedDate, :label => "Date"
-  = l.association :leave_types, :collection => current_organization.leave_types.all.entries, :prompt => "Select leave type"
+ = f.simple_fields_for LeaveDetail.assign_leaves do |l|
+  = l.input :assign_date, :label => "Date"
   = l.submit "Assign leaves"
 
