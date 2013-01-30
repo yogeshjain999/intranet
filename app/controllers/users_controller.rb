@@ -25,11 +25,7 @@ class UsersController  < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    #@profile = @user.profile.build
-    respond_to do |format|
-      format.html # update.html.erb
-      format.json { render json: @user }
-    end
+    @user.build_profile if @user.profile.nil?
   end
 
   def create
@@ -81,15 +77,33 @@ class UsersController  < ApplicationController
  end
 
   def profile
-   if request.get?
     @user = User.find(params[:user_id])
-   elsif request.post?
-     respond_to do |format|
-       @user.update_attributes(params[:id])
-       format.html { redirect_to user_show_path, notice: 'Profile was successfully created.' }
-     end
-   end
+    if request.get? && @user.profile.nil?
+
+
+
+  redirect_to users_path
+    elsif request.post?
+    @user = User.find(params[:user_id])
+
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
+        else
+          format.html { render action: "profile" }
+        end
+      end
+    end
   end
 
+
+  def reinvite
+    @user = User.find(params[:user_id])
+    respond_to do |format|
+      if @user.invite!(current_user)
+        format.html { redirect_to users_path, notice: 'The Invitation has been send to user. '  }
+      end
+    end
+  end
 end
 

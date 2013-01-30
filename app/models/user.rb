@@ -3,6 +3,9 @@ class User
   include Mongoid::Document::Roleable
   embeds_one :profile
   accepts_nested_attributes_for :profile
+  attr_accessible :profile_attributes
+ 
+
   embeds_many :leave_details
   accepts_nested_attributes_for :leave_details
 
@@ -17,11 +20,13 @@ class User
   ## Database authenticatable
   field :email,              :type => String, :default => ""
   field :encrypted_password , :default => ""
+  field :join_date, type: Date
+  field :employee_id, type: Integer
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
 
-  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
