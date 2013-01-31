@@ -3,7 +3,7 @@ class UsersController  < ApplicationController
 
 
   def index
-    @users = current_organization.users.all
+    @users = current_organization.users.ne(email: current_user.email)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -78,14 +78,7 @@ class UsersController  < ApplicationController
 
   def profile
     @user = User.find(params[:user_id])
-    if request.get? && @user.profile.nil?
-
-
-
-  redirect_to users_path
-    elsif request.post?
-    @user = User.find(params[:user_id])
-
+    if request.post?
       respond_to do |format|
         if @user.update_attributes(params[:user])
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
@@ -96,14 +89,10 @@ class UsersController  < ApplicationController
     end
   end
 
-
   def reinvite
     @user = User.find(params[:user_id])
-    respond_to do |format|
-      if @user.invite!(current_user)
-        format.html { redirect_to users_path, notice: 'The Invitation has been send to user. '  }
+     @user.invite!(current_user)
       end
-    end
+
   end
-end
 
