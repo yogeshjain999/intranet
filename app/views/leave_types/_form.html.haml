@@ -1,23 +1,14 @@
-= simple_form_for(@leave_type) do |f|
+= simple_form_for @leave_type do |f|
   = f.error_notification
-
   .form-inputs
-
     = f.input :name
-
     = f.input :max_no_of_leaves
-
     = f.input :auto_increament, :label => 'auto increment leaves', :as => :boolean
-
     = f.input :number_of_leaves
-
     = f.input :carry_forward, :as => :boolean
-
-    = f.hidden_field :organization_id, :value => current_organization.id
 
   .form-actions
     = f.button :submit, class: 'btn-success'
 
   :javascript
     var leavetype = #{ @leave_type.to_json};
-

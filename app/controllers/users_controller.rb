@@ -66,12 +66,15 @@ class UsersController  < ApplicationController
   end
 
   def assignleaves
+    @user = User.find(params[:user_id])
+    @leave_types = current_organization.leave_types.all
     if request.get?
-      @user = User.find(params[:user_id])
-@user.leave_details.build
+      if @user.leave_details != nil
+        @user.leave_details.build(:assign_date => Time.zone.now.to_s)
+      end
     elsif request.post?
       if @user.update_attributes(params[:user])
-	p "asdasd"	
+        redirect_to addleaves_path
       end
     end
  end

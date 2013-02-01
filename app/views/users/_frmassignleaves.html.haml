@@ -1,5 +1,8 @@
 = simple_form_for @user, url: assignleaves_path(@user), method: :post, html: {:class => 'form-horizontal'} do |f|
- = f.simple_fields_for LeaveDetail.assign_leaves do |l|
-  = l.input :assign_date, :label => "Date"
-  = l.submit "Assign leaves"
+  = f.simple_fields_for :leave_details do |l|
+    = l.input :assign_date, :label => "Date", :readonly => true
+  - @leave_types.each do |lt|
+    #{lt.name}:
+    = text_field_tag "assign_leaves[#{lt.id}][]"
+  = f.submit "Assign leaves"
 
