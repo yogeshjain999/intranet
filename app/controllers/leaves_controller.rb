@@ -1,7 +1,7 @@
 class LeavesController < ApplicationController
 
   def index
-    @leave = Leave.all
+    @leave = current_user.leaves.all
 
     respond_to do |format|
       format.html # index.html.haml
@@ -18,24 +18,25 @@ class LeavesController < ApplicationController
     end
   end
 
- def new
-  @leave = Leave.new
- end
-
- def create
-  @leave = Leave.new(params[:leave])
-  @user = User.find(current_user)
-  @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
-  @leave.status = "Pending"
-  respond_to do |format|
-   if @leave.save
-    UserMailer.leaveReport(@user, @leave).deliver
-    format.html {redirect_to root_url, notice: 'Your request has been noted'}
-    format.html {redirect_to @leave, notice: 'Your request has been noted' }
-    format.json {render json: @leave, status: :created}
-   end
+  def new
+    @leave = Leave.new
   end
- end
+
+  def create
+    @leave = Leave.new(params[:leave])
+    @leave.user = current_user
+    @user = User.find(current_user)
+    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+    @leave.status = "Pending"
+    respond_to do |format|
+      if @leave.save
+        UserMailer.leaveReport(@user, @leave).deliver
+        format.html {redirect_to root_url, notice: 'Your request has been noted'}
+        format.html {redirect_to @leave, notice: 'Your request has been noted' }
+        format.json {render json: @leave, status: :created}
+      end
+    end
+  end
 
   def edit
     @leave = Leave.find(params[:id])
