@@ -8,12 +8,13 @@
 
     %tr
     %td= link_to user.email, profile_path(user)
-
-    %td= link_to 'Edit', edit_user_path(user)
-    %td= link_to 'Resend Invitation', reinvite_path(user), :remote => true
-    %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+    - if can? :update, user, :user_id => user.id  
+      %td= link_to 'Edit', edit_user_path(user)
+      %td= link_to 'Resend Invitation', reinvite_path(user), :remote => true
+      %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
 = link_to 'My profile', profile_path(current_user)
 
+= link_to 'Edit profile', edit_user_path(current_user)

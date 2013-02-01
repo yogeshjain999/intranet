@@ -23,7 +23,8 @@
 %br
 %br
 
-= link_to 'Approve', approveStatus_leafe_path, :remote => "true"
+- if can? :approve_leave, @leave
+  = link_to 'Approve', approveStatus_leafe_path, :remote => "true"
 = link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal"
 |
 = link_to 'Edit', edit_leafe_path

@@ -64,4 +64,6 @@ class User
 
   belongs_to :organization
   has_many :leaves, class_name: "Leave"
+
+
 end

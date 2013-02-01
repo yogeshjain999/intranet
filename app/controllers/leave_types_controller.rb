@@ -1,4 +1,5 @@
 class LeaveTypesController < ApplicationController
+  load_and_authorize_resource
   # GET /leave_types
   # GET /leave_types.json
   def index

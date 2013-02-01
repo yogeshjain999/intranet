@@ -17,6 +17,7 @@ class UsersController  < ApplicationController
       format.html # show.html.erb
       format.json { render json: @user }
     end
+    authorize! :read, @user
   end
 
   def new
@@ -77,16 +78,12 @@ class UsersController  < ApplicationController
  end
 
   def profile
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])      
     if request.get? && @user.profile.nil?
-
-
-
-  redirect_to users_path
+      redirect_to users_path
     elsif request.post?
-    @user = User.find(params[:user_id])
-
-      respond_to do |format|
+      @user = User.find(params[:user_id])
+       respond_to do |format|
         if @user.update_attributes(params[:user])
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
         else

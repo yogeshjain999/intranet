@@ -1,7 +1,8 @@
 class LeavesController < ApplicationController
 
-  def index
-    @leave = Leave.all
+  def index    
+#    @leave = Leave.all
+    @leave = Leave.accessible_by(current_ability, :read)
 
     respond_to do |format|
       format.html # index.html.haml
@@ -57,6 +58,7 @@ class LeavesController < ApplicationController
 
   def approveStatus
     @leave = Leave.find(params[:id])
+    authorize! :approve_leave, @leave
     @leave.status = "Approved"
     @leave.save
   end
