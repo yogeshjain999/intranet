@@ -4,11 +4,10 @@ class User
   embeds_one :profile
   accepts_nested_attributes_for :profile
   attr_accessible :profile_attributes
- 
 
   embeds_many :leave_details
   accepts_nested_attributes_for :leave_details
-
+  attr_accessible :leave_details_attributes
   ROLES = ['Admin', 'HR', 'Manager', 'Employee']
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -22,6 +21,7 @@ class User
   field :encrypted_password , :default => ""
   field :join_date, type: Date
   field :employee_id, type: Integer
+  field :parent_id 
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
@@ -65,5 +65,11 @@ class User
   belongs_to :organization
   has_many :leaves, class_name: "Leave"
 
+  # using self joings menten the relationship between employee and manager.  
+  has_many :employees, class_name: "User", :foreign_key => "parent_id"
+  belongs_to :manager, class_name: "User" 
+
+  # use the name field directly user field for example @user.name
+  delegate :name, :to => :profile
 
 end

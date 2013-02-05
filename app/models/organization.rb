@@ -14,6 +14,7 @@ class Organization
 
   has_many :users, dependent: :destroy
   has_many :leave_types
+  accepts_nested_attributes_for :leave_types
   validates :name, :address1, :city, :country, :zip, :contact_number, presence: true
   validates :name, uniqueness: true
   accepts_nested_attributes_for :users, allow_destroy: true

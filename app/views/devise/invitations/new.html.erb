@@ -7,6 +7,7 @@
   <%= f.input field %>    
 <% end -%>
     <%= f.input :roles, :collection => ["Admin", "HR", "Manager", "Employee"], :prompt => "Select role" %>
+    <%= f.input :manager, :collection => current_organization.users.where(:roles => 'Manager'), :prompt => "Select manager", :label => 'Manager'  %>
     <%= f.input :join_date, :label => 'Joining date' %>
     <%= f.input :employee_id, :label => 'Employee Id' %>
     <%= hidden_field_tag 'user[organization_id]', current_organization.id   %>  

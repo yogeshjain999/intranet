@@ -20,5 +20,5 @@
 
 $(document).ready(function() {
   $('.alert').alert();
-  $('.alert').delay(2000).fadeOut("slow", function () { $(this).remove(); })
+  //$('.alert').delay(2000).fadeOut("slow", function () { $(this).remove(); })
 })

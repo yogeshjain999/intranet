@@ -10,13 +10,16 @@ class Ability
     elsif user.has_role?('HR')
       cannot [:create, :update, :destroy ], LeaveType
       cannot :create, User
-      can [:update, :read], Profile, :user_id => @user.id 
+      cannot :approve_leave, Leave, :user_id => @user.id   
+      can :update,  Profile, :user_id => @user.id 
       can :create, Leave 
-      can :approve_leave, Leave
+      #can :approve_leave, Leave
+      can :read, Leave
     elsif user.has_role?('Manager')
       cannot [:create, :update, :destroy], LeaveType    
       cannot :create, User
-      cannot :approve_leave, Leave, :self_managed => false
+      cannot :approve_leave, Leave, :user_id => @user.id 
+      can :read, Leave, :user_id => @user.manager
       can :update, Profile, :user_id => @user.id 
       can :create, Leave 
       can :approve_leave, Leave
