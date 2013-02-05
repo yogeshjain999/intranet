@@ -57,7 +57,7 @@ class LeavesController < ApplicationController
     end
   end
 
-  def approveStatus
+  def approve
     @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
@@ -66,7 +66,7 @@ class LeavesController < ApplicationController
 
   def rejectStatus
     @leave = Leave.find(params[:id])
-    @leave.status = "Reject"
+    @leave.status = "Rejected"
     @leave.update_attributes(params[:leave])
     redirect_to leaves_path
   end

@@ -2,7 +2,7 @@ class LeaveType
   include Mongoid::Document
   belongs_to :organization
   field :name, type: String
-  field :max_no_of_leaves, type: Integer
+  field :max_no_of_leaves, type: Float
   field :auto_increament, type: Boolean
   field :number_of_leaves, type: Integer
   field :carry_forward, type: Boolean 

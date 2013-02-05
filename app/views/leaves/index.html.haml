@@ -2,14 +2,14 @@
 
 %table
   %tr
+    %th User
     %th Leave type
     %th Show
-    - @leave.each do |leave|                                       
-      %tr
-        %td= leave.leave_type.name
-        %td= link_to 'Show', leave
-
-
+  - @leave.each do |leave|                                       
+    %tr
+      %td= leave.user.name
+      %td= leave.leave_type.name
+      %td= link_to 'Show', leave
 %br
 
 
