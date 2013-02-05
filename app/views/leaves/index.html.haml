@@ -7,11 +7,9 @@
     %th Show
   - @leave.each do |leave|                                       
     %tr
-      %td= leave.user.email
+      %td= leave.user.name
       %td= leave.leave_type.name
       %td= link_to 'Show', leave
-
-
 %br
 
 

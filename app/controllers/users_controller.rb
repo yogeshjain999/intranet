@@ -17,6 +17,7 @@ class UsersController  < ApplicationController
       format.html # show.html.erb
       format.json { render json: @user }
     end
+    authorize! :read, @user
   end
 
   def new
