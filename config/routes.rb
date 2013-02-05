@@ -1,7 +1,7 @@
 JoshIntranet::Application.routes.draw do
 
   resources :leaves do
-  get :approveStatus, on: :member
+    get :approve, on: :member
     put :rejectStatus, on: :member
   end
 
@@ -21,6 +21,7 @@ devise_for :users, :path_names => {
   match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
   match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
   match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
+
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'
     resources :users
