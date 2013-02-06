@@ -1,4 +1,5 @@
 class LeaveTypesController < ApplicationController
+  load_and_authorize_resource
   # GET /leave_types
   # GET /leave_types.json
   def index
@@ -25,7 +26,7 @@ class LeaveTypesController < ApplicationController
   # POST /leave_types.json
   def create
     @leave_type = LeaveType.new(params[:leave_type])
-  @leave_type.organization = current_organization
+    @leave_type.organization = current_organization
     respond_to do |format|
       if @leave_type.save
         format.html { redirect_to leave_types_path, notice: 'Leave type was successfully created.' }
@@ -33,7 +34,7 @@ class LeaveTypesController < ApplicationController
       else
         format.html { render action: "new" }
         format.json { render json: @leave_type.errors, status: :unprocessable_entity }
-p @leave_type.errors
+        p @leave_type.errors
       end
     end
   end

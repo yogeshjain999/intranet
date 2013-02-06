@@ -1,7 +1,8 @@
 class LeavesController < ApplicationController
 
-  def index
-    @leave = current_user.leaves.all
+  def index    
+#    @leave = Leave.all
+       @leave = Leave.accessible_by(current_ability)
 
     respond_to do |format|
       format.html # index.html.haml
@@ -60,15 +61,16 @@ class LeavesController < ApplicationController
     end
   end
 
-  def approveStatus
+  def approve
     @leave = Leave.find(params[:id])
+    authorize! :approve_leave, @leave
     @leave.status = "Approved"
     @leave.save
   end
 
   def rejectStatus
     @leave = Leave.find(params[:id])
-    @leave.status = "Reject"
+    @leave.status = "Rejected"
     @leave.update_attributes(params[:leave])
     redirect_to leaves_path
   end

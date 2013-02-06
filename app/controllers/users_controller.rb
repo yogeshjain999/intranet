@@ -17,6 +17,7 @@ class UsersController  < ApplicationController
       format.html # show.html.erb
       format.json { render json: @user }
     end
+    authorize! :read, @user
   end
 
   def new
@@ -69,13 +70,19 @@ class UsersController  < ApplicationController
     @user = User.find(params[:user_id])
     @leave_types = current_organization.leave_types.all
     if request.get?
-      if @user.leave_details != nil
+      if @user.leave_details[0].nil?
         @user.leave_details.build(:assign_date => Time.zone.now.to_s)
+        @assign_leaves = calculate_leaves
+      else
+        @assign_leaves = @user.leave_details[0].assign_leaves
       end
     elsif request.post?
-      if @user.update_attributes(params[:user])
+      @user.leave_details.build if @user.leave_details[0].nil?
+      @user.leave_details[0].assign_date = params[:date]
+      @user.leave_details[0].assign_leaves = params[:assign_leaves]
+      @user.leave_details[0].available_leaves = params[:assign_leaves]
+@user.leave_details[0].save
         redirect_to addleaves_path
-      end
     end
  end
 
@@ -94,8 +101,21 @@ class UsersController  < ApplicationController
 
   def reinvite
     @user = User.find(params[:user_id])
-     @user.invite!(current_user)
-      end
-
+    @user.invite!(current_user)
   end
+
+private
+  def calculate_leaves
+    start_date = Time.zone.now.to_date
+    end_date = Time.zone.now.end_of_year.to_date
+    months = end_date.month - start_date.month
+    assign_leaves = {}
+    @leave_types.each do |lt|
+      num_leaves = (lt.max_no_of_leaves/12.0*months).round(0)
+      assign_leaves[lt.id] = num_leaves
+    end
+    return assign_leaves
+  end
+
+end
 
