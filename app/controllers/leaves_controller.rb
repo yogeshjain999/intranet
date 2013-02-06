@@ -28,21 +28,27 @@ class LeavesController < ApplicationController
     @leave.user = current_user
 
     @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
-  user = User.find(current_user)
-
+    user = User.find(current_user)
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
+    if user.roles == 'HR'
+      user_role = User.where(:roles => 'Admin').collect(&:email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
 
-  user_role = User.and(:roles => ['Admin', 'HR', 'Manager']).collect(&:email)
-   @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-        #format.html {redirect_to root_url, notice: 'Your request has been noted'}
-        format.html {redirect_to @leave, notice: 'Your request has been noted' }
-        format.json {render json: @leave, status: :created}
+    elsif user.roles == 'Manager'
+      user_role = User.in(:roles => ['HR', 'Admin']).collect(&:email)
+      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+    else
+      user_role = User.in(:roles => ['Admin', 'HR', 'Manager']).collect(&:email)
+      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+      format.json {render json: @leave, status: :created}
+        end
+      format.html {redirect_to @leave, notice: 'Your request has been noted' }
+
       end
     end
   end
-
   def edit
     @leave = Leave.find(params[:id])
   end
