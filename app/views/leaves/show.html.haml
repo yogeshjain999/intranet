@@ -7,8 +7,8 @@
     %th Contact address:
     %th Contact number:
     %th Status:
-  - if @leave.status == "Rejected"
-    %th Rejection reason:
+    - if @leave.status == "Rejected"
+      %th Rejection reason:
   %tr
     %td= @leave.leave_type.name
     %td= @leave.reason
@@ -17,8 +17,8 @@
     %td= @leave.contact_address
     %td= @leave.contact_number
     %td{:class => "status"}= @leave.status
-  - if @leave.status == "Rejected"
-    %td= @leave.reject_reason
+    - if @leave.status == "Rejected"
+      %td= @leave.reject_reason
 
 %br
 %br
@@ -26,9 +26,11 @@
 - if can? :approve_leave, @leave
   = link_to 'Approve', approve_leafe_path, :remote => "true"
   |
-= link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal"
-|
-= link_to 'Edit', edit_leafe_path
+- if can? :reject_leave, @leave
+  = link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal"
+  |
+- if can? :update, @leave
+  = link_to 'Edit', edit_leafe_path
 = link_to 'Cancel', @leave, method: :delete, data: { confirm: 'Are you sure?' }
 |
 = link_to 'Back', leaves_path
