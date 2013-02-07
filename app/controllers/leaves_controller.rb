@@ -27,7 +27,11 @@ class LeavesController < ApplicationController
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
     @user = User.find(current_user)
-    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+    if @leave.starts_at == @leave.ends_at 
+      @leave.number_of_days = 1
+    else
+      @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+    end
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
@@ -62,6 +66,15 @@ class LeavesController < ApplicationController
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
     @leave.save
+    leave_details = @leave.user.leave_details
+    leave_details.each do |l|
+      if l.assign_date.year == Time.zone.now.year
+        tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_i
+        tmp_num = tmp_num - @leave.number_of_days
+        l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
+        l.save
+      end
+    end
   end
 
   def rejectStatus
@@ -70,4 +83,5 @@ class LeavesController < ApplicationController
     @leave.update_attributes(params[:leave])
     redirect_to leaves_path
   end
+
 end

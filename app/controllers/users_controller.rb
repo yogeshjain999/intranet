@@ -104,6 +104,15 @@ class UsersController  < ApplicationController
     @user.invite!(current_user)
   end
 
+def leavessummary
+    @leave_details = current_user.leave_details
+    @leave_types = current_organization.leave_types.all
+    respond_to do |format|
+      format.html # leavessummary.html.erb
+      format.json { render json: @leave_details}
+    end
+  end
+
 private
   def calculate_leaves
     start_date = Time.zone.now.to_date

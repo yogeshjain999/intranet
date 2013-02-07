@@ -5,7 +5,7 @@ JoshIntranet::Application.routes.draw do
     put :rejectStatus, on: :member
   end
 
-  resources :leave_deatails
+  resources :leave_details
   resources :leave_types
 devise_for :users, :path_names => {
     :sign_in => 'login',
@@ -21,6 +21,7 @@ devise_for :users, :path_names => {
   match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
   match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
   match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
+  match '/users/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'
