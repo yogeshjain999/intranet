@@ -31,8 +31,9 @@
   |
 - if can? :update, @leave
   = link_to 'Edit', edit_leafe_path
-= link_to 'Cancel', @leave, method: :delete, data: { confirm: 'Are you sure?' }
-|
+- if can? :destroy, @leave
+  = link_to 'Cancel', @leave, method: :delete, data: { confirm: 'Are you sure?' }
+  |
 = link_to 'Back', leaves_path
 %div{:id => "rejectmodal", :class => "modal hide fade", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
   %div{:class => "modal-header"}

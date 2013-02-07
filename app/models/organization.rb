@@ -13,7 +13,9 @@ class Organization
   field :email
 
   has_many :users, dependent: :destroy
-  has_many :leave_types
+  has_many :leave_types, dependent: :destroy
+  has_many :leaves, class_name: "Leave", dependent: :destroy
+  has_many :leave_details, dependent: :destroy
   accepts_nested_attributes_for :leave_types
   validates :name, :address1, :city, :country, :zip, :contact_number, presence: true
   validates :name, uniqueness: true
