@@ -32,14 +32,14 @@ class LeavesController < ApplicationController
     respond_to do |format|
       if @leave.save
     if user.roles == 'HR'
-      user_role = User.where(:roles => 'Admin').collect(&:email)
+      user_role = current_ornization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
 
     elsif user.roles == 'Manager'
-      user_role = User.in(:roles => ['HR', 'Admin']).collect(&:email)
+      user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
       @users = UserMailer.leaveReport(@leave, user, user_role).deliver
     else
-      user_role = User.in(:roles => ['Admin', 'HR', 'Manager']).collect(&:email)
+      user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
       @users = UserMailer.leaveReport(@leave, user, user_role).deliver
       format.json {render json: @leave, status: :created}
         end
@@ -70,14 +70,18 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
+    user = User.find(current_user)
     @leave.save
+    UserMailer.approveLeave(@leave, user).deliver    
   end
 
   def rejectStatus
     @leave = Leave.find(params[:id])
     authorize! :reject_leave, @leave
+    user = User.find(current_user)
     @leave.status = "Rejected"
     @leave.update_attributes(params[:leave])
+     UserMailer.rejectStatusLeave(@leave, user).deliver
     redirect_to leaves_path
   end
 end
