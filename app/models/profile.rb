@@ -15,7 +15,7 @@ class Profile
 
   field :passport_number, type: String
   validates :pan_number, :length => { :is => 10 }, :allow_blank => true 
-  validates :name, :local_address, :permanent_address, :pann_number,   :phone_number, :dateOfBirth, :join_date, :employee_id , :presence => true
+  validates :name, :local_address, :permanent_address, :pan_number,   :phone_number, :dateOfBirth,  :presence => true
     validates :phone_number, :length => { :is => 10 }, :allow_blank => true 
 
   validates :pan_number, :format => { :with => /\A[A-Z]{5}\d{4}[A-Z]{1}\Z/ , :message => 'invalid pan number'}, :allow_blank => true 
