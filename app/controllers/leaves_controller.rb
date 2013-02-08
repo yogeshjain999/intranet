@@ -39,6 +39,9 @@ class LeavesController < ApplicationController
         format.html {redirect_to root_url, notice: 'Your request has been noted'}
         format.html {redirect_to @leave, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
+      else
+        format.html {render action: "new"}
+	format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
     end
   end
