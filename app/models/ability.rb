@@ -10,31 +10,27 @@ class Ability
     elsif user.has_role?('HR')
       cannot [:create, :update, :destroy ], LeaveType
       cannot :create, User      
+      cannot :assign_leave, LeaveDetail 
       can :update,  Profile, :user_id => @user.id 
-      can [:create, :update], Leave, :user_id => @user.id 
-      can :approve_leave, Leave
-      cannot :approve_leave, Leave, :user_id => @user.id   
-      can :reject_leave, Leave
-      cannot :reject_leave, Leave, :user_id => @user.id 
-      can :read, Leave
+      can [:create, :update, :destroy], Leave, :user_id => @user.id 
+      can [:approve_leave, :reject_leave, :read], Leave
+      cannot [:reject_leave, :approve_leave], Leave, :user_id => @user.id 
     elsif user.has_role?('Manager')
       cannot [:create, :update, :destroy], LeaveType    
       cannot :create, User
-      can :approve_leave, Leave
-      cannot :approve_leave, Leave, :user_id => @user.id 
-      can :reject_leave, Leave
-      cannot :reject_leave, Leave, :user_id => @user.id
-      can :read, Leave, :user_id => @user.id
+      cannot :assign_leave, LeaveDetail 
+      can [:approve_leave, :reject_leave], Leave
+      cannot [:approve_leave, :reject_leave], Leave, :user_id => @user.id 
       can :read, Leave, :user_id.in => @user.employees.map(&:id)
       can :update, Profile, :user_id => @user.id 
-      can [:create, :update], Leave, :user_id => @user.id 
+      can [:create, :read, :update, :destroy], Leave, :user_id => @user.id 
     elsif user.has_role?('Employee') 
       cannot [:create, :update, :destroy], LeaveType    
       cannot :create, User
-      cannot :approve_leave, Leave
-      cannot :reject_leave, Leave
+      cannot :assign_leave, LeaveDetail 
+      cannot [:approve_leave, :reject_leave], Leave
       can :update, Profile, :user_id => @user.id 
-      can [:create, :read, :update], Leave, :user_id => @user.id 
+      can [:create, :read, :update, :destroy ], Leave, :user_id => @user.id 
     end
   end
 end

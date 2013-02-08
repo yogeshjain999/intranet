@@ -1,11 +1,11 @@
 class LeavesController < ApplicationController
 
   def index        
-    @leave = Leave.accessible_by(current_ability)
+    @leaves = current_organization.leaves.accessible_by(current_ability)
 
     respond_to do |format|
       format.html # index.html.haml
-      format.json { render json: @leave }
+      format.json { render json: @leaves }
     end
   end
 
@@ -25,6 +25,7 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
+    @leave.organization = current_organization
     @user = User.find(current_user)
     if @leave.starts_at == @leave.ends_at 
       @leave.number_of_days = 1
@@ -82,6 +83,21 @@ class LeavesController < ApplicationController
     @leave.status = "Rejected"
     @leave.update_attributes(params[:leave])
     redirect_to leaves_path
+  end
+
+  def destroy 
+    @leave = Leave.find(params[:id])
+    if current_user.roles == 'Admin'
+      @leave.destroy
+      redirect_to leaves_url, notice: 'applied leave is delete successfully.'
+    else
+      if @leave.status == 'Pending'
+        @leave.destroy
+	redirect_to leaves_url, notice: 'Your applied leave is delete successfully.'
+      else
+        redirect_to leafe_path, notice: 'You not cancel the leave.'
+      end
+    end  
   end
 
 end

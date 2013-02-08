@@ -81,7 +81,7 @@ class UsersController  < ApplicationController
       @user.leave_details[0].assign_date = params[:date]
       @user.leave_details[0].assign_leaves = params[:assign_leaves]
       @user.leave_details[0].available_leaves = params[:assign_leaves]
-@user.leave_details[0].save
+      @user.leave_details[0].save
         redirect_to addleaves_path
     end
  end
