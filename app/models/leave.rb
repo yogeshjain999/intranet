@@ -2,6 +2,8 @@ class Leave
   include Mongoid::Document
   belongs_to :user
   belongs_to :leave_type
+  belongs_to :organization
+
 
   field :reason
   field :starts_at, type: Date

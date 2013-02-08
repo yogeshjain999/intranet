@@ -81,7 +81,7 @@ class UsersController  < ApplicationController
       @user.leave_details[0].assign_date = params[:date]
       @user.leave_details[0].assign_leaves = params[:assign_leaves]
       @user.leave_details[0].available_leaves = params[:assign_leaves]
-@user.leave_details[0].save
+      @user.leave_details[0].save
         redirect_to addleaves_path
     end
  end
@@ -102,6 +102,15 @@ class UsersController  < ApplicationController
   def reinvite
     @user = User.find(params[:user_id])
     @user.invite!(current_user)
+  end
+
+def leavessummary
+    @leave_details = current_user.leave_details
+    @leave_types = current_organization.leave_types.all
+    respond_to do |format|
+      format.html # leavessummary.html.erb
+      format.json { render json: @leave_details}
+    end
   end
 
 private

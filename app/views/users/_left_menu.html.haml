@@ -5,6 +5,7 @@
       %li.nav-header
         Users
       %li
-        = link_to "Assign Leaves", addleaves_path
+        - if can? :assign_leave, @assign_leaves 
+          = link_to "Assign Leaves", addleaves_path
         - if can? :create, @user
           = link_to "Invite", new_user_invitation_path

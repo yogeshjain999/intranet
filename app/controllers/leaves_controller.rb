@@ -1,11 +1,11 @@
 class LeavesController < ApplicationController
 
   def index        
-    @leave = Leave.accessible_by(current_ability)
+    @leaves = current_organization.leaves.accessible_by(current_ability)
 
     respond_to do |format|
       format.html # index.html.haml
-      format.json { render json: @leave }
+      format.json { render json: @leaves }
     end
   end
 
@@ -25,14 +25,20 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
-
     @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
     user = User.find(current_user)
+    @leave.organization = current_organization
+    @user = User.find(current_user)
+    if @leave.starts_at == @leave.ends_at 
+      @leave.number_of_days = 1
+    else
+      @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+    end
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
     if user.roles == 'HR'
-      user_role = current_ornization.users.where(:roles => 'Admin').collect(&:email)
+      user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
 
     elsif user.roles == 'Manager'
@@ -73,6 +79,15 @@ class LeavesController < ApplicationController
     user = User.find(current_user)
     @leave.save
     UserMailer.approveLeave(@leave, user).deliver    
+    leave_details = @leave.user.leave_details
+    leave_details.each do |l|
+      if l.assign_date.year == Time.zone.now.year
+        tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_i
+        tmp_num = tmp_num - @leave.number_of_days
+        l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
+        l.save
+      end
+    end
   end
 
   def rejectStatus
@@ -84,4 +99,24 @@ class LeavesController < ApplicationController
      UserMailer.rejectStatusLeave(@leave, user).deliver
     redirect_to leaves_path
   end
+
+  def destroy 
+    @leave = Leave.find(params[:id])
+    user = User.find(current_user)
+    if current_user.roles == 'Admin'
+      @leave.destroy
+      UserMailer.cansleLeave(@leave, user).deliver
+      redirect_to leaves_url, notice: 'applied leave is delete successfully.'
+    else
+      if @leave.status == 'Pending'
+        @leave.destroy
+        user_r = current_organization.users.where(:roles => 'Admin').collect(&:email)
+        UserMailer.destroyLeave(user, user_r).deliver
+	        redirect_to leaves_url, notice: 'Your applied leave is delete successfully.'
+      else
+        redirect_to leafe_path, notice: 'You not cancel the leave.'
+      end
+    end  
+  end
+
 end

@@ -1,0 +1,14 @@
+%h1 Leaves summary
+%table
+  %tr
+    %th Assigned date
+    %th Leave type
+    %th Assigned leaves
+    %th Available leaves
+  %tr
+    - @leave_details.each do |l|
+      %td= l.assign_date
+      - @leave_types.each do |lt|
+        %td= lt.name
+        %td= l.assign_leaves[lt.id.to_s]
+        %td= l.available_leaves[lt.id.to_s]

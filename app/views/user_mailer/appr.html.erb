@@ -3,15 +3,18 @@
   <head>     
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
   </head>   
-<body>
-<p>
-<i>
-Hello
-<%= @leave.user.email %>,</i>
-</p>
-
+    <body>
+      <p>
+      <i> Hello <%= @leave.user.email %>,</i>
+      </p>
+    <p>
 Your Leave has been approve!
-<br/>
+      <br/>
+      <%= link_to 'click hear', leafe_path(@leave, only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %> to Show my leave details.
+      </p>
+      </br>
+      <p>
+
 regards,
 </p>
 </body>

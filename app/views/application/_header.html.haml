@@ -20,6 +20,8 @@
             %li
               = link_to "Applied leaves", leaves_path
             %li
+              = link_to 'Leaves summary', leavessummary_path
+            %li
               = link_to "Users", users_path
             - if current_user.has_role?('Admin')
               %li

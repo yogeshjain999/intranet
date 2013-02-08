@@ -5,7 +5,7 @@
     %th User
     %th Leave type
     %th Show
-  - @leave.each do |leave|                                       
+  - @leaves.each do |leave|                                       
     %tr
       %td= leave.user.name
       %td= leave.leave_type.name
