@@ -105,7 +105,7 @@ class UsersController  < ApplicationController
   end
 
 def leavessummary
-    @leave_details = current_user.leave_details
+    @leave_details = current_user.leave_details.all
     @leave_types = current_organization.leave_types.all
     respond_to do |format|
       format.html # leavessummary.html.erb
