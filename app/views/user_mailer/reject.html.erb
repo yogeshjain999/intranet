@@ -1,0 +1,20 @@
+<!DOCTYPE html> 
+<html>   
+  <head>     
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
+  </head>   
+  <body>
+  <p>
+  <i>
+Hello
+  <%= @leave.user.email %>, </i>
+  </p>
+Your leave has been rejected by <%= @user.roles %>
+<% @user.roles%> says:
+</br>
+<%= @leave.reject_reason %>
+<br/>
+<p>
+If you have any query please contact your <%= @user.roles %>
+</br>
+regards

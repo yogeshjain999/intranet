@@ -3,11 +3,10 @@
   <head>     
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
   </head>   
-  <body>     
-     <p><b>Hello <%= @user.organization.name %>,</b></p>
-     <p><%= @leave.reason %><br /><%= @leave.starts_at %> to <%= @leave.ends_at %></p>
-      To showing leave details click the following link. <%= link_to 'click hear', user_path(@user, only_path: false, 
-      host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %>
+  <body>
+    <p><b>Hello <%= @user.organization.name %>,</b></p>
+       <p><%= @leave.reason %><br /><%= @leave.starts_at %> to <%= @leave.ends_at %></p>
+      To showing leave details click the following link. <%= link_to 'click hear', leafe_path(@leave, only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %>
     <br />
     <p>Thanks & regards!<br /></p>   
   </body> 

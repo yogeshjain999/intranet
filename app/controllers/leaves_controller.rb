@@ -25,6 +25,8 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
+    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+    user = User.find(current_user)
     @leave.organization = current_organization
     @user = User.find(current_user)
     if @leave.starts_at == @leave.ends_at 
@@ -35,9 +37,19 @@ class LeavesController < ApplicationController
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
-        UserMailer.leaveReport(@user, @leave).deliver
-        format.html {redirect_to root_url, notice: 'Your request has been noted'}
-        format.html {redirect_to @leave, notice: 'Your request has been noted' }
+    if user.roles == 'HR'
+      user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+
+    elsif user.roles == 'Manager'
+      user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
+      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+    else
+      user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
+      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+      format.json {render json: @leave, status: :created}
+        end
+	format.html {redirect_to @leave, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
       else
         format.html {render action: "new"}
@@ -45,7 +57,6 @@ class LeavesController < ApplicationController
       end
     end
   end
-
   def edit
     @leave = Leave.find(params[:id])
   end
@@ -68,7 +79,9 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
+    user = User.find(current_user)
     @leave.save
+    UserMailer.approveLeave(@leave, user).deliver    
     leave_details = @leave.user.leave_details
     leave_details.each do |l|
       if l.assign_date.year == Time.zone.now.year
@@ -83,20 +96,26 @@ class LeavesController < ApplicationController
   def rejectStatus
     @leave = Leave.find(params[:id])
     authorize! :reject_leave, @leave
+    user = User.find(current_user)
     @leave.status = "Rejected"
     @leave.update_attributes(params[:leave])
+     UserMailer.rejectStatusLeave(@leave, user).deliver
     redirect_to leaves_path
   end
 
   def destroy 
     @leave = Leave.find(params[:id])
+    user = User.find(current_user)
     if current_user.roles == 'Admin'
       @leave.destroy
+      UserMailer.cansleLeave(@leave, user).deliver
       redirect_to leaves_url, notice: 'applied leave is delete successfully.'
     else
       if @leave.status == 'Pending'
         @leave.destroy
-	redirect_to leaves_url, notice: 'Your applied leave is delete successfully.'
+        user_r = current_organization.users.where(:roles => 'Admin').collect(&:email)
+        UserMailer.destroyLeave(user, user_r).deliver
+	        redirect_to leaves_url, notice: 'Your applied leave is delete successfully.'
       else
         redirect_to leafe_path, notice: 'You not cancel the leave.'
       end
