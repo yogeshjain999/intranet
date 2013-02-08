@@ -25,6 +25,8 @@ class User
   validates_presence_of :email
   validates_presence_of :encrypted_password
 
+#  validates :join_date, :employee_id, :roles, :presence => true
+
   attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager
   ## Recoverable
   field :reset_password_token,   :type => String

@@ -1,4 +1,5 @@
 = simple_form_for @leave, html: {:class => 'form-horizontal'} do |f|
+ = f.error_notification
  = f.association :leave_type, :collection => current_organization.leave_types.all.entries, :prompt => "Select leave type"
  = f.input :reason
  =f.input :starts_at, :label => 'Select start date', :id => "txtcal"
