@@ -25,7 +25,7 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
-    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
+#    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
     user = User.find(current_user)
     @leave.organization = current_organization
     @user = User.find(current_user)
@@ -37,17 +37,16 @@ class LeavesController < ApplicationController
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
-    if user.roles == 'HR'
-      user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
+        if user.roles == 'HR'
+          user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-
-    elsif user.roles == 'Manager'
-      user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
-      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-    else
-      user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
-      @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-      format.json {render json: @leave, status: :created}
+        elsif user.roles == 'Manager'
+          user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+        else
+          user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+          format.json {render json: @leave, status: :created}
         end
 	format.html {redirect_to @leave, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
@@ -57,6 +56,7 @@ class LeavesController < ApplicationController
       end
     end
   end
+
   def edit
     @leave = Leave.find(params[:id])
   end

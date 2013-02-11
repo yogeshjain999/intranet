@@ -94,6 +94,7 @@ class UsersController  < ApplicationController
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
         else
           format.html { render action: "profile" }
+	  format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
     end

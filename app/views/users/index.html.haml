@@ -21,6 +21,6 @@
   - if current_user.profile.nil?
     %strong You haven't field your profile.
   - else
-    = link_to 'My profile', profile_path(current_user)
+    = link_to 'My profile', profile_path(current_user), class: 'btn btn-large btn-success'
 
-= link_to 'Edit profile', edit_user_path(current_user)
+  = link_to 'Edit profile', edit_user_path(current_user), class: 'btn btn-large btn-success'
