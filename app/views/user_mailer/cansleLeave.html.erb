@@ -7,16 +7,13 @@
 <p>
 <i>
 Hello
-<%= @leave.user.email %>,</i>
-</>p>
-<p>
-Your leave has been cansled by <%= @user.roles %>
-If you have any query, please contact with your cunseltent
+<%= @leave.user.profile.name %>,</i>
 </p>
 </br>
 <p>
-regards,
-<%= @user.email %>
-</p>
+Your leave has now been canceled by your <%= @user.roles %> <%= @user.profile.name %>
+</br>
+Regards,
+<%= @user.organization.name %>
 </body>
 </html>

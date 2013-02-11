@@ -6,15 +6,16 @@
   <body>
   <p>
   <i>
-Hello
-  <%= @leave.user.email %>, </i>
+Hello  <%= @leave.user.name %>, </i>
   </p>
-Your leave has been rejected by <%= @user.roles %>
-<% @user.roles%> says:
+<p>
+The leave you applied from <%= @leave.starts_at %> to</br> <%= @leave.ends_at %> has bbeen regected by your <%= @user.roles %> <%= @user.name %> for the following reason that has been specified.
 </br>
 <%= @leave.reject_reason %>
-<br/>
-<p>
-If you have any query please contact your <%= @user.roles %>
+</p>
 </br>
-regards
+Regards,
+</br>
+<%= @user.organization.name %>
+</body>
+</html>

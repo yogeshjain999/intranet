@@ -5,17 +5,15 @@
   </head>   
     <body>
       <p>
-      <i> Hello <%= @leave.user.email %>,</i>
-      </p>
-    <p>
-Your Leave has been approve!
-      <br/>
-      <%= link_to 'click hear', leafe_path(@leave, only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %> to Show my leave details.
-      </p>
-      </br>
-      <p>
-
-regards,
+      <i> Hello <%= @leave.user.profile.name %>,</i>
 </p>
+</br>
+</br>
+<p>
+Your <%= @user.roles %> <%= @user.name %>  has approved your leave that you had applied from <%= @leave.starts_at %> to</br> <%= @leave.ends_at %>
+</br>
+Regards,
+</br>
+<%= @user.organization.name %>
 </body>
 </html>

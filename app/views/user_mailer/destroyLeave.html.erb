@@ -4,10 +4,16 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
   </head>   
 <body>
-<p>
-Hello Admin,</br>
-</br>
-<%= @user.email %> has been cansled his leave.
+<p><i>
+Hello Admin,
+</i>
 </p>
+</br>
+</br>
+<p>
+<%= @user.roles %> <%= @user.name%> has canceled leave that was applied. </br>
+regards,
+</br>
+<%= @user.organization.name %>
 </body>
 </html>

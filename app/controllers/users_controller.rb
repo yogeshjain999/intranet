@@ -93,7 +93,7 @@ class UsersController  < ApplicationController
         if @user.update_attributes(params[:user])
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
         else
-          format.html { render action: "profile" }
+          format.html { render action: "edit" }
 	  format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
