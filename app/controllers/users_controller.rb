@@ -93,7 +93,7 @@ class UsersController  < ApplicationController
         if @user.update_attributes(params[:user])
           format.html { redirect_to profile_path(@user), notice: 'Profile was successfully updated!'  }
         else
-          format.html { render action: "profile" }
+          format.html { render action: "edit" }
         end
       end
     end
@@ -105,7 +105,7 @@ class UsersController  < ApplicationController
   end
 
 def leavessummary
-    @leave_details = current_user.leave_details
+    @leave_details = current_user.leave_details.all
     @leave_types = current_organization.leave_types.all
     respond_to do |format|
       format.html # leavessummary.html.erb

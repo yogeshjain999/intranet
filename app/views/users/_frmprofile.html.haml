@@ -1,5 +1,6 @@
 = simple_form_for @user, url: profile_path(@user), method: :post do |u|
   = u.error_notification
+
   = u.simple_fields_for :profile do |p|
 
     .form-inputs
