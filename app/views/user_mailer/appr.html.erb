@@ -4,13 +4,25 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />   
   </head>   
     <body>
-      <p>
-      <i> Hello <%= @leave.user.profile.name %>,</i>
+<% if @leave.user.profile.nil? %>
+
+<p> <i> Hello <%= @leave.user.email %>, </i>
 </p>
+<% else %>
+      <p>
+      <i> Hello <%= @leave.user.name %>,</i>
+</p>
+<% end %>
 </br>
 </br>
+<% if @user.profile.nil? %>
+<p>
+Your <%= @user.roles %> <%= @user.email %>  has approved your leave that you had applied from <%= @leave.starts_at %> to</br> <%= @leave.ends_at %>
+<% else %>
+
 <p>
 Your <%= @user.roles %> <%= @user.name %>  has approved your leave that you had applied from <%= @leave.starts_at %> to</br> <%= @leave.ends_at %>
+<% end %>
 </br>
 Regards,
 </br>

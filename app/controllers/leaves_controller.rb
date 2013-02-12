@@ -2,7 +2,7 @@ class LeavesController < ApplicationController
 
   def index        
     @leaves = current_organization.leaves.accessible_by(current_ability)
-
+2/12/2013
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @leaves }
@@ -43,6 +43,9 @@ class LeavesController < ApplicationController
         elsif user.roles == 'Manager'
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+        elsif user.roles == 'Employee' && user.manager.nil?
+          user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
         else
           user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
@@ -56,7 +59,7 @@ class LeavesController < ApplicationController
       end
     end
   end
-
+#end
   def edit
     @leave = Leave.find(params[:id])
   end
