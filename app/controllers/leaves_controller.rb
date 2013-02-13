@@ -20,20 +20,15 @@ class LeavesController < ApplicationController
 
   def new
     @leave = Leave.new
+    @profile = current_user.profile
   end
 
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
-#    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
     user = User.find(current_user)
     @leave.organization = current_organization
     @user = User.find(current_user)
-    if @leave.starts_at == @leave.ends_at 
-      @leave.number_of_days = 1
-    else
-      @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
-    end
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
