@@ -18,6 +18,9 @@
 
   - @leaves.each do |leave|                                       
     %tr
+    - if leave.user.profile.nil?
+      %td= leave.user.email
+    - else
       %td= leave.user.name
       %td= leave.leave_type.name
       %td= leave.reason

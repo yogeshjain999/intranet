@@ -2,7 +2,6 @@ class LeavesController < ApplicationController
 
   def index        
     @leaves = current_organization.leaves.accessible_by(current_ability)
-
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @leaves }
@@ -20,6 +19,7 @@ class LeavesController < ApplicationController
 
   def new
     @leave = Leave.new
+    @profile = current_user.profile
   end
 
   def create
@@ -28,11 +28,6 @@ class LeavesController < ApplicationController
     user = User.find(current_user)
     @leave.organization = current_organization
     @user = User.find(current_user)
-    if @leave.starts_at == @leave.ends_at 
-      @leave.number_of_days = 1
-    else
-      @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
-    end
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
@@ -40,6 +35,9 @@ class LeavesController < ApplicationController
           user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
         elsif user.roles == 'Manager'
+          user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
+          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+        elsif user.roles == 'Employee' && user.manager.nil?
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
         else
@@ -55,6 +53,7 @@ class LeavesController < ApplicationController
       end
     end
   end
+#end
 
   def edit
     @leave = Leave.find(params[:id])

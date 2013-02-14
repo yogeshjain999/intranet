@@ -9,7 +9,7 @@
 
     %tr     
       - if user.profile.nil?
-        %td   #{ user.email} (Havent field profile)
+        %td= user.email
       - else
         %td= link_to user.email, profile_path(user)
       - if can? :update, user, :user_id => user.id 
@@ -19,7 +19,6 @@
 
 %br
   - if current_user.profile.nil?
-    %strong You haven't field your profile.
   - else
     = link_to 'My profile', profile_path(current_user), class: 'btn btn-large btn-success'
 
