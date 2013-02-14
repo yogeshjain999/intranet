@@ -2,7 +2,6 @@ class LeavesController < ApplicationController
 
   def index        
     @leaves = current_organization.leaves.accessible_by(current_ability)
-2/12/2013
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @leaves }
@@ -53,7 +52,7 @@ class LeavesController < ApplicationController
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
           format.json {render json: @leave, status: :created}
         end
-	format.html {redirect_to @leave, notice: 'Your request has been noted' }
+	format.html {redirect_to leaves_path, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
       else
         @profile = current_user.profile
@@ -72,7 +71,7 @@ class LeavesController < ApplicationController
 
     respond_to do |format|
       if @leave.update_attributes(params[:leave])
-        format.html { redirect_to @leave, notice: 'Leave is successfully updated.' }
+        format.html { redirect_to leaves_path, notice: 'Leave is successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

@@ -16,6 +16,7 @@ p resource
     end
   end
 
+
   def current_organization
     return @current_organization if @current_organization.present?
     @current_organization = Organization.find_by_slug!( extract_subdomain )
