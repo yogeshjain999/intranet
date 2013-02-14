@@ -5,7 +5,9 @@
  =f.input :starts_at, :label => 'Select start date', :input_html => {:id => "datepicker"}
  = f.input :ends_at, :label => 'Select end date'
  = f.input :number_of_days
- = f.input :contact_address, :as => :text, :input_html => {:value => "#{@profile.local_address}"}
- = f.input :contact_number, :input_html => {:value => "#{@profile.phone_number}"}
+ = f.input :contact_address, :as => :text, :input_html => {:value => "#{current_user.profile.local_address}"}
+ = f.input :contact_number, :input_html => {:value => "#{current_user.profile.phone_number}"}
  = f.submit "Apply"
 
+:javascript
+  $('#datepicker').datepicker({})

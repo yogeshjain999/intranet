@@ -17,7 +17,7 @@ class Leave
   validates :reason, :starts_at, :ends_at, :contact_address, :contact_number, :leave_type_id, :presence => true
   validates :contact_number, :numericality => {:only_integer => true}
   validates :number_of_days, :numericality => true
-  validate :validates_all
+#  validate :validates_all
 
   def validates_all
     if !valid_date(starts_at)

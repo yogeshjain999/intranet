@@ -89,6 +89,7 @@ class LeavesController < ApplicationController
         l.save
       end
     end
+    redirect_to leaves_path
   end
 
   def rejectStatus
@@ -115,7 +116,7 @@ class LeavesController < ApplicationController
         UserMailer.destroyLeave(user, user_r).deliver
 	        redirect_to leaves_url, notice: 'Your applied leave is delete successfully.'
       else
-        redirect_to leafe_path, notice: 'You not cancel the leave.'
+        redirect_to leaves_path, notice: 'You not cancel the leave.'
       end
     end  
   end
