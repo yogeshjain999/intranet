@@ -1,15 +1,50 @@
 %h1 Applyed leaves
 
-%table
+%table.table
   %tr
     %th User
     %th Leave type
-    %th Show
+    %th Reason:
+    %th Start date:
+    %th End date:
+    %th Contact address:
+    %th Contact number:
+    %th Status:
+    %th Rejection reason:
+    %th 
+    %th
+    %th
+    %th
+
   - @leaves.each do |leave|                                       
     %tr
       %td= leave.user.name
       %td= leave.leave_type.name
-      %td= link_to 'Show', leave
+      %td= leave.reason
+      %td= leave.starts_at
+      %td= leave.ends_at
+      %td= leave.contact_address
+      %td= leave.contact_number
+      %td{:class => "status"}= leave.status
+      %td= leave.reject_reason
+      - if leave.status == "Pending"
+        - if can? :approve_leave, leave
+          %td= link_to 'Approve', approve_leafe_path(leave), :remote => "true"
+        - if can? :reject_leave, leave
+          %td= link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal"
+        - if can? :update, leave
+          %td= link_to 'Edit', edit_leafe_path(leave)
+      - if can? :destroy, leave
+        %td= link_to 'Delete', @leave, method: :delete, data: { confirm: 'Are you sure?' }
+      %div{:id => "rejectmodal", :class => "modal hide fade", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
+        %div{:class => "modal-header"}
+          %h1 Reject leaves
+        %div{:class => "modal-body"}
+          = simple_form_for leave, :url => rejectStatus_leafe_path(leave), html: {:class => 'form-horizontal'} do |f|
+            = f.input :reject_reason, :as => :text, :required => true
+            = f.submit "Submit"
+        %div{:class => "modal-footer"}
+    
 %br
 
 

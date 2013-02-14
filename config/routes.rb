@@ -21,7 +21,8 @@ devise_for :users, :path_names => {
   match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
   match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
   match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
-  match '/users/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
+  match '/leave/summary' => 'users#leavessummary', :via => :get,  as: :leavessummary
+
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'

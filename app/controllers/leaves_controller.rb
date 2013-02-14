@@ -25,7 +25,6 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
-#    @leave.number_of_days = (@leave.ends_at - @leave.starts_at).to_i
     user = User.find(current_user)
     @leave.organization = current_organization
     @user = User.find(current_user)
@@ -48,7 +47,7 @@ class LeavesController < ApplicationController
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
           format.json {render json: @leave, status: :created}
         end
-	format.html {redirect_to @leave, notice: 'Your request has been noted' }
+	format.html {redirect_to leaves_path, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
       else
         format.html {render action: "new"}
@@ -66,7 +65,7 @@ class LeavesController < ApplicationController
 
     respond_to do |format|
       if @leave.update_attributes(params[:leave])
-        format.html { redirect_to @leave, notice: 'Leave is successfully updated.' }
+        format.html { redirect_to leaves_path, notice: 'Leave is successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

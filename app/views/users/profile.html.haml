@@ -1,7 +1,7 @@
 %h1 your Profile:
 
 %h2 Personal information:
-%table
+%table.table 
   %tr
   %th Name
   %th Local Address
@@ -15,7 +15,7 @@
   %td= @user.profile.dateOfBirth
   %td= @user.profile.phone_number
 %h2 General information:
-%table
+%table.table
   %tr
   %th Pan Number
   %th Passport Number
@@ -28,7 +28,7 @@
   %td= @user.join_date
 
 %h2 social media information:
-%table
+%table.table
   %tr
   %th Github Handle
   %th Twitter Handle
@@ -39,4 +39,4 @@
   %td= @user.profile.linkedin_name
 
 %br
-  = link_to 'Back', users_path
+  = link_to 'Back', users_path, class: 'btn btn-large btn-success'
