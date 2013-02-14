@@ -23,7 +23,14 @@ class LeavesController < ApplicationController
   end
 
   def create
+    available_leaves = nil
+    current_user.leave_details.each do |l|
+      if l.assign_date.year == Date.today.year
+        available_leaves = l.available_leaves
+      end
+        end
     @leave = Leave.new(params[:leave])
+    @leave.access_params(params[:leave], available_leaves)
     @leave.user = current_user
     user = User.find(current_user)
     @leave.organization = current_organization
@@ -48,12 +55,12 @@ class LeavesController < ApplicationController
 	format.html {redirect_to leaves_path, notice: 'Your request has been noted' }
         format.json {render json: @leave, status: :created}
       else
+        @profile = current_user.profile
         format.html {render action: "new"}
 	format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
     end
   end
-#end
 
   def edit
     @leave = Leave.find(params[:id])

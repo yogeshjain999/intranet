@@ -19,24 +19,41 @@ class Leave
   validates :number_of_days, :numericality => true
 #  validate :validates_all
 
+  def access_params(params, available_leaves)
+    @params = params
+    @available_leaves = available_leaves
+  end
+
   def validates_all
-    if !valid_date(starts_at)
-      errors.add(:starts_at, "Invalid start date")
-    elsif starts_at < Date.today
-      errors.add(:starts_at, "Start date cannot be past")
-    elsif starts_at > ends_at
-      errors.add(:starts_at, "Start date cannot be grater than end date")
+    if @params["leave_type_id"] != "" && number_of_days != ""
+      if number_of_days > @available_leaves[@params["leave_type_id"]]
+        errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@params["leave_type_id"]]}")
+      end
     end
-    if !valid_date(ends_at)
-      errors.add(:ends_at, "Invalid end date")
-    elsif ends_at < starts_at
-      errors.add(:ends_at, "End date should not be before start date")
+    if starts_at != nil && ends_at != nil
+      if !valid_date(starts_at)
+        errors.add(:starts_at, "Invalid start date")
+      elsif starts_at < Date.today
+        errors.add(:starts_at, "Start date cannot be past")
+      elsif starts_at > ends_at
+        errors.add(:starts_at, "Start date cannot be grater than end date")
+      end
+      if !valid_date(ends_at)
+        errors.add(:ends_at, "Invalid end date")
+      elsif ends_at < starts_at
+        errors.add(:ends_at, "End date should not be before start date")
+      end
     end
   end
 
   def valid_date(date)
-    arr_date = date.to_s.split("/")
-    if arr_date.length == 3
+date = date.to_s
+    if date.include?("/")
+      arr_date = date.split("/")
+    elsif date.include?("-")
+            arr_date = date.split("-")
+    end
+    if arr_date != nil && arr_date.length == 3
       if Date.valid_date?(arr_date[0].to_i, arr_date[1].to_i, arr_date[2].to_i)
         return true
       end
