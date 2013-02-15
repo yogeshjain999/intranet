@@ -8,16 +8,15 @@
     %th Available leaves
   - if @leave_details != nil
     - date = @leave_details.assign_date
-  - @leave_types.each do |lt|
-    %tr
-      %td= date.present? ? date : ""
-      - if @leave_details.assign_leaves[lt.id.to_s] != ""
-        %td= lt.name
-        %td= @leave_details.assign_leaves[lt.id.to_s]
-        %td= @leave_details.available_leaves[lt.id.to_s]
+    - @leave_types.each do |lt|
+      %tr
+        %td= date.present? ? date : ""
+        - if @leave_details.assign_leaves[lt.id.to_s] != ""
+          %td= lt.name
+          %td= @leave_details.assign_leaves[lt.id.to_s]
+          %td= @leave_details.available_leaves[lt.id.to_s]
 
-      - date= nil
-
+        - date= nil
 
 %h1 Applyed leaves
 
