@@ -16,6 +16,9 @@ p resource
     end
   end
 
+  def after_invite_path_for(resource)
+    addleaves_path
+      end
 
   def current_organization
     return @current_organization if @current_organization.present?
