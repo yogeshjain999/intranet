@@ -6,7 +6,8 @@
     %th Leave type
     %th Assigned leaves
     %th Available leaves
-  - date = @leave_details.assign_date
+  - if @leave_details != nil
+    - date = @leave_details.assign_date
   - @leave_types.each do |lt|
     %tr
       %td= date.present? ? date : ""
