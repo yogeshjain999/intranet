@@ -2,6 +2,12 @@ class LeavesController < ApplicationController
 
   def index        
     @leaves = current_organization.leaves.accessible_by(current_ability)
+    current_user.leave_details.each do |l|
+      if l.assign_date.year == Date.today.year
+        @leave_details = l
+    end
+    end
+    @leave_types = current_organization.leave_types.all
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @leaves }
@@ -24,11 +30,13 @@ class LeavesController < ApplicationController
 
   def create
     available_leaves = nil
-    current_user.leave_details.each do |l|
-      if l.assign_date.year == Date.today.year
-        available_leaves = l.available_leaves
-      end
+    if current_user.leave_details != nil
+      current_user.leave_details.each do |l|
+        if l.assign_date.year == Date.today.year
+          available_leaves = l.available_leaves
         end
+          end
+    end
     @leave = Leave.new(params[:leave])
     @leave.access_params(params[:leave], available_leaves)
     @leave.user = current_user

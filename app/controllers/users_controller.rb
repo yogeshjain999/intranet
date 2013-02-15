@@ -71,7 +71,7 @@ class UsersController  < ApplicationController
     @leave_types = current_organization.leave_types.all
     if request.get?
       if @user.leave_details[0].nil?
-        @user.leave_details.build(:assign_date => Time.zone.now.to_s)
+        @user.leave_details.build(:assign_date => Date.today)
         @assign_leaves = calculate_leaves
       else
         @assign_leaves = @user.leave_details[0].assign_leaves
