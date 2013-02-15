@@ -17,7 +17,7 @@ class Leave
   validates :reason, :starts_at, :ends_at, :contact_address, :contact_number, :leave_type_id, :presence => true
   validates :contact_number, :numericality => {:only_integer => true}
   validates :number_of_days, :numericality => true
-  validate :validates_all
+  #validate :validates_all
 
   def access_params(params, available_leaves)
     @leave_params = params
@@ -80,6 +80,7 @@ date = date.to_s
       end
     end
     return false
+  end
   end
 
 end

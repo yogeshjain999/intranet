@@ -5,9 +5,12 @@
  =f.input :starts_at, :label => 'Select start date', :input_html => {:class => "datepicker"}
  = f.input :ends_at, :label => 'Select end date', :input_html => {:class => "datepicker"}
  = f.input :number_of_days
+ - if current_user.profile.nil?
+  = f.input :contact_number, :required => true
+ - else
+  = f.input :contact_number, :input_html => {:value => "#{current_user.profile.phone_number}"}
  = f.input :contact_address, :as => :text, :input_html => {:value => "#{current_user.profile.local_address}"}
  = f.input :contact_number, :input_html => {:value => "#{current_user.profile.phone_number}"}
  = f.submit "Apply"
-
 :javascript
   $('#datepicker').datepicker({})
