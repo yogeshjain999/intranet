@@ -25,9 +25,6 @@ class Leave
   end
 
   def validates_all
-    if @params["leave_type_id"] != "" && number_of_days != ""
-      if number_of_days > @available_leaves[@params["leave_type_id"].to_f]
-        errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@params["leave_type_id"]]}")
     if @available_leaves == nil
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
     end
