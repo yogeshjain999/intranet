@@ -1,3 +1,4 @@
+- approve = nil
 %h1 Applyed leaves
 
 %table.table
@@ -32,9 +33,9 @@
       %td= leave.reject_reason
       - if leave.status == "Pending"
         - if can? :approve_leave, leave
-          %td= link_to 'Approve', '#(leave)', "data-toggle" => "modal", "data-target" => "#approvemodel"  
+          %td= link_to 'Approve', '#', "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove"  
         - if can? :reject_leave, leave
-          %td= link_to 'Reject', '#(leave)', "data-toggle" => "modal", "data-target" => "#rejectmodal"
+          %td= link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}
         - if can? :update, leave
           %td= link_to 'Edit', edit_leafe_path(leave)
       - if can? :destroy, leave
@@ -48,12 +49,17 @@
           = f.input :reject_reason, :as => :text, :required => true
           = f.submit "Submit"
       %div{:class => "modal-footer"} 
-       
+    :javascript
+    $(".lnkApprove").click(function() {
+      alert("Approve")
+      #{approve} = #{leave}
+    });
     %div{:id => 'approvemodel', :class => 'modal hide fade-approve', :tabindex => '-1', :role => 'dialog', 'aria-labelledby' => 'myModalLabel', 'aria-hidden' => 'true'}
       %div{:class => 'modal-header-approve'}
-        %h1 Approve leave
+        %h1 Approve leave      
+
       %div{:class => 'modal-body-approve'}
-        = simple_form_for leave, :url => approve_leafe_path(leave), html: {:class => 'form-horizontal'} do |f| 
+        = simple_form_for approve, :url => approve_leafe_path(approve), html: {:class => 'form-horizontal'} do |f| 
           = f.input :starts_at, :label => 'Start date', :input_html => {:value => "#{leave.starts_at}"} 
           = f.input :ends_at, :label => 'End date', :input_html => {:value => "#{leave.ends_at}"}
           = f.input :number_of_days, :input_html => {:value => "#{leave.number_of_days}"}

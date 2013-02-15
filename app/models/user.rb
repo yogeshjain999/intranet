@@ -22,10 +22,9 @@ class User
   field :join_date, type: Date
   field :employee_id, type: Integer
 
-  validates_presence_of :email
-  validates_presence_of :encrypted_password
-
-#  validates :join_date, :employee_id, :roles, :presence => true
+#  validates_presence_of :email
+#  validates_presence_of :encrypted_password
+  validates :join_date, :employee_id, :roles, :presence => true
 
   attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager
   ## Recoverable

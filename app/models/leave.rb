@@ -17,7 +17,7 @@ class Leave
   validates :reason, :starts_at, :ends_at, :contact_address, :contact_number, :leave_type_id, :presence => true
   validates :contact_number, :numericality => {:only_integer => true}
   validates :number_of_days, :numericality => true
-#  validate :validates_all
+  validate :validates_all
 
   def access_params(params, available_leaves)
     @params = params
@@ -26,7 +26,7 @@ class Leave
 
   def validates_all
     if @params["leave_type_id"] != "" && number_of_days != ""
-      if number_of_days > @available_leaves[@params["leave_type_id"]]
+      if number_of_days > @available_leaves[@params["leave_type_id"].to_f]
         errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@params["leave_type_id"]]}")
       end
     end
