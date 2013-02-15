@@ -25,6 +25,9 @@ class Leave
   end
 
   def validates_all
+    if @available_leaves == nil
+      errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
+    end
     leave_type = nil
     if @leave_params["leave_type_id"] != ""
       leave_type = LeaveType.find(@leave_params["leave_type_id"])

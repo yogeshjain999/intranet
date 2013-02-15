@@ -30,12 +30,13 @@ class LeavesController < ApplicationController
 
   def create
     available_leaves = nil
-    current_user.leave_details.each do |l|
-      if l.assign_date.year == Date.today.year
-        available_leaves = l.available_leaves
-      end
+    if current_user.leave_details != nil
+      current_user.leave_details.each do |l|
+        if l.assign_date.year == Date.today.year
+          available_leaves = l.available_leaves
         end
-p params[:leave]
+          end
+    end
     @leave = Leave.new(params[:leave])
     @leave.access_params(params[:leave], available_leaves)
     @leave.user = current_user
