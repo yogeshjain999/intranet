@@ -31,10 +31,10 @@ class User
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
 
-  ## Rememberable
+	 ## Rememberable
   field :remember_created_at, :type => Time
 
-  ## Trackable
+  ## Trackabler
   field :sign_in_count,      :type => Integer, :default => 0
   field :current_sign_in_at, :type => Time
   field :last_sign_in_at,    :type => Time

@@ -5,13 +5,11 @@
   </head>   
   <body>
     <p><b>Hello <%= @user.organization.name %>,</b></p>
-       <p><%= @leave.reason %><br /><%= @leave.starts_at %> to <%= @leave.ends_at %></p>
-      To showing leave details click the following link. <%= link_to 'click hear', leafe_path(@leave, only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %>
-      <%= link_to "Regect", rejectStatus_leafe_path(only_path: false, host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join), "data-toggle" => "modal", "data-target" => "#rejectmodal"%>
+      <p><%= @leave.reason %><br /><%= @leave.starts_at %> to <%= @leave.ends_at %></p>
+      <%= link_to 'click hear', leaves_path(only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join) %> to take action.
     <br />
     <p>Thanks & regards!<br /></p>   
   </body> 
 </html> 
-
 
 

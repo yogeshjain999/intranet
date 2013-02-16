@@ -90,11 +90,17 @@ class LeavesController < ApplicationController
 
   def approve
     @leave = Leave.find(params[:id])
+    if request.xhr?
+      respond_to do |format|
+        format.html {render :approve}
+      end
+
+    else
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
     user = User.find(current_user)
     @leave.save
-    UserMailer.approveLeave(@leave, user).deliver    
+          UserMailer.approveLeave(@leave, user).deliver    
     leave_details = @leave.user.leave_details
     leave_details.each do |l|
       if l.assign_date.year == Time.zone.now.year
@@ -103,8 +109,9 @@ class LeavesController < ApplicationController
         l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
         l.save
       end
-    end
     redirect_to leaves_path
+    end
+  end
   end
 
   def rejectStatus
