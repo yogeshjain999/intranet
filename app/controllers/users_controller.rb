@@ -67,6 +67,7 @@ class UsersController  < ApplicationController
   end
 
   def assignleaves
+    authorize! :assign_leave, @assign_leaves 
     @user = User.find(params[:user_id])
     @leave_types = current_organization.leave_types.all
     if request.get?

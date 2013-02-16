@@ -12,7 +12,7 @@
             Logged in as
             %a.navbar-link{:href => "#"}= current_user.email 
             = link_to 'Log out', destroy_user_session_path, method: :delete
-          %ul.nav
+          %ul.nav{:id => "myTab"}
             %li.active
               %a{:href => leaves_path} Home
             %li
