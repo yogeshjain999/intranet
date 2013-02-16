@@ -11,7 +11,7 @@ devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',
     :controller => {:invitations => 'devise/invitations'},
-    :root_path => 'dashboard#show'    
+    :root_path => 'leaves#index'    
   }
   
   
@@ -78,7 +78,7 @@ devise_for :users, :path_names => {
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  root :to => 'leaves#index'
 
   # See how all your routes lay out with "rake routes"
 

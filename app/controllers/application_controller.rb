@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 p resource
      edit_user_path(resource)
     else
-      super
+leaves_path
     end
   end
 

@@ -1,0 +1,5 @@
+= simple_form_for @leave, :url => approve_leafe_path(@leave), html: {:class => 'form-horizontal'} do |f| 
+  = f.input :starts_at, :label => 'Start date', :input_html => {:value => "#{@leave.starts_at}"} 
+  = f.input :ends_at, :label => 'End date', :input_html => {:value => "#{@leave.ends_at}"}
+  = f.input :number_of_days, :input_html => {:value => "#{@leave.number_of_days}"}
+  = f.submit "Submit"
