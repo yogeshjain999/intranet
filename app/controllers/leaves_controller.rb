@@ -90,6 +90,12 @@ class LeavesController < ApplicationController
 
   def approve
     @leave = Leave.find(params[:id])
+    if request.xhr?
+      respond_to do |format|
+        format.html {render :approve}
+      end
+
+    else
     authorize! :approve_leave, @leave
     @leave.status = "Approved"
     user = User.find(current_user)
@@ -105,6 +111,7 @@ class LeavesController < ApplicationController
       end
     end
     redirect_to leaves_path
+    end
   end
 
   def rejectStatus

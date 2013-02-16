@@ -29,17 +29,19 @@ class Leave
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
     end
     leave_type = nil
-    if @leave_params["leave_type_id"] != ""
-      leave_type = LeaveType.find(@leave_params["leave_type_id"])
-      if number_of_days != nil
-        if leave_type.can_apply != nil
-          if number_of_days > leave_type.can_apply
-            errors.add(:can_apply, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
+    if @leave_params != nil
+      if @leave_params["leave_type_id"] != nil && @leave_params["leave_type_id"] != ""
+        leave_type = LeaveType.find(@leave_params["leave_type_id"])
+        if number_of_days != nil
+          if leave_type.can_apply != nil
+            if number_of_days > leave_type.can_apply
+              errors.add(:can_apply, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
+            end
           end
-        end
-        number_days = @available_leaves[@leave_params["leave_type_id"]]
-        if number_of_days > number_days.to_f
-          errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@leave_params["leave_type_id"]]}")
+          number_days = @available_leaves[@leave_params["leave_type_id"]]
+          if number_of_days > number_days.to_f
+            errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@leave_params["leave_type_id"]]}")
+          end
         end
       end
     end
