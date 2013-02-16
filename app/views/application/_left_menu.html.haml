@@ -1,0 +1,34 @@
+
+= content_for :left_menu do
+  .well.sidebar-nav
+    %ul.nav.nav-list
+      %li.nav-header
+      - if params[:controller] == "users" && params[:action] == "edit"
+        Edit Profile
+      - elsif params[:controller] == "users" && params[:action] == "profile"
+        %li.active profile
+      - elsif params[:controller] == "users" && params[:action] == "leavessummary"
+        %li.active Leaves summary
+      - elsif params[:controller] == "users" && params[:action] == "addleaves"
+        %li.active Assign Leaves
+      - elsif params[:controller] == "users"
+        %li.active user
+      - elsif params[:controller] == "leaves" && params[:action] == "new"
+        %li.active Apply leaves
+      - elsif params[:controller] == "leaves" && params[:action] == "edit"
+        %li.active edit leaves
+      - elsif params[:controller] == "leaves" && params[:action] == "show"
+        %li.active show
+      - elsif params[:controller] == "leaves"
+        %li.active home
+      - elsif params[:controller] == "leave_types" && params[:action] == "new"
+        %li.active New leave type
+      - if params[:controller] == "leave_types" && params[:action] == "edit"
+        %li.active edit leave type
+      - elsif params[:controller] == "leave_types"
+        %li.active Leave Type
+      %li
+        - if can? :assign_leave, @assign_leaves 
+          = link_to "Assign Leaves", addleaves_path
+        - if can? :create, @user
+          = link_to "Invite", new_user_invitation_path
