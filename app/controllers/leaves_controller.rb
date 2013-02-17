@@ -37,8 +37,12 @@ class LeavesController < ApplicationController
         end
           end
     end
-    @leave = Leave.new(params[:leave])
-    @leave.access_params(params[:leave], available_leaves)
+    begin
+      @leave = Leave.new(params[:leave])
+      @leave.access_params(params[:leave], available_leaves)
+    rescue 
+      @leave = Leave.new
+    end
     @leave.user = current_user
     user = User.find(current_user)
     @leave.organization = current_organization
@@ -67,7 +71,8 @@ class LeavesController < ApplicationController
         format.html {render action: "new"}
 	format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
-    end
+  end
+
   end
 
   def edit
@@ -90,17 +95,15 @@ class LeavesController < ApplicationController
 
   def approve
     @leave = Leave.find(params[:id])
-    if request.xhr?
-      respond_to do |format|
-        format.html {render :approve}
-      end
-
-    else
     authorize! :approve_leave, @leave
+    if request.put?
+p "In put request"
     @leave.status = "Approved"
     user = User.find(current_user)
     @leave.save
+p "Leave saved"
     UserMailer.approveLeave(@leave, user).deliver    
+p "sent mail"
     leave_details = @leave.user.leave_details
     leave_details.each do |l|
       if l.assign_date.year == Time.zone.now.year
@@ -108,9 +111,10 @@ class LeavesController < ApplicationController
         tmp_num = tmp_num - @leave.number_of_days
         l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
         l.save
+p "calculations done"
+    redirect_to leaves_path
       end
     end
-    redirect_to leaves_path
     end
   end
 

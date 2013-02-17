@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $(document).ready ->
-  $('.datepicker').datepicker()
+  $('.datepicker').datepicker({dateFormat : "dd/mm/yy"})
 

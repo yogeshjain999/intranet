@@ -24,7 +24,26 @@ class Leave
     @available_leaves = available_leaves
   end
 
+  def valid_date(date)
+regexp = /\d{2}\/\d{2}\/\d{4}/
+date = date.to_s
+    if date.include?("/")
+      arr_date = date.split("/")
+    elsif date.include?("-")
+            arr_date = date.split("-")
+    end
+    if regexp.match(date) != nil
+      if arr_date != nil && arr_date.length == 3
+        if Date.valid_date?(arr_date[2].to_i, arr_date[1].to_i, arr_date[0].to_i)
+          return true
+        end
+      end
+    end
+    return false
+  end
+
   def validates_all
+p valid_date(starts_at)
     if @available_leaves == nil
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
     end
@@ -46,7 +65,7 @@ class Leave
       end
     end
     if starts_at != ""
-      if !valid_date(starts_at)
+      if valid_date(starts_at) != true
         errors.add(:starts_at, "Invalid start date")
       elsif starts_at < Date.today
         errors.add(:starts_at, "Start date cannot be past")
@@ -61,24 +80,6 @@ class Leave
         errors.add(:ends_at, "End date should not be before start date")
       end
     end
-  end
-
-  def valid_date(date)
-regexp = /\d{2}\/\d{2}\/\d{4}/
-date = date.to_s
-    if date.include?("/")
-      arr_date = date.split("/")
-    elsif date.include?("-")
-            arr_date = date.split("-")
-    end
-    if regexp.match(date) != nil
-      if arr_date != nil && arr_date.length == 3
-        if Date.valid_date?(arr_date[2].to_i, arr_date[1].to_i, arr_date[0].to_i)
-          return true
-        end
-      end
-    end
-    return false
   end
 
 end
