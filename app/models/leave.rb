@@ -43,7 +43,6 @@ date = date.to_s
   end
 
   def validates_all
-p valid_date(starts_at)
     if @available_leaves == nil
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
     end
@@ -57,7 +56,7 @@ p valid_date(starts_at)
               errors.add(:can_apply, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
             end
           end
-          number_days = @available_leaves[@leave_params["leave_type_id"]]
+          number_days = @available_leaves[@leave_params[:leave_type_id]]
           if number_of_days > number_days.to_f
             errors.add(:number_of_days, "Leaves are more than available. Available leaves are #{@available_leaves[@leave_params["leave_type_id"]]}")
           end

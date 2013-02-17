@@ -29,14 +29,7 @@ class LeavesController < ApplicationController
   end
 
   def create
-    available_leaves = nil
-    if current_user.leave_details != nil
-      current_user.leave_details.each do |l|
-        if l.assign_date.year == Date.today.year
-          available_leaves = l.available_leaves
-        end
-          end
-    end
+    available_leaves = available_leaves()
     begin
       @leave = Leave.new(params[:leave])
       @leave.access_params(params[:leave], available_leaves)
@@ -72,7 +65,6 @@ class LeavesController < ApplicationController
 	format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
   end
-
   end
 
   def edit
@@ -97,23 +89,19 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     if request.put?
-p "In put request"
+      available_leaves = available_leaves()
+      @leave.access_params(params[:leave],available_leaves)
       @leave.status = "Approved"
-p params
 @leave.update_attributes(params[:leave])
       user = User.find(current_user)
-  p "Leave saved"
       UserMailer.approveLeave(@leave, user).deliver    
-p "sent mail"
-            UserMailer.approveLeave(@leave, user).deliver    
       leave_details = @leave.user.leave_details
       leave_details.each do |l|
         if l.assign_date.year == Time.zone.now.year
-          tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_i
-          tmp_num = tmp_num - @leave.number_of_days
+          tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_f
+          tmp_num = tmp_num - @leave.number_of_days 
           l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
           l.save
-  p "calculations done"
       redirect_to leaves_path
         end
       end
@@ -124,10 +112,11 @@ p "sent mail"
     @leave = Leave.find(params[:id])
     authorize! :reject_leave, @leave
     if request.put?
-      user = User.find(current_user)
+      available_leaves = available_leaves()
+      @leave.access_params(params[:leave], available_leaves)
       @leave.status = "Rejected"
       @leave.update_attributes(params[:leave])
-       UserMailer.rejectStatusLeave(@leave, user).deliver
+       UserMailer.rejectStatusLeave(@leave, current_user).deliver
       redirect_to leaves_path
     end
   end
@@ -135,7 +124,18 @@ p "sent mail"
   def destroy 
     @leave = Leave.find(params[:id])
     user = User.find(current_user)
-    if current_user.roles == 'Admin'
+    if current_user.roles == "Admin" && @leave.status == "Approved"
+      @leave.user.leave_details.each do |l|
+        if l.assign_date.year == Date.today.year
+          tmp_num = l.available_leaves[@leave.leave_type_id.to_s].to_f
+          tmp_num = tmp_num + @leave.number_of_days
+          l.available_leaves[@leave.leave_type_id.to_s] = tmp_num
+          l.save
+          @leave.destroy
+          redirect_to leaves_url, notice: 'Applied leave is deleted successfully.'
+        end
+      end
+    elsif current_user.roles == 'Admin'
       @leave.destroy
       UserMailer.cansleLeave(@leave, user).deliver
       redirect_to leaves_url, notice: 'Applied leave is deleted successfully.'
@@ -146,9 +146,22 @@ p "sent mail"
         UserMailer.destroyLeave(user, user_r).deliver
 	        redirect_to leaves_url, notice: 'Your applied leave is deleted successfully.'
       else
-        redirect_to leaves_path, notice: 'You not cancel the leave.'
+        redirect_to leaves_path, notice: 'You cannot cancel the leave.'
       end
     end  
   end
+
+  private
+  def available_leaves
+    available_leaves = nil
+    if current_user.leave_details != nil
+      current_user.leave_details.each do |l|
+        if l.assign_date.year == Date.today.year
+          available_leaves = l.available_leaves
+        end
+          end
+    end
+    return available_leaves
+    end
 
 end
