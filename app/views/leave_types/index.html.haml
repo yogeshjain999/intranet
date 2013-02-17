@@ -5,6 +5,7 @@
     %th Name
     %th Max no of leaves
     %th Number of leaves will be increase per month
+    %th Leaves can be applyed
     %th
     %th
     %th
@@ -14,6 +15,7 @@
       %td= leave_type.name
       %td= leave_type.max_no_of_leaves
       %td= leave_type.number_of_leaves      
+      %td= leave_type.can_apply
       %td= link_to 'Edit', edit_leave_type_path(leave_type)
       %td= link_to 'Delete', leave_type, method: :delete, data: { confirm: 'Are you sure?' }
 
