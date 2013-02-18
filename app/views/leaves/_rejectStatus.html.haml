@@ -1,0 +1,3 @@
+= simple_form_for @leave, :url => rejectStatus_leafe_path(@leave), html: {:class => 'form-horizontal'} do |f|
+  = f.input :reject_reason, :as => :text, :required => true
+  = f.submit "Submit"
