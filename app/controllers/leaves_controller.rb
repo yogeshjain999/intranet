@@ -72,6 +72,7 @@ class LeavesController < ApplicationController
 
   def edit
     @leave = Leave.find(params[:id])
+    authorize! :update, @leave
   end
 
   def update
@@ -85,7 +86,7 @@ class LeavesController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
-    end
+    end    
   end
 
   def approve
