@@ -75,7 +75,7 @@ class LeavesController < ApplicationController
 
   def update
     @leave = Leave.find(params[:id])
-
+    @leave.access_params(params[:leave], available_leaves())
     respond_to do |format|
       if @leave.update_attributes(params[:leave])
         format.html { redirect_to leaves_path, notice: 'Leave is successfully updated.' }

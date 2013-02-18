@@ -80,7 +80,7 @@ devise_for :users, :path_names => {
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'leaves#index'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
