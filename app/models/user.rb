@@ -22,10 +22,8 @@ class User
   field :join_date, type: Date
   field :employee_id, type: Integer
 
-#  validates_presence_of :email
-#  validates_presence_of :encrypted_password
-  validates :join_date, :employee_id, :roles, :presence => true
-
+  validates :email, :password, :password_confirmation, :join_date, :employee_id, :roles, :presence => true
+  validates :employee_id, :uniqueness => {:scope => :organization}
   attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -65,7 +63,7 @@ class User
   belongs_to :organization
   has_many :leaves, class_name: "Leave"
 
-  # using self joings menten the relationship between employee and manager.  
+  # using self joyngs to maintain the relationship between employee and manager.
   has_many :employees, class_name: "User", :foreign_key => "manager_id"
   belongs_to :manager, class_name: "User" 
 
