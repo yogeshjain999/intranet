@@ -2,6 +2,8 @@ JoshIntranet::Application.routes.draw do
 
   resources :leaves do
     get :approve, on: :member
+    put :approve, on: :member
+    get :rejectStatus, on: :member
     put :rejectStatus, on: :member
   end
 

@@ -55,7 +55,7 @@
         - if can? :approve_leave, leave
           %td= link_to 'Approve', approve_leafe_path(leave), "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove", :remote => true
         - if can? :reject_leave, leave
-          %td= link_to 'Reject', '#', "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}
+          %td= link_to 'Reject', rejectStatus_leafe_path(leave),  "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}, :remote => true
         - if can? :update, leave
           %td= link_to 'Edit', edit_leafe_path(leave)
       - if can? :destroy, leave
@@ -65,9 +65,6 @@
       %div{:class => "modal-header"}
         %h1 Reject leaves
       %div{:class => "modal-body"}
-        = simple_form_for leave, :url => rejectStatus_leafe_path(leave), html: {:class => 'form-horizontal'} do |f|
-          = f.input :reject_reason, :as => :text, :required => true
-          = f.submit "Submit"
       %div{:class => "modal-footer"} 
     %div{:id => 'approvemodel', :class => 'modal hide fade-approve', :tabindex => '-1', :role => 'dialog', 'aria-labelledby' => 'myModalLabel', 'aria-hidden' => 'true'}
       %div{:class => 'modal-header-approve'}
