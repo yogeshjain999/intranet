@@ -1,3 +1,4 @@
+
 %h1 Leaves summary for an year #{Date.today.year}
 
 %table.table
@@ -35,8 +36,8 @@
     %th
     %th
     %th
+  - @leaves.each do	|leave|                                       
 
-  - @leaves.each do |leave|                                       
     %tr
       - if leave.user.profile.nil?
         %td= leave.user.email
