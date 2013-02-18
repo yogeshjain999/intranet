@@ -1,22 +1,23 @@
-%h1 Leaves summary for an year #{Date.today.year}
+- if current_user.roles != "Admin"
+  %h1 Leaves summary for an year #{Date.today.year}
 
-%table.table
-  %tr
-    %th Assigned date
-    %th Leave type
-    %th Assigned leaves
-    %th Available leaves
-  - if @leave_details != nil
-    - date = @leave_details.assign_date
-    - @leave_types.each do |lt|
-      %tr
-        %td= date.present? ? date : ""
-        - if @leave_details.assign_leaves[lt.id.to_s] != ""
-          %td= lt.name
-          %td= @leave_details.assign_leaves[lt.id.to_s]
-          %td= @leave_details.available_leaves[lt.id.to_s]
+  %table.table
+    %tr
+      %th Assigned date
+      %th Leave type
+      %th Assigned leaves
+      %th Available leaves
+    - if @leave_details != nil
+      - date = @leave_details.assign_date
+      - @leave_types.each do |lt|
+        %tr
+          %td= date.present? ? date : ""
+          - if @leave_details.assign_leaves[lt.id.to_s] != ""
+            %td= lt.name
+            %td= @leave_details.assign_leaves[lt.id.to_s]
+            %td= @leave_details.available_leaves[lt.id.to_s]
 
-        - date= nil
+          - date= nil
 
 %h1 Applyed leaves
 
@@ -57,8 +58,12 @@
           %td= link_to 'Reject', rejectStatus_leafe_path(leave),  "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}, :remote => true
         - if can? :update, leave
           %td= link_to 'Edit', edit_leafe_path(leave)
-      - if can? :destroy, leave
-        %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }
+        - if can? :destroy, leave
+          %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }
+      - else
+        - if current_user.roles == "Admin"
+          - if can? :destroy, leave
+            %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }
 
     %div{:id => "rejectmodal", :class => "modal hide fade", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
       %div{:class => "modal-header"}

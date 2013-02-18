@@ -24,6 +24,7 @@ class LeavesController < ApplicationController
   end
 
   def new
+    authorize! :new, Leave
     @leave = Leave.new
     @profile = current_user.profile
   end
@@ -68,7 +69,8 @@ class LeavesController < ApplicationController
   end
 
   def edit
-    @leave = Leave.find(params[:id])
+    authorize! :edit, Leave
+    @leave = Leave.find(params[:id])    
   end
 
   def update
@@ -82,7 +84,7 @@ class LeavesController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @leave.errors, status: :unprocessable_entity }
       end
-    end
+    end    
   end
 
   def approve
@@ -92,7 +94,7 @@ class LeavesController < ApplicationController
       available_leaves = available_leaves()
       @leave.access_params(params[:leave],available_leaves)
       @leave.status = "Approved"
-@leave.update_attributes(params[:leave])
+      @leave.update_attributes(params[:leave])
       user = User.find(current_user)
       UserMailer.approveLeave(@leave, user).deliver    
       leave_details = @leave.user.leave_details

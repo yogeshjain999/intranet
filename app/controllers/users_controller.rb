@@ -25,6 +25,7 @@ class UsersController  < ApplicationController
   end
 
   def edit
+    authorize! :edit, User
     @user = User.find(params[:id])
     @user.build_profile if @user.profile.nil?
   end
@@ -67,6 +68,7 @@ class UsersController  < ApplicationController
   end
 
   def assignleaves
+    authorize! :assign_leave, assignleaves, :message => "You are not authorized to access this page."   
     @user = User.find(params[:user_id])
     @leave_types = current_organization.leave_types.all
     if request.get?
@@ -83,7 +85,7 @@ class UsersController  < ApplicationController
       @user.leave_details[0].available_leaves = params[:assign_leaves]
       @user.leave_details[0].save
         redirect_to addleaves_path
-    end
+    end    
  end
 
   def profile
