@@ -14,7 +14,8 @@
       = u.input :password
       = u.input :password_confirmation
       = u.hidden_field :roles, :value => 'Admin'
-
+      = u.hidden_field :join_date, :value => Date.today
+      = u.hidden_field :employee_id, :value => '001'
 
 
   .form-actions
