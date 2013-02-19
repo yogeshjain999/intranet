@@ -9,7 +9,8 @@
     = f.input :carry_forward, :as => :boolean
 
   .form-actions
-    = f.button :submit, class: 'btn-success'
+    = f.button :submit, class: 'btn btn-large btn-success'
+    = link_to 'Cancel', leave_types_path, class: 'btn btn-large btn-success'
 
   :javascript
     var leavetype = #{ @leave_type.to_json};

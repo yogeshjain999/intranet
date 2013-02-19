@@ -30,5 +30,5 @@
       %li
         - if can? :assign_leave, @assign_leaves 
           = link_to "Assign Leaves", addleaves_path
-        - if can? :create, @user
+        - if can? :new_user_invitation, @user
           = link_to "Invite", new_user_invitation_path

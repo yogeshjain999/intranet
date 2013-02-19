@@ -9,11 +9,13 @@
  - if current_user.profile.nil?
   = f.input :contact_address, :required => true
  - else
-  = f.input :contact_address, :as => :text, :input_html => {:value => "#{current_user.profile.local_address}"}
+  = f.input :contact_address, :as => :text, :input_html => {:value => "#{current_user.profile.local_address}", :cols => 20, :rows => 5}
  - if current_user.profile.nil?
   = f.input :contact_number, :required => true
  - else
   = f.input :contact_number, :input_html => {:value => "#{current_user.profile.phone_number}"}
- = f.submit "Apply"
+ = f.submit "Apply", class: 'btn btn-large btn-success'
+ = link_to 'Cancel', leaves_path, class: 'btn btn-large btn-success'
+
 :javascript
   $('#datepicker').datepicker({})
