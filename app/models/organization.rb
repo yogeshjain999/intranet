@@ -10,7 +10,6 @@ class Organization
   field :country
   field :zip, type: Integer
   field :contact_number, type: Integer
-  field :email
 
   has_many :users, dependent: :destroy
   has_many :leave_types, dependent: :destroy
