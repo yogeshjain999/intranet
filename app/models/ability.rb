@@ -11,6 +11,7 @@ class Ability
     elsif user.has_role?('HR')
       cannot [:create, :update, :destroy ], LeaveType
       cannot :create, User      
+      cannot :new_user_invitation, User
       cannot :assign_leave, LeaveDetail 
       can :update,  Profile, :user_id => @user.id 
       can [:create, :update, :destroy], Leave, :user_id => @user.id 
@@ -19,6 +20,7 @@ class Ability
     elsif user.has_role?('Manager')
       cannot [:create, :update, :destroy], LeaveType    
       cannot :create, User
+      cannot :new_user_invitation, User
       cannot :assign_leave, LeaveDetail 
       can [:approve_leave, :reject_leave], Leave
       cannot [:approve_leave, :reject_leave], Leave, :user_id => @user.id 
@@ -28,6 +30,7 @@ class Ability
     elsif user.has_role?('Employee') 
       cannot [:create, :update, :destroy], LeaveType    
       cannot :create, User
+      cannot :new_user_invitation, User
       cannot :assign_leave, LeaveDetail 
       cannot [:approve_leave, :reject_leave], Leave
       can :update, Profile, :user_id => @user.id 
