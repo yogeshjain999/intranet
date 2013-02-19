@@ -22,7 +22,7 @@ class User
   field :join_date, type: Date
   field :employee_id, type: Integer
 
-  validates :email, :password, :password_confirmation, :join_date, :employee_id, :roles, :presence => true
+  validates :email, :join_date, :employee_id, :roles, :presence => true
   validates :employee_id, :uniqueness => {:scope => :organization}
   attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager
   ## Recoverable
