@@ -16,4 +16,5 @@
       =p.input :twitter_handle
       =p.input :linkedin_name, :label => 'Linkedin Name'
     .form-actions
-    = u.submit"createProfile"
+    = u.submit"createProfile", class: 'btn btn-large btn-success'
+    = link_to 'Skip', leaves_path, class: 'btn btn-large btn-success'
