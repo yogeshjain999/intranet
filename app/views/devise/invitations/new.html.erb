@@ -3,14 +3,14 @@
 <%= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
   <%= devise_error_messages! %>
 
-<% resource.class.invite_key_fields.each do |field| -%>
-  <%= f.input field %>    
-<% end -%>
-    <%= f.input :roles, :collection => ["Admin", "HR", "Manager", "Employee"], :prompt => "Select role" %>
-    <%= f.input :manager, :collection => current_organization.users.where(:roles => 'Manager').collect(&:email), :prompt => "Select manager", :label => 'Manager'  %>
-    <%= f.input :join_date, :label => 'Joining date', :input_html => {:class => "datepicker"} %>
-    <%= f.input :employee_id, :label => 'Employee Id' %>
-    <%= hidden_field_tag 'user[organization_id]', current_organization.id   %>  
+  <% resource.class.invite_key_fields.each do |field| -%>
+    <%= f.input field %>    
+  <% end -%>
+  <%= f.input :roles, :collection => ["Admin", "HR", "Manager", "Employee"], :prompt => "Select role" %>
+  <%= f.input :manager, :collection => current_organization.users.where(:roles => 'Manager'), :label_method => :email, :value_method => :id, :prompt => "Select manager", :label => 'Manager'  %>
+  <%= f.input :join_date, :label => 'Joining date', :input_html => {:class => "datepicker"} %>
+  <%= f.input :employee_id, :label => 'Employee Id' %>
+  <%= hidden_field_tag 'user[organization_id]', current_organization.id   %>  
 
-<%= f.submit t("devise.invitations.new.submit_button") %>
+  <%= f.submit t("devise.invitations.new.submit_button") %>
 <% end %>
