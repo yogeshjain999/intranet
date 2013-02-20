@@ -2,18 +2,13 @@
 %table.table
   %tr
     %th Assigned date
-    %th Leave type
-    %th Assigned leaves
-    %th Available leaves
-
-  - @leave_details.each do |l|
-    - date = l.assign_date
     - @leave_types.each do |lt|
-      %tr
-        %td= date.present? ? date : ''
-        - if l.assign_leaves[lt.id.to_s] != nil
-          %td= lt.name
-        %td= l.assign_leaves[lt.id.to_s]
-        %td= l.available_leaves[lt.id.to_s]
-        - date = nil
+      %th= lt.name + " [Assign/Availabel]"
+       
+  %tr
+    - @leave_details.each do |l|
+      - date = l.assign_date
+      %td= date.present? ? date : ''
+      - @leave_types.each do |lt|              
+        %td="#{l.assign_leaves[lt.id.to_s]} / #{l.available_leaves[lt.id.to_s]}"
     
