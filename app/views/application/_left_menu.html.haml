@@ -20,10 +20,10 @@
       - elsif params[:controller] == "leaves" && params[:action] == "show"
         %li.active show
       - elsif params[:controller] == "leaves"
-        %li.active home
+        %li.active Home
       - elsif params[:controller] == "leave_types" && params[:action] == "new"
         %li.active New leave type
-      - if params[:controller] == "leave_types" && params[:action] == "edit"
+      - elsif params[:controller] == "leave_types" && params[:action] == "edit"
         %li.active edit leave type
       - elsif params[:controller] == "leave_types"
         %li.active Leave Type

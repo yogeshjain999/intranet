@@ -9,10 +9,11 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource && resource.sign_in_count == 1
-p resource
-     edit_user_path(resource)
-    else
-leaves_path
+      edit_user_path(resource)
+    elseif resource
+      leaves_path
+    else 
+      super
     end
   end
 
@@ -21,11 +22,12 @@ leaves_path
       end
 
   def current_organization
-    return @current_organization if @current_organization.present?
+p extract_subdomain
     @current_organization = Organization.find_by_slug!( extract_subdomain )
+p "Priting the organization" + @current_organization
     # make sure we can only access the current users account!
     if @current_organization.present? && current_user && @current_organization != current_user.organization
-      sign_out_and_redirect(current_user)
+      sign_out_and_redirect(home_path, notice: "")
     end
     @current_organization
   end

@@ -68,7 +68,7 @@ p errors
         if valid_date(starts_at) != true
           errors.add(:starts_at, "Invalid start date")
         elsif starts_at > ends_at
-          errors.add(:starts_at, "Start date cannot be grater than end date")
+          errors.add(:starts_at, "Start date cannot be greater than end date")
         end
       end
       if ends_at != ""
