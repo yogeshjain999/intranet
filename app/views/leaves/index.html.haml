@@ -4,20 +4,15 @@
   %table.table
     %tr
       %th Assigned date
-      %th Leave type
-      %th Assigned leaves
-      %th Available leaves
-    - if @leave_details != nil
-      - date = @leave_details.assign_date
       - @leave_types.each do |lt|
-        %tr
-          %td= date.present? ? date : ""
+        %th= lt.name + " [Assign/Available]"
+    %tr
+      - if @leave_details != nil
+        - date = @leave_details.assign_date
+        %td= date.present? ? date.year : ""
+        - @leave_types.each do |lt|               
           - if @leave_details.assign_leaves[lt.id.to_s] != ""
-            %td= lt.name
-            %td= @leave_details.assign_leaves[lt.id.to_s]
-            %td= @leave_details.available_leaves[lt.id.to_s]
-
-          - date= nil
+            %td=  " #{@leave_details.assign_leaves[lt.id.to_s]} / #{@leave_details.available_leaves[lt.id.to_s]} "
 
 %h1 Applyed leaves
 
@@ -28,10 +23,7 @@
     %th Reason:
     %th Start date:
     %th End date:
-    %th Contact address:
-    %th Contact number:
     %th Status:
-    %th Rejection reason:
     %th 
     %th
     %th
@@ -47,10 +39,8 @@
       %td= leave.reason
       %td= leave.starts_at
       %td= leave.ends_at
-      %td= leave.contact_address
-      %td= leave.contact_number
       %td{:class => "status"}= leave.status
-      %td= leave.reject_reason
+      %td= link_to 'Show', leave
       - if leave.status == "Pending"
         - if can? :approve_leave, leave
           %td= link_to 'Approve', approve_leafe_path(leave), "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove", :remote => true

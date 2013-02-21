@@ -1,34 +1,37 @@
-
 = content_for :left_menu do
   .well.sidebar-nav
     %ul.nav.nav-list
       %li.nav-header
       - if params[:controller] == "users" && params[:action] == "edit"
-        Edit Profile
+        %li.active Edit Profile
       - elsif params[:controller] == "users" && params[:action] == "profile"
-        %li.active profile
+        %li.active Profile
       - elsif params[:controller] == "users" && params[:action] == "leavessummary"
         %li.active Leaves summary
       - elsif params[:controller] == "users" && params[:action] == "addleaves"
         %li.active Assign Leaves
       - elsif params[:controller] == "users"
-        %li.active user
+        %li.active User
       - elsif params[:controller] == "leaves" && params[:action] == "new"
         %li.active Apply leaves
       - elsif params[:controller] == "leaves" && params[:action] == "edit"
-        %li.active edit leaves
+        %li.active Edit leaves
       - elsif params[:controller] == "leaves" && params[:action] == "show"
-        %li.active show
+        %li.active Show
       - elsif params[:controller] == "leaves"
         %li.active Home
       - elsif params[:controller] == "leave_types" && params[:action] == "new"
         %li.active New leave type
       - elsif params[:controller] == "leave_types" && params[:action] == "edit"
-        %li.active edit leave type
+        %li.active Edit leave type
       - elsif params[:controller] == "leave_types"
         %li.active Leave Type
       %li
-        - if can? :assign_leave, @assign_leaves 
-          = link_to "Assign Leaves", addleaves_path
-        - if can? :new_user_invitation, @user
-          = link_to "Invite", new_user_invitation_path
+        - if params[:action] != "addleaves"
+          - if can? :assign_leave, @assign_leaves 
+            = link_to "Assign Leaves", addleaves_path
+        - if params[:controller] == "devise/invitations" && params[:action] == "new"
+          %li.active Invite
+        - else
+          - if can? :new_user_invitation, @user
+            = link_to "Invite", new_user_invitation_path
