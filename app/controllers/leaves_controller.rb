@@ -1,7 +1,7 @@
 class LeavesController < ApplicationController
 
   def index        
-    @leaves = current_organization.leaves.accessible_by(current_ability)
+    @leaves = current_organization.leaves.all.accessible_by(current_ability).desc(:id)
 
 
     current_user.leave_details.each do |l|
