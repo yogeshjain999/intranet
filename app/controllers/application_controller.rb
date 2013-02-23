@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
       super
     end
   end
-
   def after_invite_path_for(resource)
     addleaves_path
       end
