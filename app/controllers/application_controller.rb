@@ -22,18 +22,22 @@ class ApplicationController < ActionController::Base
       end
 
   def current_organization
-p extract_subdomain
-    @current_organization = Organization.find_by_slug!( extract_subdomain )
-p "Priting the organization" + @current_organization
-    # make sure we can only access the current users account!
-    if @current_organization.present? && current_user && @current_organization != current_user.organization
-      sign_out_and_redirect(home_path, notice: "")
+    if extract_subdomain != nil
+      @current_organization = Organization.find_by_slug!( extract_subdomain )
+      # make sure we can only access the current users account!
+      if @current_organization != nil && current_user != nil && current_user.organization == @current_organization
+        return @current_organization
+      else
+        sign_out
+        redirect_to root_path, notice: "Your not a member of this organization"
+      end
+    else
+      redirect_to root_path, notice: "Your not a member of this organization"
     end
-    @current_organization
   end
   helper_method :current_organization
 
-  private
+	private
 
   def extract_subdomain
     subdomain = request.subdomains.first

@@ -1,5 +1,5 @@
 class LeavesController < ApplicationController
-
+  before_filter :current_organization
 
   def index        
     @leaves = current_organization.leaves.accessible_by(current_ability)
