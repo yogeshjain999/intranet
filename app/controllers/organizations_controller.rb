@@ -59,7 +59,7 @@ p @organization.errors
     @organization = Organization.find(params[:id])
 
     respond_to do |format|
-      if @organization.update_attributes(params[:organization])
+      if @organization.update_attributes(params[:organization]).put
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,4 +80,14 @@ p @organization.errors
       format.json { head :no_content }
     end
   end
+
+  def upload_csv     
+p params
+    @organization = Organization.find(params[:organization_id])
+     if request.put?
+     @organization.update_attributes(params[:organization])
+      redirect_to leaves_path, notice: 'File upload successfully.' 
+    end  
+  end
+
 end

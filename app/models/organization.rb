@@ -1,6 +1,9 @@
 class Organization
   include Mongoid::Document
   include Mongoid::Slug
+  include Mongoid::Paperclip 
+  has_mongoid_attached_file :csv_attachment
+  attr_accessible :csv_attachment
 
   field :name
   slug :name
@@ -18,5 +21,6 @@ class Organization
   validates :name, :address1, :city, :country, :zip, :contact_number, presence: true
   validates :contact_number, :zip, :numericality => {:only_integer => true}
   validates :name, uniqueness: true
+  validates_attachment :csv_attachment, :content_type => {:content_type => "text/csv" } 
   accepts_nested_attributes_for :users, allow_destroy: true
 end

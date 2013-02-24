@@ -12,13 +12,13 @@ class ApplicationController < ActionController::Base
 p resource
      edit_user_path(resource)
     else
-leaves_path
+      leaves_path
     end
   end
 
   def after_invite_path_for(resource)
     addleaves_path
-      end
+  end
 
   def current_organization
     return @current_organization if @current_organization.present?
