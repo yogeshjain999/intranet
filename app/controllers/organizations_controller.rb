@@ -82,12 +82,18 @@ p @organization.errors
   end
 
   def upload_csv     
-p params
     @organization = Organization.find(params[:organization_id])
-     if request.put?
-     @organization.update_attributes(params[:organization])
-      redirect_to leaves_path, notice: 'File upload successfully.' 
-    end  
-  end
+    respond_to do |format|
+       if request.put?
+         if @organization.update_attributes(params[:organization])
+            format.html{ redirect_to leaves_path, notice: 'File upload successfully.' }
+         else
+           format.html {render action: "upload_csv"}
+	 end
+       else
+          format.html {render action: "upload_csv"}
+      end
+    end
+ end
 
 end

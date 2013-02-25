@@ -10,9 +10,14 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if resource && resource.sign_in_count == 1
 p resource
-     edit_user_path(resource)
-    else
+#     edit_user_path(resource)
+#    else
+#      leaves_path
+      edit_user_path(resource)
+    elseif resource
       leaves_path
+    else 
+      super
     end
   end
 
@@ -21,17 +26,22 @@ p resource
   end
 
   def current_organization
-    return @current_organization if @current_organization.present?
-    @current_organization = Organization.find_by_slug!( extract_subdomain )
-    # make sure we can only access the current users account!
-    if @current_organization.present? && current_user && @current_organization != current_user.organization
-      sign_out_and_redirect(current_user)
+    if extract_subdomain != nil
+      @current_organization = Organization.find_by_slug!( extract_subdomain )
+      # make sure we can only access the current users account!
+      if @current_organization != nil && current_user != nil && current_user.organization == @current_organization
+        return @current_organization
+      else
+        sign_out
+        redirect_to root_path, notice: "Your not a member of this organization"
+      end
+    else
+      redirect_to root_path, notice: "Your not a member of this organization"
     end
-    @current_organization
   end
   helper_method :current_organization
 
-  private
+	private
 
   def extract_subdomain
     subdomain = request.subdomains.first

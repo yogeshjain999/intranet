@@ -1,4 +1,5 @@
 class LeaveTypesController < ApplicationController
+before_filter :current_organization
   load_and_authorize_resource
   # GET /leave_types
   # GET /leave_types.json

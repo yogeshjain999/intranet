@@ -1,4 +1,5 @@
 class UsersController  < ApplicationController
+  before_filter :current_organization
   before_filter :authenticate_inviter!, :only => [:new, :create]
 
 

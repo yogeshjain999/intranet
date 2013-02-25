@@ -1,7 +1,8 @@
 class LeavesController < ApplicationController
+  before_filter :current_organization
 
   def index        
-    @leaves = current_organization.leaves.accessible_by(current_ability)
+    @leaves = current_organization.leaves.all.accessible_by(current_ability).desc(:id)
 
 
     current_user.leave_details.each do |l|
@@ -44,8 +45,10 @@ class LeavesController < ApplicationController
     @leave.organization = current_organization
     @user = User.find(current_user)
     @leave.status = "Pending"
+p @leave.errors
     respond_to do |format|
       if @leave.save
+p @leave.errors
         if user.roles == 'HR'
           user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
