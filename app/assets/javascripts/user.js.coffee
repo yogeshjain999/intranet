@@ -9,4 +9,8 @@
        $("#user_manager").parent().parent().show() 
      else
        $("#user_manager").parent().parent().hide()
-   $('.datepicker').datepicker({dateFormat: "dd/mm/yy"})
+   $('.datepicker').datepicker({
+     dateFormat: "dd/mm/yy",  
+     changeMonth: true,
+     changeYear: true
+   })

@@ -4,3 +4,5 @@
   = f.input :number_of_days, :input_html => {:value => "#{@leave.number_of_days}"}
   = f.submit "Submit", class: "btn btn-large btn-success"
   = link_to "Cancel", leaves_path, class: "btn btn-large btn-success"
+:javascript
+  $('.datepicker').datepicker()
