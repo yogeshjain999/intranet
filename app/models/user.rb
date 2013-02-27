@@ -1,6 +1,7 @@
 class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
+
   embeds_one :profile
   accepts_nested_attributes_for :profile
   attr_accessible :profile_attributes
@@ -24,7 +25,7 @@ class User
 
   validates :join_date, :employee_id, :roles, :presence => true
   validates :employee_id, :uniqueness => {:scope => :organization}
-  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager 
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time

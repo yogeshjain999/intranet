@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource && resource.sign_in_count == 1
+p resource
+#     edit_user_path(resource)
+#    else
+#      leaves_path
       edit_user_path(resource)
     elseif resource
       leaves_path
@@ -16,9 +20,10 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+
   def after_invite_path_for(resource)
     addleaves_path
-      end
+  end
 
   def current_organization
     if extract_subdomain != nil

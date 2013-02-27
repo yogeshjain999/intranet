@@ -56,6 +56,13 @@ gem 'cancan'
 gem 'country_select'
 gem "bootstrap-sass-rails"
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem "mongoid-paperclip", :require => "mongoid_paperclip"
+gem "aws-s3",            :require => "aws/s3"
+gem 'smarter_csv'
+
+
+
+
 
 
 

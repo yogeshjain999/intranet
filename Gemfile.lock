@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: git://github.com/sferik/rails_admin.git
-  revision: 479ff6e94892983041d134adec0fe11d7635e019
+  revision: c817613564ee297134f16d81b24b78d987ed1602
   specs:
     rails_admin (0.4.5)
       bootstrap-sass (~> 2.2)
@@ -65,6 +65,10 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
+    aws-s3 (0.6.3)
+      builder
+      mime-types
+      xml-simple
     bcrypt-ruby (3.0.1-x86-mingw32)
     bootstrap-sass (2.3.0.1)
       sass (~> 3.2)
@@ -76,6 +80,10 @@ GEM
       bson (~> 1.8.2)
     builder (3.0.4)
     cancan (1.6.9)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.1)
+      climate_control (>= 0.0.3, < 1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -94,12 +102,12 @@ GEM
       actionmailer (~> 3.0)
       devise (>= 2.1.0)
       railties (~> 3.0)
-    diff-lcs (1.1.3)
+    diff-lcs (1.2.1)
     erubis (2.7.0)
     eventmachine (1.0.0-x86-mingw32)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    font-awesome-sass-rails (3.0.2.1)
+    font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
     haml (4.0.0)
@@ -142,6 +150,8 @@ GEM
       moped (~> 1.2)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
+    mongoid-paperclip (0.0.8)
+      paperclip (>= 2.3.6)
     mongoid-simple-roles (0.0.1)
       bson_ext (~> 1.6)
       mongoid (~> 3.0.3)
@@ -154,6 +164,12 @@ GEM
     nokogiri (1.5.6-x86-mingw32)
     origin (1.0.11)
     orm_adapter (0.4.0)
+    paperclip (3.4.1)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.0)
+      mime-types
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -186,19 +202,19 @@ GEM
     rdoc (3.12.1)
       json (~> 1.4)
     remotipart (1.0.5)
-    rspec-core (2.12.2)
-    rspec-expectations (2.12.1)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.12.2)
-    rspec-rails (2.12.2)
+    rspec-core (2.13.0)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.0)
+    rspec-rails (2.13.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
-      rspec-core (~> 2.12.0)
-      rspec-expectations (~> 2.12.0)
-      rspec-mocks (~> 2.12.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
     safe_yaml (0.8.3)
-    sass (3.2.5)
+    sass (3.2.6)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -213,6 +229,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
+    smarter_csv (1.0.4)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -236,11 +253,13 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
+    xml-simple (1.1.2)
 
 PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  aws-s3
   bootstrap-datepicker-rails!
   bootstrap-sass-rails
   bson_ext
@@ -254,6 +273,7 @@ DEPENDENCIES
   jquery-rails
   mailcatcher
   mongoid (>= 2.0.0.beta.19)
+  mongoid-paperclip
   mongoid-simple-roles
   mongoid_slug
   rails (= 3.2.8)
@@ -261,5 +281,6 @@ DEPENDENCIES
   rspec-rails (>= 2.0.1)
   sass-rails (~> 3.2.3)
   simple_form
+  smarter_csv
   twitter-bootstrap-rails!
   uglifier (>= 1.0.3)

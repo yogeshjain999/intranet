@@ -116,6 +116,7 @@ def leavessummary
     end
   end
 
+
 private
   def calculate_leaves
     start_date = Time.zone.now.to_date

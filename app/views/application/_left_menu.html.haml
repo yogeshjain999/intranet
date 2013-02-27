@@ -35,3 +35,9 @@
         - else
           - if can? :new_user_invitation, @user
             = link_to "Invite", new_user_invitation_path
+        - if params[:controller] == "organizations" && params[:action] == "upload_csv"
+          %li.active Upload file
+        - else
+          - if can? :upload_csv, @organization
+            %li
+              = link_to "Upload file", upload_csv_path(current_organization.id)

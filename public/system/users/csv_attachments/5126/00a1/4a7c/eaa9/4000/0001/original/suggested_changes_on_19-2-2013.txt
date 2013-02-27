@@ -1,0 +1,16 @@
+Contact number and address should be removed from applyed leave for admin:  done
+H capital for home:  done
+Show page for leave: done
+disable link for active tab:  done
+hide errors shown by divise: done
+Upload CSV file and invite
+assign leave after inviting.
+highlite user with assign leave after inviting
+pan is not required:  done
+error in ability line no 8
+show leave types in a row: done
+change spelling of greater
+error message not being shown
+flash message should be shown if leaves are not assigned
+sort the table for letast leaves
+datepicker not being shown for modals
