@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
   skip_before_filter :current_organization, :authenticate_user!, only: [:new, :create]
 
+
   # GET /organizations
   # GET /organizations.json
   def index
@@ -80,20 +81,4 @@ p @organization.errors
       format.json { head :no_content }
     end
   end
-
-  def upload_csv     
-    @organization = Organization.find(params[:organization_id])
-    respond_to do |format|
-       if request.put?
-         if @organization.update_attributes(params[:organization])
-            format.html{ redirect_to leaves_path, notice: 'File upload successfully.' }
-         else
-           format.html {render action: "upload_csv"}
-	 end
-       else
-          format.html {render action: "upload_csv"}
-      end
-    end
- end
-
 end

@@ -1,7 +1,0 @@
-Date,Days of week,Rails LMS,ruby & rails-learning,niwantvision,Email/Social networks,EOD Remarks
-18-Feb-13,Monday,5.5,0,0,0.5,Testing the application and resolve the issues. I was leaving early because I was some work.
-2/19/2013,Tuesday,6,0,0,0.5,Yesterday testing the application and fix the some design related issues. After the demo working on a fixing the changes given by shailesh. Fixing some changes.
-2/20/2013,Wednesday,5.5,0,0,0.5,"Yesterday I was finishing the leave summary page table layout, Also finishing the displaying home page layout."
-2/21/2013,Thursday,4.5,2,0,0.5,"Yesterday I was trying to uploading csv file using paperclip gem. I was read the documentation of paperclip gem, and implement the code in LMS. I was successfully uploaded the csv file in LMS. I was trying to after uploading csv file. Then inviting the multiple users through csv file."
-2/22/2013,Friday,3.5,4,0,0.5,Trying to resolving issue for uploading file. After that read the documentation for smart_csv file gem. After that attend the presentation for node js.
-2/23/2013,Saturday,6.5,0,0,0.5,Working on uploading csv file. Integrate the gem called smart_csv.
