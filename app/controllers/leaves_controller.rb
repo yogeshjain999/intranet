@@ -37,7 +37,7 @@ class LeavesController < ApplicationController
     begin
       @leave = Leave.new(params[:leave])
       @leave.access_params(params[:leave], available_leaves)
-    rescue 
+    rescue
       @leave = Leave.new
     end
     @leave.user = current_user
