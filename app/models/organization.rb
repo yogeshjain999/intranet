@@ -1,3 +1,4 @@
+
 class Organization
   include Mongoid::Document
   include Mongoid::Slug
@@ -21,7 +22,7 @@ class Organization
   validates :name, :address1, :city, :country, :zip, :contact_number, presence: true
   validates :contact_number, :zip, :numericality => {:only_integer => true}
   validates :name, uniqueness: true
-#  validates_attachment_content_type :csv_attachment, :content_type => "text/csv" 
   validates_attachment :csv_attachment, content_type:  {:content_type => ['text/csv', 'application/vnd.ms-excel']}
   accepts_nested_attributes_for :users, allow_destroy: true
+
 end

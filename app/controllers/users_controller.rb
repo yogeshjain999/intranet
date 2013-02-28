@@ -116,6 +116,36 @@ def leavessummary
     end
   end
 
+  def upload_csv     
+    @organization = Organization.find(params[:organization_id])
+    respond_to do |format|
+       if request.put?
+         if @organization.update_attributes(params[:organization])
+            invite_users
+            format.html{ redirect_to leaves_path, notice: 'File upload successfully.' }	    
+         else
+           format.html {render action: "upload_csv"}
+	 end
+       else
+          format.html {render action: "upload_csv"}
+      end
+    end
+end
+
+  def invite_users
+    headers = {}
+    CSV.foreach(current_organization.csv_attachment.path) do |row|
+      if headers.length ==0
+        # First row is headers.
+        # Fill the hash with the headers
+        # Each header value would be key
+        row.each do |k|
+          headers[k] = ""
+        end
+      end
+    end
+  end
+
 
 private
   def calculate_leaves
