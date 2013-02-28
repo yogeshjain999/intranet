@@ -16,7 +16,6 @@ devise_for :users, :path_names => {
     :root_path => 'leaves#index'    
   }
   
-  
   match '/signup' => 'organizations#new', via: :get, as: :signup 
   match '/signup' => 'organizations#create', via: :post, as: :signup
   match '/addleaves' => 'users#addleaves', :via => :get
