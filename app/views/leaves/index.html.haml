@@ -46,7 +46,7 @@
           %td= link_to 'Approve', approve_leafe_path(leave), "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove", :remote => true
         - if can? :reject_leave, leave
           %td= link_to 'Reject', rejectStatus_leafe_path(leave),  "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}, :remote => true
-        - if can? :update, leave
+        - if can? :edit, leave
           %td= link_to 'Edit', edit_leafe_path(leave)
         - if can? :destroy, leave
           %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }

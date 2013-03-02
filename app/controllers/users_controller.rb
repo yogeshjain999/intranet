@@ -158,19 +158,5 @@ end
       end
     end
   end
-
-private
-  def calculate_leaves
-    start_date = Time.zone.now.to_date
-    end_date = Time.zone.now.end_of_year.to_date
-    months = end_date.month - start_date.month
-    assign_leaves = {}
-    @leave_types.each do |lt|
-      num_leaves = (lt.max_no_of_leaves/12.0*months).round(0)
-      assign_leaves[lt.id] = num_leaves
-    end
-    return assign_leaves
-  end
-
 end
 

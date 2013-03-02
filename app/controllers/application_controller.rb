@@ -8,15 +8,37 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
 
   def after_sign_in_path_for(resource)
-    if resource && resource.sign_in_count == 1
-      edit_user_path(resource)
-    elsif resource && current_organization != nil
-      leaves_path
+    if current_organization != nil
+      if resource && resource.sign_in_count == 1
+        edit_user_path(resource)
+      elsif resource
+          leaves_path
+      end
     end
   end
 
   def after_invite_path_for(resource)
+    user = resource
+    @leave_types = current_organization.leave_types.all
+    assign_leaves =calculate_leaves
+    user.leave_details.build if user.leave_details[0].nil?
+    user.leave_details[0].assign_date = Date.today
+    user.leave_details[0].assign_leaves = assign_leaves
+    user.leave_details[0].available_leaves = assign_leaves
+    user.leave_details[0].save
     addleaves_path
+  end
+
+  def calculate_leaves
+    start_date = Time.zone.now.to_date
+    end_date = Time.zone.now.end_of_year.to_date
+    months = end_date.month - start_date.month
+    assign_leaves = {}
+    @leave_types.each do |lt|
+      num_leaves = (lt.max_no_of_leaves/12.0*months).round(0)
+      assign_leaves[lt.id] = num_leaves
+    end
+    return assign_leaves
   end
 
   def current_organization
@@ -27,10 +49,10 @@ class ApplicationController < ActionController::Base
         return @current_organization
       else
         sign_out
-        redirect_to root_path, notice: "Your not a member of this organization"
+        return nil
       end
     else
-      redirect_to root_path, notice: "Your not a member of this organization"
+      return nil
     end
   end
   helper_method :current_organization
@@ -44,4 +66,6 @@ class ApplicationController < ActionController::Base
     end
     return subdomain
   end
+
 end
+	

@@ -23,5 +23,4 @@ class Organization
   validates :name, uniqueness: true
   validates_attachment :csv_attachment, content_type:  {:content_type => ['text/csv', 'application/vnd.ms-excel']}
   accepts_nested_attributes_for :users, allow_destroy: true
-
 end
