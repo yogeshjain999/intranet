@@ -9,15 +9,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource && resource.sign_in_count == 1
-p resource
-#     edit_user_path(resource)
-#    else
-#      leaves_path
       edit_user_path(resource)
-    elseif resource
+    elsif resource && current_organization != nil
       leaves_path
-    else 
-      super
     end
   end
 

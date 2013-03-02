@@ -1,10 +1,9 @@
-
 class Organization
   include Mongoid::Document
   include Mongoid::Slug
   include Mongoid::Paperclip 
   has_mongoid_attached_file :csv_attachment
-  attr_accessible :csv_attachment
+  attr_accessible :csv_attachment, :name, :address1, :address2, :city, :country, :zip, :contact_number, :users_attributes
 
   field :name
   slug :name

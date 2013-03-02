@@ -122,7 +122,7 @@ def leavessummary
        if request.put?
          if @organization.update_attributes(params[:organization])
             invite_users
-            format.html{ redirect_to leaves_path, notice: 'File upload successfully.' }	    
+            format.html{ redirect_to leaves_path, notice: 'The invitations have been sent' }	    
          else
            format.html {render action: "upload_csv"}
 	 end
@@ -135,17 +135,29 @@ end
   def invite_users
     headers = {}
     CSV.foreach(current_organization.csv_attachment.path) do |row|
+      invite_params = {}
       if headers.length ==0
-        # First row is headers.
+        # First row is known as headers.
         # Fill the hash with the headers
         # Each header value would be key
         row.each do |k|
           headers[k] = ""
         end
+      else
+        # Fill the hash with row values for each key
+        index = 0
+        headers.keys.each do |k|
+          invite_params.store(k, row[index])
+          index = index + 1
+        end
+        if invite_params["manager"] != nil
+          invite_params["manager"] = User.find_by(:email => invite_params["manager"]).id
+        end
+        invite_params["organization_id"] = current_organization.id
+        User.invite!(invite_params, current_user)
       end
     end
   end
-
 
 private
   def calculate_leaves
