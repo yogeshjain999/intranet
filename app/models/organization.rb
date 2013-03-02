@@ -1,10 +1,8 @@
-
 class Organization
   include Mongoid::Document
   include Mongoid::Slug
   include Mongoid::Paperclip 
   has_mongoid_attached_file :csv_attachment
-  attr_accessible :csv_attachment
 
   field :name
   slug :name
@@ -15,6 +13,7 @@ class Organization
   field :zip, type: Integer
   field :contact_number, type: Integer
 
+#  attr_accessible :csv_attachment, :name, :address1, :address2, :city, :country, :zip, :contact_number  
   has_many :users, dependent: :destroy
   has_many :leave_types, dependent: :destroy
   has_many :leaves, class_name: "Leave", dependent: :destroy

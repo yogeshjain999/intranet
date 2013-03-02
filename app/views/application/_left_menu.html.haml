@@ -10,7 +10,7 @@
         %li.active Leaves summary
       - elsif params[:controller] == "users" && params[:action] == "addleaves"
         %li.active Assign Leaves
-      - elsif params[:controller] == "users"
+      - elsif params[:controller] == "users" && params[:action] == "index"
         %li.active User
       - elsif params[:controller] == "leaves" && params[:action] == "new"
         %li.active Apply leaves
@@ -35,7 +35,7 @@
         - else
           - if can? :new_user_invitation, @user
             = link_to "Invite", new_user_invitation_path
-        - if params[:controller] == "organizations" && params[:action] == "upload_csv"
+        - if params[:controller] == "users" && params[:action] == "upload_csv"
           %li.active Upload file
         - else
           - if can? :upload_csv, @organization
