@@ -99,19 +99,26 @@ p @leave.errors
       available_leaves = available_leaves()
       @leave.access_params(params[:leave],available_leaves)
       @leave.status = "Approved"
-
-      @leave.update_attributes(params[:leave])
-      user = User.find(current_user)
-      UserMailer.approveLeave(@leave, user).deliver    
-      leave_details = @leave.user.leave_details
-      leave_details.each do |l|
-        if l.assign_date.year == Time.zone.now.year
-          tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_f
-          tmp_num = tmp_num - @leave.number_of_days 
-          l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
-          l.save
-      redirect_to leaves_path
-        end
+      respond_to do |format|
+        if @leave.update_attributes(params[:leave])
+          user = User.find(current_user)
+          UserMailer.approveLeave(@leave, user).deliver    
+          leave_details = @leave.user.leave_details
+          leave_details.each do |l|
+            if l.assign_date.year == Time.zone.now.year
+              tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_f
+              tmp_num = tmp_num - @leave.number_of_days 
+              l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
+              l.save
+	      format.html { redirect_to leaves_path, notice: 'Leave is successfully approved.' }          
+	      format.js
+            end
+          end
+        else
+          format.html { render   "approve.js" }
+          format.json { render json: @leave.errors, status: :unprocessable_entity }
+	  format.js
+	end
       end
     end
   end
@@ -123,9 +130,19 @@ p @leave.errors
       available_leaves = available_leaves()
       @leave.access_params(params[:leave], available_leaves)
       @leave.status = "Rejected"
-      @leave.update_attributes(params[:leave])
-       UserMailer.rejectStatusLeave(@leave, current_user).deliver
-      redirect_to leaves_path
+      p @leave.reject_reason = params[:leave][:reject_reason]
+      p params[:leave][:reject_reason]
+      respond_to do |format|
+        if @leave.update_attributes(params[:leave])
+          UserMailer.rejectStatusLeave(@leave, current_user).deliver
+          format.html { redirect_to leaves_path, notice: 'Leave is successfully rejected.' }     
+            format.js
+        else
+          format.html { render  "rejectStatus.js"}
+	  format.xml { render json: @leave.errors, status: :unprocessable_entity }
+	  format.js
+        end
+      end
     end
   end
 

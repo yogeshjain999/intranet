@@ -14,10 +14,17 @@ class Leave
   field :reject_reason, type: String
   field :number_of_days, type: Float
 
-  validates :reason, :starts_at, :ends_at, :contact_address, :contact_number, :leave_type_id, :presence => true
+  validates :reason, :contact_address, :contact_number, :leave_type_id,  :presence => true
+  validates :starts_at, :presence => true
+  validates :ends_at, :presence => true
+  validates :reject_reason, :presence => true, :if => :reject_reason_validation?
   validates :contact_number, :numericality => {:only_integer => true}
   validates :number_of_days, :numericality => true
   validate :validates_all
+
+  def reject_reason_validation?
+    status == "Rejected"
+  end
 
   def access_params(params, available_leaves)
     @leave_params = params
@@ -54,7 +61,7 @@ p errors
           if number_of_days != nil
             if leave_type.can_apply != nil
               if number_of_days > leave_type.can_apply
-                errors.add(:can_apply, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
+                errors.add(:number_of_days, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
               end
             end
             number_days = @available_leaves[@leave_params[:leave_type_id]]
