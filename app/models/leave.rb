@@ -52,7 +52,6 @@ date = date.to_s
   def validates_all
     if @available_leaves == nil
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
-p errors
     else
       leave_type = nil
       if @leave_params != nil
@@ -71,14 +70,14 @@ p errors
           end
         end
       end
-      if starts_at != ""
+      if starts_at != "" 
         if valid_date(starts_at) != true
           errors.add(:starts_at, "Invalid start date")
         elsif starts_at > ends_at
           errors.add(:starts_at, "Start date cannot be greater than end date")
         end
       end
-      if ends_at != ""
+      if ends_at != "" 
         if !valid_date(ends_at)
           errors.add(:ends_at, "Invalid end date")
         elsif ends_at < starts_at
