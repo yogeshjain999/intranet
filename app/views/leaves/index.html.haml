@@ -16,7 +16,7 @@
 
 %h1 Applyed leaves
 
-%table.table
+%table.table 
   %tr
     %th User
     %th Leave type
@@ -55,7 +55,7 @@
           - if can? :destroy, leave
             %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }
 
-    %div{:id => "rejectmodal", :class => "modal hide fade", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
+    %div{:id => "rejectmodal", :class => "modal hide fade rejectmodal", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" => "true"}
       %div{:class => "modal-header"}
         %h1 Reject leaves
       %div{:class => "modal-body"}

@@ -7,7 +7,6 @@ class Ability
 
     if user.has_role?('Admin')
       can :manage, :all
-#      can [:reject_leave, :approve_leave], Leave
       cannot [:edit, :create], Leave
     elsif user.has_role?('HR')
       cannot [:create, :update, :destroy ], LeaveType

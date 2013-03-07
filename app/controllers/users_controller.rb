@@ -1,5 +1,4 @@
 class UsersController  < ApplicationController
-  before_filter :current_organization
   before_filter :authenticate_inviter!, :only => [:new, :create]
 
 
@@ -68,7 +67,6 @@ class UsersController  < ApplicationController
   end
 
   def assignleaves
-#    authorize! :assign_leave, assignleaves, :message => "You are not authorized to access this page."   
     @user = User.find(params[:user_id])
     @leave_types = current_organization.leave_types.all
     if request.get?
@@ -120,7 +118,7 @@ def leavessummary
     @organization = Organization.find(params[:organization_id])
     respond_to do |format|
        if request.put?
-         if @organization.update_attributes(params[:organization])
+         if @organization.update_attributes(params[:organization]) 
             invite_users
             format.html{ redirect_to leaves_path, notice: 'The invitations have been sent' }	    
          else

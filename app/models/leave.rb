@@ -14,10 +14,17 @@ class Leave
   field :reject_reason, type: String
   field :number_of_days, type: Float
 
-  validates :reason, :starts_at, :ends_at, :contact_address, :contact_number, :leave_type_id, :presence => true
+  validates :reason, :contact_address, :contact_number, :leave_type_id,  :presence => true
+  validates :starts_at, :presence => true
+  validates :ends_at, :presence => true
+  validates :reject_reason, :presence => true, :if => :reject_reason_validation?
   validates :contact_number, :numericality => {:only_integer => true}
   validates :number_of_days, :numericality => true
   validate :validates_all
+
+  def reject_reason_validation?
+    status == "Rejected"
+  end
 
   def access_params(params, available_leaves)
     @leave_params = params
@@ -45,7 +52,6 @@ date = date.to_s
   def validates_all
     if @available_leaves == nil
       errors[:base] << "Leaves are not assigned for you. Please contact your administrator"
-p errors
     else
       leave_type = nil
       if @leave_params != nil
@@ -54,7 +60,7 @@ p errors
           if number_of_days != nil
             if leave_type.can_apply != nil
               if number_of_days > leave_type.can_apply
-                errors.add(:can_apply, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
+                errors.add(:number_of_days, "Number of leaves are more. You can apply for #{leave_type.can_apply}")
               end
             end
             number_days = @available_leaves[@leave_params[:leave_type_id]]
@@ -64,17 +70,17 @@ p errors
           end
         end
       end
-      if starts_at != ""
+      if starts_at != nil
         if valid_date(starts_at) != true
           errors.add(:starts_at, "Invalid start date")
-        elsif starts_at > ends_at
+        elsif ends_at != nil && starts_at > ends_at
           errors.add(:starts_at, "Start date cannot be greater than end date")
         end
       end
-      if ends_at != ""
+      if ends_at != nil
         if !valid_date(ends_at)
           errors.add(:ends_at, "Invalid end date")
-        elsif ends_at < starts_at
+        elsif starts_at != nil && ends_at < starts_at
           errors.add(:ends_at, "End date should not be before start date")
         end
       end

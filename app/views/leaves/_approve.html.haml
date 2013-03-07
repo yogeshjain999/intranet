@@ -1,4 +1,5 @@
-= simple_form_for @leave, :url => approve_leafe_path(@leave), :method => :put, html: {:class => 'form-horizontal'} do |f| 
+= simple_form_for @leave, :url => approve_leafe_path(@leave), :method => :put, html: {:class => 'form-horizontal'}, :remote =>true do |f| 
+  = f.error_notification
   = f.input :starts_at, :label => 'Start date', :input_html => {:value => "#{@leave.starts_at}", :class => "datepicker"} 
   = f.input :ends_at, :label => 'End date', :input_html => {:value => "#{@leave.ends_at}", :class => "datepicker"}
   = f.input :number_of_days, :input_html => {:value => "#{@leave.number_of_days}"}
