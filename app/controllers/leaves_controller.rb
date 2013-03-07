@@ -45,10 +45,8 @@ class LeavesController < ApplicationController
     @leave.organization = current_organization
     @user = User.find(current_user)
     @leave.status = "Pending"
-p @leave.errors
     respond_to do |format|
       if @leave.save
-p @leave.errors
         if user.roles == 'HR'
           user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
           @users = UserMailer.leaveReport(@leave, user, user_role).deliver
