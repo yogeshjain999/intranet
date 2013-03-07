@@ -4,9 +4,8 @@ class ApplicationController < ActionController::Base
   end
 
   protect_from_forgery
-
   before_filter :authenticate_user!
-
+  skip_before_filter :authenticate_user!, :only => :managers
   def after_sign_in_path_for(resource)
     if current_organization != nil
       if resource && resource.sign_in_count == 1
