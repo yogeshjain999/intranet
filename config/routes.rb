@@ -24,6 +24,7 @@ devise_for :users, :path_names => {
   match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
   match '/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
   match '/organization/:organization_id/csv' => 'users#upload_csv', :via => [:get, :put ], as: :upload_csv
+  match '/users/managers' => 'users#managers', :via => :get, as: :managers
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'

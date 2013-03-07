@@ -70,17 +70,17 @@ date = date.to_s
           end
         end
       end
-      if starts_at != "" 
+      if starts_at != nil
         if valid_date(starts_at) != true
           errors.add(:starts_at, "Invalid start date")
-        elsif starts_at > ends_at
+        elsif ends_at != nil && starts_at > ends_at
           errors.add(:starts_at, "Start date cannot be greater than end date")
         end
       end
-      if ends_at != "" 
+      if ends_at != nil
         if !valid_date(ends_at)
           errors.add(:ends_at, "Invalid end date")
-        elsif ends_at < starts_at
+        elsif starts_at != nil && ends_at < starts_at
           errors.add(:ends_at, "End date should not be before start date")
         end
       end

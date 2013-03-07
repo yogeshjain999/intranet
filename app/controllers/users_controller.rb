@@ -1,5 +1,4 @@
 class UsersController  < ApplicationController
-  before_filter :current_organization
   before_filter :authenticate_inviter!, :only => [:new, :create]
 
 
@@ -153,11 +152,25 @@ end
           invite_params["manager"] = User.find_by(:email => invite_params["manager"]).id
         end
         invite_params["organization_id"] = current_organization.id
-        User.invite!(invite_params, current_user)
+a =         User.invite!(invite_params, current_user)
+p a.errors
       end
     end
   end
 
+  def managers
+    organization = Organization.find_by(:name => request.subdomain)
+    users = organization.users.where(:roles => "Manager")
+    responseText = nil
+    users.each do |u|
+      if responseText == nil
+        responseText = u.email
+      else
+        responseText = responseText + "," + u.email
+      end
+    end
+    render :text => responseText, :content_type => "text/plain"
+    end
 
 end
 

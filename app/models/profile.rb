@@ -38,7 +38,7 @@ date = date.to_s
   end
 
   def birth_date_validation        
-    if dateOfBirth != ""
+    if dateOfBirth != "" || dateOfBirth != nil
       if valid_date(dateOfBirth) != true
         errors.add(:dateOfBirth, "Invalid date of birth")
       elsif dateOfBirth >= Date.today
