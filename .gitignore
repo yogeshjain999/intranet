@@ -15,4 +15,5 @@
 /tmp
 #Ignore files by created Edit+ editer
 *.bak
+*.csv
 .rvmrc
