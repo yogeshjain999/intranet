@@ -91,10 +91,10 @@ class LeavesController < ApplicationController
   end
 
   def approve
-    @leave = Leave.find(params[:id])
+      @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     if request.put?
-      available_leaves = available_leaves()
+      available_leaves = available_leaves()      
       @leave.access_params(params[:leave],available_leaves)
       @leave.status = "Approved"
       respond_to do |format|

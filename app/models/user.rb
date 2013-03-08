@@ -25,8 +25,8 @@ class User
   field :employee_id, type: Integer
 
   validates :join_date, :employee_id, :roles, :presence => true
-  validates :employee_id, :uniqueness => {:scope => :organization}
-  validates :email, :uniqueness => {:scope => :organization} 
+  validates :employee_id, :email, :uniqueness => {:scope => :organization}
+  #validates :email, :uniqueness => {:scope => :organization} 
   attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager 
   ## Recoverable
   field :reset_password_token,   :type => String

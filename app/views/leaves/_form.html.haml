@@ -2,8 +2,8 @@
  = f.error_notification
  = f.association :leave_type, :collection => current_organization.leave_types.all.entries, :prompt => "Select leave type"
  = f.input :reason
- =f.input :starts_at, :label => 'Select start date', :input_html => {:class => "datepicker"}
- = f.input :ends_at, :label => 'Select end date', :input_html => {:class => "datepicker"}
+ =f.input :starts_at, :label => 'Select start date', :input_html => {:class => "datepicker"}, :readonly => true
+ = f.input :ends_at, :label => 'Select end date', :input_html => {:class => "datepicker"}, :readonly => true
  = f.input :number_of_days
  - if current_user.profile.nil?
   = f.input :contact_address, :required => true

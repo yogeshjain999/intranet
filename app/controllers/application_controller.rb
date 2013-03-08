@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     user.leave_details[0].assign_leaves = assign_leaves
     user.leave_details[0].available_leaves = assign_leaves
     user.leave_details[0].save
-    addleaves_path
+    users_path
   end
 
   def calculate_leaves

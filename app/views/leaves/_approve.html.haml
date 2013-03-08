@@ -1,7 +1,7 @@
 = simple_form_for @leave, :url => approve_leafe_path(@leave), :method => :put, html: {:class => 'form-horizontal'}, :remote =>true do |f| 
   = f.error_notification
-  = f.input :starts_at, :label => 'Start date', :input_html => {:value => "#{@leave.starts_at}", :class => "datepicker"} 
-  = f.input :ends_at, :label => 'End date', :input_html => {:value => "#{@leave.ends_at}", :class => "datepicker"}
+  = f.input :starts_at, :label => 'Start date', :input_html => {:value => "#{@leave.starts_at}", :class => "datepicker"}, :readonly => true 
+  = f.input :ends_at, :label => 'End date', :input_html => {:value => "#{@leave.ends_at}", :class => "datepicker"}, :readonly => true
   = f.input :number_of_days, :input_html => {:value => "#{@leave.number_of_days}"}
   = f.submit "Submit", class: "btn btn-large btn-success"
   = link_to "Cancel", leaves_path, class: "btn btn-large btn-success"

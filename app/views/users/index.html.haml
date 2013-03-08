@@ -3,14 +3,15 @@
 %table.table
   %tr
     %th Email
+    %th Role
+
   - @users.each do |user|
-
-
     %tr     
     - if user.profile.nil?
       %td= user.email
     - else
       %td= link_to user.email, profile_path(user)
+    %td= user.roles
     - if can? :update, user, :user_id => user.id
       %td= link_to 'Edit', edit_user_path(user)
       %td= link_to 'Resend Invitation', reinvite_path(user), :remote => true

@@ -3,13 +3,10 @@
 
   %table.table
     %tr
-      %th Assigned date
       - @leave_types.each do |lt|
         %th= lt.name + " [Assign/Available]"
     %tr
       - if @leave_details != nil
-        - date = @leave_details.assign_date
-        %td= date.present? ? date.year : ""
         - @leave_types.each do |lt|               
           - if @leave_details.assign_leaves[lt.id.to_s] != ""
             %td=  " #{@leave_details.assign_leaves[lt.id.to_s]} / #{@leave_details.available_leaves[lt.id.to_s]} "
