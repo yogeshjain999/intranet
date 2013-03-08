@@ -33,9 +33,10 @@ class LeavesController < ApplicationController
   end
 
   def create
-      @leave = Leave.new(params[:leave])
+    @leave = Leave.new(params[:leave])
+    @leave.user = current_user
     available_leaves = available_leaves(@leave.user)
-      @leave.access_params(params[:leave], available_leaves)
+    @leave.access_params(params[:leave], available_leaves)
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
