@@ -25,9 +25,9 @@ class User
   field :employee_id, type: Integer
 
   validates :join_date, :employee_id, :roles, :presence => true
-  validates :employee_id, :email, :uniqueness => {:scope => :organization}
-  #validates :email, :uniqueness => {:scope => :organization} 
-  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager 
+  validates :employee_id, :uniqueness => {:scope => :organization_id}
+  validates :email, :uniqueness => {:scope => :organization_id} 
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager_id 
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -68,7 +68,7 @@ class User
 
   # using self joyngs to maintain the relationship between employee and manager.
   has_many :employees, class_name: "User", :foreign_key => "manager_id"
-  belongs_to :manager, class_name: "User" 
+  belongs_to :manager, class_name: "User"
 
   # use the name field directly user field for example @user.name
   delegate :name, :to => :profile

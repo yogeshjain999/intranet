@@ -1,4 +1,3 @@
-
 Rails.application.assets.logger = Logger.new(RUBY_PLATFORM =~ /(win|w)32$/ ? "NUL" : "/dev/null")
 Rails::Rack::Logger.class_eval do
   def call_with_quiet_assets(env)
@@ -10,4 +9,4 @@ Rails::Rack::Logger.class_eval do
   end
   alias_method_chain :call, :quiet_assets
 end
- 
+
