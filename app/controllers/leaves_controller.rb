@@ -33,32 +33,24 @@ class LeavesController < ApplicationController
   end
 
   def create
-    available_leaves = available_leaves()
-    begin
       @leave = Leave.new(params[:leave])
+    available_leaves = available_leaves(@leave.user)
       @leave.access_params(params[:leave], available_leaves)
-    rescue
-      @leave = Leave.new
-    end
-    @leave.user = current_user
-    user = User.find(current_user)
-    @leave.organization = current_organization
-    @user = User.find(current_user)
     @leave.status = "Pending"
     respond_to do |format|
       if @leave.save
-        if user.roles == 'HR'
+        if current_user.roles == 'HR'
           user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
-          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-        elsif user.roles == 'Manager'
+          UserMailer.leaveReport(@leave, user, user_role).deliver
+        elsif current_user.roles == 'Manager'
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
-          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
-        elsif user.roles == 'Employee' && user.manager.nil?
+          UserMailer.leaveReport(@leave, current_user, user_role).deliver
+        elsif current_user.roles == 'Employee' && current_user.manager.nil?
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
-          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+          UserMailer.leaveReport(@leave, current_user, user_role).deliver
         else
           user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
-          @users = UserMailer.leaveReport(@leave, user, user_role).deliver
+          UserMailer.leaveReport(@leave, user, user_role).deliver
           format.json {render json: @leave, status: :created}
         end
 	format.html {redirect_to leaves_path, notice: 'Your request has been noted' }
@@ -94,13 +86,12 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     authorize! :approve_leave, @leave
     if request.put?
-      available_leaves = available_leaves()
+      available_leaves = available_leaves(@leave.user)
       @leave.access_params(params[:leave],available_leaves)
       @leave.status = "Approved"
       respond_to do |format|
         if @leave.update_attributes(params[:leave])
-          user = User.find(current_user)
-          UserMailer.approveLeave(@leave, user).deliver    
+          UserMailer.approveLeave(@leave, current_user).deliver    
           leave_details = @leave.user.leave_details
           leave_details.each do |l|
             if l.assign_date.year == Time.zone.now.year
@@ -125,7 +116,7 @@ class LeavesController < ApplicationController
     @leave = Leave.find(params[:id])
     authorize! :reject_leave, @leave
     if request.put?
-      available_leaves = available_leaves()
+      available_leaves = available_leaves(@leave.user)
       @leave.access_params(params[:leave], available_leaves)
       @leave.status = "Rejected"
       p @leave.reject_reason = params[:leave][:reject_reason]
@@ -175,10 +166,10 @@ class LeavesController < ApplicationController
   end
 
   private
-  def available_leaves
+  def available_leaves(user)
     available_leaves = nil
-    if current_user.leave_details != nil
-      current_user.leave_details.each do |l|
+    if user.leave_details != nil
+      user.leave_details.each do |l|
         if l.assign_date.year == Date.today.year
           available_leaves = l.available_leaves
         end
