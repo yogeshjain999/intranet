@@ -35,6 +35,7 @@ class LeavesController < ApplicationController
   def create
     @leave = Leave.new(params[:leave])
     @leave.user = current_user
+    @leave.organization = current_organization
     available_leaves = available_leaves(@leave.user)
     @leave.access_params(params[:leave], available_leaves)
     @leave.status = "Pending"
