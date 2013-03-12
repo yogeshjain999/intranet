@@ -14,3 +14,4 @@ $(document).ready ->
      changeMonth: true,
      changeYear: true
    })
+
