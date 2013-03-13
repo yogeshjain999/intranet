@@ -59,7 +59,7 @@ gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git 
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem "aws-s3",            :require => "aws/s3"
 gem 'smarter_csv'
-
+gem 'whenever', :require => false
 
 
 

@@ -87,4 +87,22 @@ date = date.to_s
     end
   end
 
+  def self.increment_leaves
+    Organization.all.each do |organization|
+      leave_types = organization.leave_types.where(:auto_increament => true)
+      users = organization.users.ne(:roles => "Admin")
+      leave_types.each do |lt|
+        users.each do |u|
+          u.leave_details.each do |l|
+            if l.assign_date.year == Date.today.year
+              l.assign_leaves[lt.id.to_s] = l.assign_leaves[lt.id.to_s].to_f + lt.number_of_leaves
+              l.available_leaves[lt.id.to_s] = l.available_leaves[lt.id.to_s].to_f + lt.number_of_leaves
+              l.save
+            end
+          end
+        end
+      end
+    end
+  end
+
 end
