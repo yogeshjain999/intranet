@@ -17,7 +17,7 @@
       =p.input :linkedin_name, :label => 'Linkedin Name'
     .form-actions
     = u.submit"createProfile", class: 'btn btn-large btn-success'
-    - if @user.name == nil 
+    - if current_user.profile.nil?
       = link_to 'Skip', leaves_path, class: 'btn btn-large btn-success'
     - else
       = link_to 'Cancel', users_path, class: 'btn btn-large btn-success'

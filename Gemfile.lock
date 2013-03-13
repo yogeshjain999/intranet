@@ -272,6 +272,7 @@ DEPENDENCIES
   haml (>= 3.0.0)
   haml-rails
   jquery-rails
+  kaminari
   mailcatcher
   mongoid (>= 2.0.0.beta.19)
   mongoid-paperclip

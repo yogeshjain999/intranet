@@ -3,6 +3,8 @@ class User
   include Mongoid::Document
   include Mongoid::Document::Roleable
 
+  paginates_per 10
+
   embeds_one :profile
   accepts_nested_attributes_for :profile
   attr_accessible :profile_attributes
