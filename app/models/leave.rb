@@ -4,6 +4,7 @@ class Leave
   belongs_to :leave_type
   belongs_to :organization
 
+  paginates_per 10
 
   field :reason, type: String
   field :starts_at, type: Date

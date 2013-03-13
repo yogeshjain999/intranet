@@ -11,7 +11,10 @@
           - if @leave_details.assign_leaves[lt.id.to_s] != ""
             %td=  " #{@leave_details.assign_leaves[lt.id.to_s]} / #{@leave_details.available_leaves[lt.id.to_s]} "
 
-%h1 Applyed leaves
+%h1 Applied leaves
+
+= page_entries_info @leaves
+= paginate @leaves
 
 %table.table 
   %tr

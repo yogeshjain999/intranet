@@ -3,7 +3,8 @@ class UsersController  < ApplicationController
 
 
   def index
-    @users = current_organization.users.ne(email: current_user.email)
+    @users = current_organization.users.ne(email: current_user.email).page(params[:page])
+    Kaminari.paginate_array(@users).page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }

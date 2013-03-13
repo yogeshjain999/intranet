@@ -2,9 +2,8 @@ class LeavesController < ApplicationController
   before_filter :current_organization
 
   def index        
-    @leaves = current_organization.leaves.all.accessible_by(current_ability).desc(:id)
-
-
+    @leaves = current_organization.leaves.all.accessible_by(current_ability).desc(:id).page(params[:page])
+    Kaminari.paginate_array(@leaves).page(params[:page])
     current_user.leave_details.each do |l|
       if l.assign_date.year == Date.today.year
         @leave_details = l
@@ -51,8 +50,8 @@ class LeavesController < ApplicationController
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
           UserMailer.leaveReport(@leave, current_user, user_role).deliver
         else
-          user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(user.manager.email)
-          UserMailer.leaveReport(@leave, user, user_role).deliver
+          user_role = current_organization.users.in(:roles => ['Admin', 'HR']).collect(&:email).push(current_user.manager.email)
+          UserMailer.leaveReport(@leave,current_user, user_role).deliver
           format.json {render json: @leave, status: :created}
         end
 	format.html {redirect_to leaves_path, notice: 'Your request has been noted' }

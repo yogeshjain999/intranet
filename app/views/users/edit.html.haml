@@ -1,6 +1,6 @@
-- if @user.name != nil
-  %h1 Edit your profile
-- else
+- if @user.profile.nil?
   %h1 Create your profile
+- else
+  %h1 Edit your profile
 
 = render 'frmprofile'
