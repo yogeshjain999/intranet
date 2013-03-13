@@ -1,6 +1,6 @@
 class UsersController  < ApplicationController
   before_filter :authenticate_inviter!, :only => [:new, :create]
-
+  load_and_authorize_resource
 
   def index
     @users = current_organization.users.ne(email: current_user.email).page(params[:page])
@@ -121,7 +121,7 @@ def leavessummary
        if request.put?
          if @organization.update_attributes(params[:organization]) 
             invite_users
-            format.html{ redirect_to leaves_path, notice: 'The invitations have been sent' }	    
+            format.html{ render "upload"}	    
          else
            format.html {render action: "upload_csv"}
 	 end
@@ -133,6 +133,7 @@ end
 
   def invite_users
     headers = {}
+    @invited_users = []
     CSV.foreach(current_organization.csv_attachment.path) do |row|
       invite_params = {}
       if headers.length ==0
@@ -153,8 +154,8 @@ end
           invite_params["manager"] = User.find_by(:email => invite_params["manager"]).id
         end
         invite_params["organization_id"] = current_organization.id
-a =         User.invite!(invite_params, current_user)
-p a.errors
+        user = User.invite!(invite_params, current_user)
+        @invited_users.push(user)
       end
     end
   end
