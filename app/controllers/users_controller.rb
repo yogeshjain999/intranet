@@ -1,6 +1,7 @@
 class UsersController  < ApplicationController
   before_filter :authenticate_inviter!, :only => [:new, :create]
-  load_and_authorize_resource
+  load_and_authorize_resource 
+  skip_authorize_resource :only => :index
 
   def index
     @users = current_organization.users.ne(email: current_user.email).page(params[:page])
@@ -18,7 +19,6 @@ class UsersController  < ApplicationController
       format.html # show.html.erb
       format.json { render json: @user }
     end
-    authorize! :read, @user
   end
 
   def new

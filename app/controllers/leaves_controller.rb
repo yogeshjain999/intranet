@@ -1,8 +1,9 @@
 class LeavesController < ApplicationController
   before_filter :current_organization
+  load_and_authorize_resource
 
   def index        
-    @leaves = current_organization.leaves.all.accessible_by(current_ability).desc(:id).page(params[:page])
+    @leaves = current_organization.leaves.accessible_by(current_ability).desc(:id).page(params[:page])
     Kaminari.paginate_array(@leaves).page(params[:page])
     current_user.leave_details.each do |l|
       if l.assign_date.year == Date.today.year
@@ -26,7 +27,6 @@ class LeavesController < ApplicationController
   end
 
   def new
-    authorize! :new, Leave
     @leave = Leave.new
     @profile = current_user.profile
   end
@@ -42,7 +42,7 @@ class LeavesController < ApplicationController
       if @leave.save
         if current_user.roles == 'HR'
           user_role = current_organization.users.where(:roles => 'Admin').collect(&:email)
-          UserMailer.leaveReport(@leave, user, user_role).deliver
+          UserMailer.leaveReport(@leave, current_user, user_role).deliver
         elsif current_user.roles == 'Manager'
           user_role = current_organization.users.in(:roles => ['HR', 'Admin']).collect(&:email)
           UserMailer.leaveReport(@leave, current_user, user_role).deliver
@@ -65,13 +65,12 @@ class LeavesController < ApplicationController
   end
 
   def edit
-    authorize! :edit, Leave
     @leave = Leave.find(params[:id])    
   end
 
   def update
     @leave = Leave.find(params[:id])
-    @leave.access_params(params[:leave], available_leaves())
+    @leave.access_params(params[:leave], available_leaves(@leave.user))
     respond_to do |format|
       if @leave.update_attributes(params[:leave])
         format.html { redirect_to leaves_path, notice: 'Leave is successfully updated.' }
@@ -85,7 +84,6 @@ class LeavesController < ApplicationController
 
   def approve
     @leave = Leave.find(params[:id])
-    authorize! :approve_leave, @leave
     if request.put?
       available_leaves = available_leaves(@leave.user)
       @leave.access_params(params[:leave],available_leaves)
@@ -115,7 +113,6 @@ class LeavesController < ApplicationController
 
   def rejectStatus
     @leave = Leave.find(params[:id])
-    authorize! :reject_leave, @leave
     if request.put?
       available_leaves = available_leaves(@leave.user)
       @leave.access_params(params[:leave], available_leaves)
