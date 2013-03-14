@@ -155,6 +155,15 @@ end
         end
         invite_params["organization_id"] = current_organization.id
         user = User.invite!(invite_params, current_user)
+        if user.errors.messages == {}
+        @leave_types = current_organization.leave_types.all
+        assign_leaves =calculate_leaves
+        user.leave_details.build if user.leave_details[0].nil?
+        user.leave_details[0].assign_date = Date.today
+        user.leave_details[0].assign_leaves = assign_leaves
+        user.leave_details[0].available_leaves = assign_leaves
+        user.leave_details[0].save
+        end
         @invited_users.push(user)
       end
     end

@@ -1,7 +1,5 @@
 %h1 Result
 
-- errors = nil
-- messages = {}
 %table.table
   %th Email
   %th Role
@@ -18,8 +16,11 @@
       %td= user.manager_id
       %td= user.join_date
       %td= user.employee_id
-      - if user.errors.messages == nil
+      - if user.errors.messages == {}
         %td Completed
       - else
         %td Pending
         %td= raw user.errors.full_messages.uniq.join("<br>")
+
+= link_to "Back", upload_csv_path(current_organization.id)
+%br

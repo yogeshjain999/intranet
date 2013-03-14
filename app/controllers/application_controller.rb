@@ -34,7 +34,11 @@ class ApplicationController < ActionController::Base
     months = end_date.month - start_date.month
     assign_leaves = {}
     @leave_types.each do |lt|
+      if lt.auto_increament == true
+        num_leaves = lt.number_of_leaves
+      else
       num_leaves = (lt.max_no_of_leaves/12.0*months).round(0)
+      end
       assign_leaves[lt.id] = num_leaves
     end
     return assign_leaves
