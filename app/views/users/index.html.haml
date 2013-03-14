@@ -1,5 +1,8 @@
 %h1 Registered users
 
+= page_entries_info @users
+= paginate @users
+
 %table.table
   %tr
     %th Email
@@ -12,13 +15,13 @@
     - else
       %td= link_to user.email, profile_path(user)
     %td= user.roles
-    - if can? :update, user, :user_id => user.id
+    - if can? :update, user, :id => user.id
       %td= link_to 'Edit', edit_user_path(user)
       %td= link_to 'Resend Invitation', reinvite_path(user), :remote => true
       %td= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }
 %br
   - if current_user.profile.nil?
+    = link_to 'Create profile', edit_user_path(current_user), class: 'btn btn-large btn-success'
   - else
     = link_to 'My profile', profile_path(current_user), class: 'btn btn-large btn-success'
-
-  = link_to 'Edit profile', edit_user_path(current_user), class: 'btn btn-large btn-success'
+    = link_to 'Edit profile', edit_user_path(current_user), class: 'btn btn-large btn-success'

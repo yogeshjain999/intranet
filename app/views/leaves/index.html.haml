@@ -11,7 +11,10 @@
           - if @leave_details.assign_leaves[lt.id.to_s] != ""
             %td=  " #{@leave_details.assign_leaves[lt.id.to_s]} / #{@leave_details.available_leaves[lt.id.to_s]} "
 
-%h1 Applyed leaves
+%h1 Applied leaves
+
+= page_entries_info @leaves
+= paginate @leaves
 
 %table.table 
   %tr
@@ -39,12 +42,12 @@
       %td{:class => "status"}= leave.status
       %td= link_to 'Show', leave
       - if leave.status == "Pending"
-        - if can? :approve_leave, leave
-          %td= link_to 'Approve', approve_leafe_path(leave), "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove", :remote => true
-        - if can? :reject_leave, leave
-          %td= link_to 'Reject', rejectStatus_leafe_path(leave),  "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}, :remote => true
+        - if can? :approve, leave
+          %td= link_to 'Approve', approve_leave_path(leave), "data-toggle" => "modal", "data-target" => "#approvemodel", :class => "lnkApprove", :remote => true
+        - if can? :rejectStatus, leave
+          %td= link_to 'Reject', rejectStatus_leave_path(leave),  "data-toggle" => "modal", "data-target" => "#rejectmodal", :html => {:class => 'lnkReject'}, :remote => true
         - if can? :edit, leave
-          %td= link_to 'Edit', edit_leafe_path(leave)
+          %td= link_to 'Edit', edit_leave_path(leave)
         - if can? :destroy, leave
           %td= link_to 'Delete', leave, method: :delete, data: { confirm: 'Are you sure?' }
       - else
