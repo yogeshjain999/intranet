@@ -149,6 +149,7 @@ end
         headers.keys.each do |k|
           invite_params.store(k, row[index])
           index = index + 1
+
         end
         if invite_params["manager"] != nil
           invite_params["manager"] = User.find_by(:email => invite_params["manager"]).id
