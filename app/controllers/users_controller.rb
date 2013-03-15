@@ -149,7 +149,6 @@ end
         headers.keys.each do |k|
           invite_params.store(k, row[index])
           index = index + 1
-p invite_params
 
         end
         if invite_params["manager"] != nil
