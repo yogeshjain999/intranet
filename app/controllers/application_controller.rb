@@ -70,5 +70,13 @@ class ApplicationController < ActionController::Base
     return subdomain
   end
 
+  def authenticate_inviter!
+    unless current_user.roles == 'Admin'
+      redirect_to root_url, :alert => "You are not authorized to access this page."
+    end
+    super
+  end
+
+
 end
 	
