@@ -2,10 +2,21 @@
 
 <%= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
   <%= f.error_notification %>
-
+<% if current_organization.leave_types.empty? %>
+<div>
+</br>
+</br>
+Note: You haven't create leave type for your organization. </br> do you want to create leave type for your organization? then <%= link_to 'Click here', new_leave_type_path %>
+</br>
+</br>
+</div>
+<% end %>
+</br>
+</br>
   <% resource.class.invite_key_fields.each do |field| -%>
     <%= f.input field %>    
   <% end -%>
+
   <%= f.input :roles, :collection => ["Admin", "HR", "Manager", "Employee"], :prompt => "Select role" %>
   <%= f.input :manager_id, :collection => current_organization.users.where(:roles => 'Manager'), :label_method => :email, :value_method => :id, :prompt => "Select manager", :label => 'Manager'  %>
   <%= f.input :join_date, :label => 'Joining date', :input_html => {:class => "datepicker"}, :readonly => true %>
