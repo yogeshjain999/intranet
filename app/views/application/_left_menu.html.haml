@@ -41,3 +41,10 @@
           - if can? :upload_csv, @organization
             %li
               = link_to "Upload CSV and invite", upload_csv_path(current_organization.id)
+        - if params[:action] == "leave_summary_for_roles"
+          %li.active Leave summary on roles
+        - else
+          - if can? :leave_summary_on_roles, User
+            %li
+              = link_to 'Leave summary on roles', leave_summary_for_roles_path
+	    
