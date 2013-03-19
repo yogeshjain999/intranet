@@ -23,6 +23,9 @@ devise_for :users, :path_names => {
   match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
   match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
   match '/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
+  match '/users/:user_id/chengeroles' => 'users#chengeroles', :via => [:get, :post], as: :chengeroles
+  match '/users/:user_id/chengemanager' => 'users#chengemanager', :via => [:get, :post], as: :chengemanager
+
   match '/organization/:organization_id/csv' => 'users#upload_csv', :via => [:get, :put ], as: :upload_csv
   match '/users/managers' => 'users#managers', :via => :get, as: :managers
 

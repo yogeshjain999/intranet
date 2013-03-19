@@ -27,6 +27,7 @@ class UsersController  < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+
     @user.build_profile if @user.profile.nil?
   end
 
@@ -45,6 +46,7 @@ class UsersController  < ApplicationController
 
   def update
     @user = User.find(params[:id])
+@user.update_attributes(params[:user_roles])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -86,6 +88,26 @@ class UsersController  < ApplicationController
         redirect_to addleaves_path
     end    
  end
+  def chengeroles
+    @user = User.find(params[:user_id])
+      if request.post?
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to users_path, notice: 'Role has been changed !'  }
+    end
+     end
+    end
+    end
+  def chengemanager
+        @user = User.find(params[:user_id])
+      if request.post?
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to users_path, notice: 'Manager has been changed !'  }
+    end
+     end
+    end
+    end
 
   def profile
     @user = User.find(params[:user_id])
