@@ -1,14 +1,6 @@
 JoshIntranet::Application.routes.draw do
 
-  resources :leaves do
-    get :approve, on: :member
-    put :approve, on: :member
-    get :rejectStatus, on: :member
-    put :rejectStatus, on: :member
-  end
 
-  resources :leave_details
-  resources :leave_types
 devise_for :users, :path_names => {
     :sign_in => 'login',
     :sign_out => 'logout',
@@ -18,22 +10,32 @@ devise_for :users, :path_names => {
   
   match '/signup' => 'organizations#new', via: :get, as: :signup 
   match '/signup' => 'organizations#create', via: :post, as: :signup
-  match '/addleaves' => 'users#addleaves', :via => :get
-  match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
-  match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
-  match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
-  match '/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
-  match '/users/:user_id/chengeroles' => 'users#chengeroles', :via => [:get, :post], as: :chengeroles
-  match '/users/:user_id/chengemanager' => 'users#chengemanager', :via => [:get, :post], as: :chengemanager
 
-  match '/organization/:organization_id/csv' => 'users#upload_csv', :via => [:get, :put ], as: :upload_csv
-  match '/users/managers' => 'users#managers', :via => :get, as: :managers
-  match '/leave_summary_for_roles' => 'users#leave_summary_for_roles', :via => :get 
-  match '/users/:user_id/leave_summary_on_roles' => 'users#leave_summary_on_roles', :via => [:get, :post], as: :leave_summary_on_roles
 
   constraints(OrganizationRoutes) do
     match "/" => 'dashboard#index'
     resources :users
+    resources :leaves do
+      get :approve, on: :member
+      put :approve, on: :member
+      get :rejectStatus, on: :member
+      put :rejectStatus, on: :member
+    end
+
+    resources :leave_details
+    resources :leave_types
+
+    match '/addleaves' => 'users#addleaves', :via => :get
+    match '/users/:user_id/assignleaves' => 'users#assignleaves', :via => [:get, :post], as: :assignleaves
+    match '/users/:user_id/profile' => 'users#profile', :via => [:get, :post], as: :profile
+    match '/users/:user_id/reinvite' => 'users#reinvite', :via => :get, as: :reinvite
+    match '/leavessummary' => 'users#leavessummary', :via => :get,  as: :leavessummary
+    match '/users/:user_id/chengeroles' => 'users#chengeroles', :via => [:get, :post], as: :chengeroles
+    match '/users/:user_id/chengemanager' => 'users#chengemanager', :via => [:get, :post], as: :chengemanager
+    match '/organization/:organization_id/csv' => 'users#upload_csv', :via => [:get, :put ], as: :upload_csv
+    match '/users/managers' => 'users#managers', :via => :get, as: :managers
+    match '/leave_summary_for_roles' => 'users#leave_summary_for_roles', :via => :get 
+    match '/users/:user_id/leave_summary_on_roles' => 'users#leave_summary_on_roles', :via => [:get, :post], as: :leave_summary_on_roles
 
   end
 
