@@ -128,14 +128,10 @@ class UsersController  < ApplicationController
     @user.invite!(current_user)
   end
 
-def leavessummary
+def leavessummary  
     @leave_details = current_user.leave_details.all
 p @leave_details 
     @leave_types = current_organization.leave_types.all
-    respond_to do |format|
-      format.html # leavessummary.html.erb
-      format.json { render json: @leave_details}
-    end
   end
 
   def upload_csv     
@@ -206,6 +202,12 @@ end
     end
     render :text => responseText, :content_type => "text/plain"
     end
+
+    def leave_summary_on_roles
+      @user = User.find(params[:user_id])
+      @leave_details = @user.leave_details.all
+      @leave_types = current_organization.leave_types.all
+    end  
 
 end
 
