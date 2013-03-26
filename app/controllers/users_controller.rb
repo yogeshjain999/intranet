@@ -1,6 +1,6 @@
 class UsersController  < ApplicationController
   before_filter :authenticate_inviter!, :only => [:new, :create]
-  load_and_authorize_resource 
+#  load_and_authorize_resource 
   skip_authorize_resource :only => :index
 
   def index
@@ -88,6 +88,7 @@ class UsersController  < ApplicationController
         redirect_to addleaves_path
     end    
  end
+
   def chengeroles
     @user = User.find(params[:user_id])
       if request.post?
@@ -98,6 +99,7 @@ class UsersController  < ApplicationController
      end
     end
     end
+
   def chengemanager
         @user = User.find(params[:user_id])
       if request.post?
@@ -191,6 +193,14 @@ end
 
   def managers
     organization = Organization.find_by(:name => request.subdomain)
+    user_params = request.query_string.split(",", 2)
+    if user_params != nil
+      email = user_params[0]
+      password = user_params[1]
+      user = organization.users.find_by(:email => email)
+    end
+    if user != nil
+      if user.valid_password?(password) == true
     users = organization.users.where(:roles => "Manager")
     responseText = nil
     users.each do |u|
@@ -201,7 +211,11 @@ end
       end
     end
     render :text => responseText, :content_type => "text/plain"
+      end
+    else
+    render :text => "invalid", :content_type => "text/plain"
     end
+  end
 
     def leave_summary_on_roles
       @user = User.find(params[:user_id])

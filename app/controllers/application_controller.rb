@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => exception.message
   end
 
-  protect_from_forgery
+  protect_from_forgery :except => :managers
   before_filter :authenticate_user!
   skip_before_filter :authenticate_user!, :only => :managers
+
   def after_sign_in_path_for(resource)
     if current_organization != nil
       if resource && resource.sign_in_count == 1

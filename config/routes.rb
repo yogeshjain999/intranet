@@ -33,7 +33,7 @@ devise_for :users, :path_names => {
     match '/users/:user_id/chengeroles' => 'users#chengeroles', :via => [:get, :post], as: :chengeroles
     match '/users/:user_id/chengemanager' => 'users#chengemanager', :via => [:get, :post], as: :chengemanager
     match '/organization/:organization_id/csv' => 'users#upload_csv', :via => [:get, :put ], as: :upload_csv
-    match '/users/managers' => 'users#managers', :via => :get, as: :managers
+    match '/managers' => 'users#managers', :via => :get, as: :managers
     match '/leave_summary_for_roles' => 'users#leave_summary_for_roles', :via => :get 
     match '/users/:user_id/leave_summary_on_roles' => 'users#leave_summary_on_roles', :via => [:get, :post], as: :leave_summary_on_roles
 
