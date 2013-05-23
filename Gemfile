@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails', '3.2.8'
 
@@ -51,7 +51,7 @@ gem "rails_admin", :git => "git://github.com/sferik/rails_admin.git"
 gem "rspec-rails", ">= 2.0.1", :group => [:development, :test]
 gem 'simple_form'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
-gem 'mongoid-simple-roles'
+#gem 'mongoid-simple-roles', "0.0.1"
 gem 'cancan'
 gem 'country_select'
 gem "bootstrap-sass-rails"
@@ -61,3 +61,6 @@ gem "aws-s3",            :require => "aws/s3"
 gem 'smarter_csv'
 gem 'whenever', :require => false
 gem 'kaminari'
+gem "activesupport", ">= 3.0.0"
+gem "mongoid-erd"
+
