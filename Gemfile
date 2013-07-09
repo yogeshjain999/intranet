@@ -25,7 +25,6 @@ end
 
 
 # To use ActiveModel has_secure_password
- gem 'bcrypt-ruby'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -39,6 +38,8 @@ end
 # To use debugger
 # gem 'debugger'
 
+# Windows system has some problem for bcrypt-ruby gem, that’s why manually mention the gem version.
+gem 'bcrypt-ruby', '3.0.1'
 gem "devise", '2.1.2'
 gem 'devise_invitable', '1.1.2' 
 gem "haml", ">= 3.0.0"
