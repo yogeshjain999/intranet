@@ -4,6 +4,8 @@
 
 $(document).ready ->
   $("#user_manager_id").parent().parent().hide()
+
+  $("#leave_type").hide()
   drop = $("#user_roles").bind 'change', (e) ->
     if $(this).val() == "Employee"
       $("#user_manager_id").parent().parent().show() 
@@ -14,4 +16,11 @@ $(document).ready ->
      changeMonth: true,
      changeYear: true
    })
+
+payRole = $('#user_pay_role')
+payRole .click ->
+  if payRole.is(':checked')
+    $("#leave_type").show()
+  else
+    $("#leave_type").hide()
 

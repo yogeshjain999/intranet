@@ -25,11 +25,12 @@ class User
   field :encrypted_password , :default => ""
   field :join_date, type: Date
   field :employee_id, type: Integer
-
+  field :probation_end_date, type: Date
+  field :pay_role, type: Boolean
   validates :join_date, :employee_id, :roles, :presence => true
   validates :employee_id, :uniqueness => {:scope => :organization_id}
   validates :email, :uniqueness => {:scope => :organization_id} 
-  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager_id 
+  attr_accessible :email, :password, :password_confirmation, :roles, :organization_id, :join_date, :employee_id, :manager_id, :probation_end_date, :pay_role
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time

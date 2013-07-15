@@ -19,7 +19,9 @@ class ApplicationController < ActionController::Base
 
   def after_invite_path_for(resource)
     user = resource
-    @leave_types = current_organization.leave_types.all
+p "params"
+p params
+    @leave_types = current_organization.leave_types(params[:leave_type_id])
     assign_leaves =calculate_leaves
     user.leave_details.build if user.leave_details[0].nil?
     user.leave_details[0].assign_date = Date.today
