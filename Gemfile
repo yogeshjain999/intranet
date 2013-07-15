@@ -59,5 +59,6 @@ gem "mongoid-paperclip", :require => "mongoid_paperclip"
 gem 'smarter_csv'
 gem 'whenever', :require => false
 gem 'kaminari'
+gem 'nested_form'
 
 
