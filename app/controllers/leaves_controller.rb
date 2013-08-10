@@ -36,6 +36,8 @@ class LeavesController < ApplicationController
     @leave.user = current_user
     @leave.organization = current_organization
     available_leaves = available_leaves(@leave.user)
+p "the variable is,"
+p available_leaves 
     @leave.access_params(params[:leave], available_leaves)
     @leave.status = "Pending"
     respond_to do |format|
@@ -91,17 +93,37 @@ class LeavesController < ApplicationController
       respond_to do |format|
         if @leave.update_attributes(params[:leave])
           UserMailer.approveLeave(@leave, current_user).deliver    
+          num_day = @leave.number_of_days
           leave_details = @leave.user.leave_details
           leave_details.each do |l|
             if l.assign_date.year == Time.zone.now.year
+              temp_var = l.available_leaves
+              unpaid = l.unpaid_leave
+              temp_var.each do |k, v|
+                hold_var = v.to_f
+              if hold_var <= 0
+              unpaid.each do |key, value|
+                  hold_value = value.to_f
+                  @addition_var = hold_value + num_day
+                end
+                  l.unpaid_leave = {@leave.id => @addition_var}
+p "var val is,"
+p l
+                  if l.save
+                  UserMailer.extra_leave(@leave).deliver
+end
+		                    else
               tmp_num = l.available_leaves[@leave.leave_type.id.to_s].to_f
               tmp_num = tmp_num - @leave.number_of_days 
               l.available_leaves[@leave.leave_type.id.to_s] = tmp_num
               l.save
 	      format.html { redirect_to leaves_path, notice: 'Leave is successfully approved.' }          
 	      format.js
+              end
+                end
             end
           end
+	  
         else
           format.html { render   "approve.js" }
           format.json { render json: @leave.errors, status: :unprocessable_entity }

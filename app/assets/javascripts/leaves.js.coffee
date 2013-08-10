@@ -8,3 +8,8 @@ $(document).ready ->
      changeMonth: true,
      changeYear: true
    })
+leaveType = $('#leave_leave_type_id')
+leaveType.blur ->
+  ltp = ""
+  ltp = $(leaveType.val())
+  alert(leaveType.val())

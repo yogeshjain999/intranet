@@ -23,4 +23,15 @@ payRole .click ->
     $("#leave_type").show()
   else
     $("#leave_type").hide()
-
+#   alert "well" 
+#else
+#  alert("no could not find")
+joinDate = $('#user_join_date')
+joinDate.blur ->
+  regex=/(\d{2})\/(\d{2})\/(\d{4})/
+  m=regex.exec(joinDate.val())
+  probationDate = new Date(m[3], m[2]-1, m[1])
+  myVar = new Date(probationDate.setMonth probationDate.getMonth() + 6)
+  newVar = myVar.toLocaleDateString()
+#  alert(newVar)
+  $('#user_probation_end_date').val(newVar)

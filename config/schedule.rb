@@ -23,3 +23,15 @@ set :environment, :development
 every :month, :at => 'start of the month at 00:01am' do
   runner "Leave.increment_leaves"
 end
+every :month, :at => '5:30am'  do
+  runner "User.leave_details_every_month"
+  end
+every :year do
+  runner "User.send_mail_to_admin"
+  end
+  every 1.day, :at => '5:30 am' do
+  runner "User.email_of_probation"
+end
+every 1.day, :at => '5:30 am' do
+runner "User.date_of_birth"
+end

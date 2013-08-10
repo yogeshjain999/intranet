@@ -17,7 +17,7 @@
 </br>
 <% if @user.profile.nil? %>
 <p>
-Your <%= @user.roles %> <%= @user.email %>  has approved your leave that you had applied from <%= @leave.starts_at %> to</br> <%= @leave.ends_at %>
+Your <%= @user.roles %> <%= @user.email %>  has approved your leave that you had applied from <%= @leave.starts_at.strftime("%d %B %Y") %> to</br> <%= @leave.ends_at.strftime("%d %B %Y") %>
 <% else %>
 
 <p>

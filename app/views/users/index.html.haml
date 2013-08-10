@@ -15,6 +15,7 @@
     - else
       %td= link_to user.email, profile_path(user)
     %td= user.roles
+    %td= user.probation_end_date.to_s
     - if can? :update, user, :id => user.id
       %td= link_to 'Edit', edit_user_path(user)
       %td= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }

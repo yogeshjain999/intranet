@@ -36,8 +36,8 @@
         %td= leave.user.name
       %td= leave.leave_type.name
       %td= leave.reason
-      %td= leave.starts_at
-      %td= leave.ends_at
+      %td= leave.starts_at.strftime("%A, %B %d, %Y")
+      %td= leave.ends_at.strftime("%A, %B %d, %Y")
       %td{:class => "status"}= leave.status
       %td= link_to 'Show', leave
       - if leave.status == "Pending"

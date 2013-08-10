@@ -13,8 +13,16 @@
   = f.input :contact_number, :required => true
  - else
   = f.input :contact_number, :input_html => {:value => "#{current_user.profile.phone_number}"}
- = f.submit "Apply", class: 'btn btn-large btn-success'
- = link_to 'Cancel', leaves_path, class: 'btn btn-large btn-success'
+  - current_user.leave_details.each do |l|
+   - var = l.available_leaves
+   - var.each do |k, v|
+    - val_v = v.to_f
+    - if val_v <= 0
+     = button_to "Apply", data: { confirm: 'the selected leave is over but if you wish to apply for this leave, your leave will be consider un-paid leave. is it okay for you? '}
+    - else
+     = f.submit "Apply", class: 'btn btn-large btn-success'
+%br
+= link_to 'Cancel', leaves_path, class: 'btn btn-large btn-success'
 
 :javascript
   $('#datepicker').datepicker({})

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+
+redirect_to root_url, :alert => exception.message
   end
 
   protect_from_forgery :except => :managers
@@ -21,7 +22,21 @@ class ApplicationController < ActionController::Base
     user = resource
 p "params"
 p params
-    @leave_types = current_organization.leave_types(params[:leave_type_id])
+l_t = params[:leave_type]
+p "the new var will be:"
+pay = params[:pay_role]
+p "pay role will be"
+p params[:user][:pay_role]
+  if params[:user][:pay_role] == "1"
+    @leave_types = current_organization.leave_types.where(:id => l_t)
+p "first will show var in if"
+p @leave_types
+  else
+    @leave_types = current_organization.leave_types.all
+p "else part is,"
+p @leave_types
+      end
+
     assign_leaves =calculate_leaves
     user.leave_details.build if user.leave_details[0].nil?
     user.leave_details[0].assign_date = Date.today
