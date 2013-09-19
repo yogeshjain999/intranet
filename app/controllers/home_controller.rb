@@ -1,3 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_filter :current_organization, :authenticate_user!
+  before_action :authenticate_user!
+  def index
+  end
 end
