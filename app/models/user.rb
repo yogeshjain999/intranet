@@ -3,13 +3,15 @@ class User
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :invitable, :database_authenticatable, :registerable, :omniauthable,
+         :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
   ROLES = ['Admin', 'Manager', 'HR', 'Employee']
   ## Database authenticatable
   field :email,              :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""
   field :role,               :type => String, :default => ""
+  field :uid,                :type => String
+  field :provider,           :type => String         
 
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -46,4 +48,18 @@ class User
   # field :authentication_token, :type => String
   index( {invitation_token: 1}, {:background => true} )
   index( {invitation_by_id: 1}, {:background => true} )
+
+  def self.from_omniauth(auth)
+    if user = User.where(email: auth.info.email).first
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user
+    else
+      where(auth.slice(:provider, :uid)).first_or_create do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.email = auth.info.email
+      end
+    end
+  end
 end

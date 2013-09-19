@@ -14,7 +14,12 @@
             %li
               = link_to "Invite User", new_user_invitation_path
             %li
+              = link_to "Edit My Profile", edit_user_registration_path(current_user)
+            %li
               = link_to 'Sign out', destroy_user_session_path, method: :delete
+          - else
+            %li
+              = link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
   .container
     = flash[:notice]
     = yield 
