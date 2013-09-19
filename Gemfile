@@ -10,7 +10,8 @@ gem 'haml-rails'
 gem 'cancan'
 gem 'bson_ext'
 gem 'sass-rails', '~> 4.0.0'
-
+gem 'kaminari'
+gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
