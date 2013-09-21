@@ -7,11 +7,16 @@ class User
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
   ROLES = ['Admin', 'Manager', 'HR', 'Employee']
   ## Database authenticatable
-  field :email,              :type => String, :default => ""
-  field :encrypted_password, :type => String, :default => ""
-  field :role,               :type => String, :default => ""
-  field :uid,                :type => String
-  field :provider,           :type => String         
+  field :email,               :type => String, :default => ""
+  field :encrypted_password,  :type => String, :default => ""
+  field :role,                :type => String, :default => ""
+  field :uid,                 :type => String
+  field :provider,            :type => String        
+  field :first_name,          :type => String
+  field :last_name,           :type => String
+  field :date_of_birth,       :type => Date
+  field :date_of_joining,     :type => Date
+  field :gender,              :type => String
 
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -48,18 +53,18 @@ class User
   # field :authentication_token, :type => String
   index( {invitation_token: 1}, {:background => true} )
   index( {invitation_by_id: 1}, {:background => true} )
+  
+  validates :first_name, presence: true, on: :update
+  validates :last_name, presence: true, on: :update
+  validates :gender, presence: true, on: :update
+  validates :current_password, length: { is: 5 }, allow_blank: true
 
   def self.from_omniauth(auth)
-    if user = User.where(email: auth.info.email).first
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user
-    else
-      where(auth.slice(:provider, :uid)).first_or_create do |user|
-        user.provider = auth.provider
-        user.uid = auth.uid
-        user.email = auth.info.email
-      end
+    user = User.where(email: auth.info.email).first
+    unless user
+      user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: auth.info.first_name,
+                         last_name: auth.info.last_name, password: Devise.friendly_token[0,20])
     end
+    user
   end
 end

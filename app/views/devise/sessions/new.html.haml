@@ -1,12 +1,14 @@
-= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: "form-signin"}) do |f|
-  %h2.form-signin-heading
+= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: "form-horizontal"}) do |f|
+  %h2.form-heading
     Please sign in
-  .input-block-level
-    = f.email_field :email, :autofocus => true, placeholder: "Email address" 
-    = f.password_field :password, placeholder: "Password"
-  - if devise_mapping.rememberable?
-    .checkbox
-      = f.check_box :remember_me
-      = f.label :remember_me
-  %div= f.submit "Sign in", class: "btn"
+  .control-group
+    = f.input :email, :autofocus => true, placeholder: "Email address" 
+    = f.input :password, placeholder: "Password"
+    - if devise_mapping.rememberable?
+      .control-group
+        .controls
+          %label.checkbox
+            %strong Remember me
+            = f.check_box :remember_me
+    = f.submit "Sign in", class: "btn controls"
   = render "devise/shared/links"
