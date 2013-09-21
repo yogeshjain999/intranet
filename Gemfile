@@ -3,7 +3,6 @@ ruby "2.0.0"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 gem 'devise'
-gem 'devise_invitable'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
@@ -39,6 +38,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
+  gem 'database_cleaner'
 end
 
 # Use ActiveModel has_secure_password

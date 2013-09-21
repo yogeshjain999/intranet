@@ -1,8 +1,21 @@
 require 'spec_helper'
 
 describe User do
- it "Organization first user should be assigned as Admin"
- it "should have at least 1 manager assigned except Admin & HR"
+
+ context "When inviting new user" do
+   it "user can invite new user if he is admin" do
+    user = FactoryGirl.create(:user, role: "Admin")
+    ability = Ability.new(user)
+    assert ability.can?(:invite_user, user)
+   end
+
+   it "user cannot invite new user if he is not admin" do
+    user = FactoryGirl.create(:user, role: "Employee")
+    ability = Ability.new(user)
+    assert ability.cannot?(:invite_user, user)
+   end
+ end  
+=begin
  context "When editing and updating profile"
   it "Should have name"
   it "Should have local address"
@@ -19,4 +32,5 @@ describe User do
   it "Should mention date of joining"
   it "Should mention employee id"
   it "Should have passport number"
+=end
  end
