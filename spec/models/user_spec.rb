@@ -20,4 +20,3 @@ describe User do
   it "Should mention employee id"
   it "Should have passport number"
  end
-end

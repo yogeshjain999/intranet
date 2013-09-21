@@ -8,19 +8,23 @@
   .navbar.navbar-inverse.navbar-fixed-top
     .navbar-inner
       .container
-        .brand Josh Intranet
-        %ul.nav.pull-right
+        .brand 
+          Josh Intranet
+        %ul.nav.pull-right.top-list
           - if user_signed_in?
             %li
-              = link_to "Invite User", new_user_invitation_path
-            %li
-              = link_to "Edit My Profile", edit_user_registration_path(current_user)
-            %li
-              = link_to 'Sign out', destroy_user_session_path, method: :delete
+              = link_to "My Profile", '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
+              %ul.dropdown-menu
+                %li
+                  = link_to "Invite User", new_user_invitation_path
+                %li
+                  = link_to "Profile", edit_user_registration_path(current_user)
+                %li.divider
+                %li
+                  = link_to 'Sign out', destroy_user_session_path, method: :delete
           - else
             %li
               = link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
   .container
     = flash[:notice]
-    = yield 
-
+    = yield
