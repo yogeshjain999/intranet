@@ -12,11 +12,6 @@ class User
   field :role,                :type => String, :default => ""
   field :uid,                 :type => String
   field :provider,            :type => String        
-  field :first_name,          :type => String
-  field :last_name,           :type => String
-  field :date_of_birth,       :type => Date
-  field :date_of_joining,     :type => Date
-  field :gender,              :type => String
 
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -38,6 +33,9 @@ class User
   field :invitation_accepted_at, type: Time
   field :invitation_limit, type: Integer
 
+  embeds_one :public_profile
+  embeds_one :private_profile
+
   ## Confirmable
   # field :confirmation_token,   :type => String
   # field :confirmed_at,         :type => Time
@@ -54,10 +52,10 @@ class User
   index( {invitation_token: 1}, {:background => true} )
   index( {invitation_by_id: 1}, {:background => true} )
   
-  validates :first_name, presence: true, on: :update
-  validates :last_name, presence: true, on: :update
-  validates :gender, presence: true, on: :update
-  validates :current_password, length: { is: 5 }, allow_blank: true
+  #validates :first_name, presence: true, on: :update
+  #validates :last_name, presence: true, on: :update
+  #validates :gender, presence: true, on: :update
+  #validates :current_password, length: { is: 5 }, allow_blank: true
 
   def self.from_omniauth(auth)
     user = User.where(email: auth.info.email).first
