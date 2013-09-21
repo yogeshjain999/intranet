@@ -3,7 +3,7 @@ class User
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable, :omniauthable,
+  devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
   ROLES = ['Admin', 'Manager', 'HR', 'Employee']
   ## Database authenticatable
@@ -32,12 +32,6 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  field :invitation_token, type: String
-  field :invitation_created_at, type: Time
-  field :invitation_sent_at, type: Time
-  field :invitation_accepted_at, type: Time
-  field :invitation_limit, type: Integer
-
   ## Confirmable
   # field :confirmation_token,   :type => String
   # field :confirmed_at,         :type => Time
@@ -51,20 +45,23 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
-  index( {invitation_token: 1}, {:background => true} )
-  index( {invitation_by_id: 1}, {:background => true} )
   
-  validates :first_name, presence: true, on: :update
-  validates :last_name, presence: true, on: :update
-  validates :gender, presence: true, on: :update
+  validates :first_name, :last_name, :gender, presence: true, on: :update
   validates :current_password, length: { is: 5 }, allow_blank: true
+  validates :role, presence: true, on: :create
 
   def self.from_omniauth(auth)
     user = User.where(email: auth.info.email).first
     unless user
       user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: auth.info.first_name,
                          last_name: auth.info.last_name, password: Devise.friendly_token[0,20])
+    else
+      user.update_attributes(provider: auth.provider, uid: auth.uid, first_name: auth.info.first_name, last_name: auth.info.last_name)
     end
     user
+  end
+
+  def role?(role)
+    self.role == role
   end
 end
