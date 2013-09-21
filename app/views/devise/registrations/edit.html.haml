@@ -1,9 +1,5 @@
 .form-heading
   %h2 My Profile
-  .control-group
-    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-      %div
-        Currently waiting confirmation for: #{resource.unconfirmed_email}
 = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: "form-horizontal"}) do |f|
   %div.tabbable
     %ul.nav.nav-tabs
