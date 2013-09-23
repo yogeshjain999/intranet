@@ -1,6 +1,6 @@
 .form-heading
   %h2 My Profile
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: "form-horizontal"}) do |f|
+= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
   %div.tabbable
     %ul.nav.nav-tabs
       %li.active
@@ -15,26 +15,40 @@
           %p
             = pub.input :first_name
             = pub.input :last_name
-            = pub.input :gender, collection: ['Male', 'Female']
+            = pub.input :gender, collection: GENDER
             = pub.input :mobile_number
             = pub.input :blood_group
             = pub.input :date_of_birth
-            = pub.submit :save
+            = pub.file_field :attachment
+          %center
+            = pub.submit :save, class: 'btn btn-lg btn-primary'
       %div.tab-pane#tab2
         = f.simple_fields_for :private_profile do |pri|
-          %p
-            = pri.input :date_of_birth
-            = pri.input :wife_name
-            = pri.input :wife_phone_no
-            = pri.input :father_name
-            = pri.input :father_phone_no
-            = pri.input :mother_name
-            = pri.input :mother_phone_no
-            = pri.input :pan_number
-            = pri.input :passport_number
-            = pri.input :qualification
-            = pri.input :date_of_joining
-            = pri.input :date_of_relieving
-            = pri.input :work_experience
-            = pri.submit :save
-
+          %h4 Relative Details
+          = pri.simple_fields_for :relative_details do |r|
+            = r.input :relative, collection: RELATIVES
+            = r.input :name
+            = r.input :phone_no
+          %br
+          %h4 Personal Details
+          = pri.input :pan_number
+          = pri.input :passport_number
+          = pri.input :qualification
+          = pri.input :date_of_joining
+          = pri.input :date_of_relieving
+          = pri.input :work_experience
+          = pri.simple_fields_for :addresses do |a|
+            %br
+            %h4
+              = a.object.type_of_address
+            = a.input :type_of_address, as: :hidden           
+            = a.input :flat_or_house_no          
+            = a.input :building_or_society_name 
+            = a.input :road                    
+            = a.input :locality               
+            = a.input :city                  
+            = a.input :state                
+            = a.input :phone_no         
+          %br
+          %center
+            = pri.submit :save, class: 'btn btn-lg btn-primary'

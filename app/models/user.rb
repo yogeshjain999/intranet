@@ -30,6 +30,9 @@ class User
   embeds_one :public_profile
   embeds_one :private_profile
 
+  accepts_nested_attributes_for :public_profile
+  accepts_nested_attributes_for :private_profile
+
   ## Confirmable
   # field :confirmation_token,   :type => String
   # field :confirmed_at,         :type => Time
