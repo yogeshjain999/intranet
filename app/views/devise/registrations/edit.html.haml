@@ -18,8 +18,8 @@
             = pub.input :gender, collection: GENDER
             = pub.input :mobile_number
             = pub.input :blood_group
-            = pub.input :date_of_birth
-            = pub.file_field :attachment
+            = pub.input :date_of_birth, input_html: {class: 'datepicker'}
+            = pub.input :attachment, label: 'Image'
           %center
             = pub.submit :save, class: 'btn btn-lg btn-primary'
       %div.tab-pane#tab2
@@ -34,8 +34,8 @@
           = pri.input :pan_number
           = pri.input :passport_number
           = pri.input :qualification
-          = pri.input :date_of_joining
-          = pri.input :date_of_relieving
+          = pri.input :date_of_joining, input_html: {class: 'datepicker'}
+          = pri.input :date_of_relieving, input_html: {class: 'datepicker'}
           = pri.input :work_experience
           = pri.simple_fields_for :addresses do |a|
             %br
