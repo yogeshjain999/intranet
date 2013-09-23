@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me, :password_confirmation, :role) }
 
     devise_parameter_sanitizer.for(:account_update) do |u|
-      u.permit(:role, :email, :first_name, :last_name, :gender, :date_of_birth)
+      u.permit(:public_profile_attributes => [:id, :first_name, :last_name, :gender, :mobile_number, :blood_group, :date_of_birth, :attachment], :private_profile_attributes => [:id, :pan_number, :passport_number, :qualification, :date_of_joining, :date_of_relieving, :work_experience, :addresses_attributes => [:id, :type_of_address, :flat_or_house_no, :building_or_society_name, :road, :locality, :city, :state, :phone_no], :relative_details_attributes => [:id, :relative, :name, :phone_no]])
     end
   end
 end
