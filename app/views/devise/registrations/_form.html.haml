@@ -15,7 +15,7 @@
           = pub.input :gender, collection: GENDER
           = pub.input :mobile_number
           = pub.input :blood_group, collection: BLOOD_GROUPS 
-          = pub.input :date_of_birth, input_html: {class: 'datepicker'}
+          = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
           %div{style: "margin-left: 740px; margin-top: -297px; margin-bottom: 240;"}
             = image_tag(pub.object.photo.url(:thumb))
             %br
@@ -29,8 +29,8 @@
         = pri.input :pan_number
         = pri.input :passport_number
         = pri.input :qualification
-        = pri.input :date_of_joining, input_html: {class: 'datepicker'}
-        = pri.input :date_of_relieving, input_html: {class: 'datepicker'}
+        = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker'}
+        = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
         = pri.input :work_experience
         %br
         %h4 Relative Details

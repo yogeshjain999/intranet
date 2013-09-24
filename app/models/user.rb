@@ -31,14 +31,19 @@ class User
   accepts_nested_attributes_for :private_profile
 
   def self.from_omniauth(auth)
-    user = User.where(email: auth.info.email).first
-    unless user
-      user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])
+    if auth.info.email.include? "joshsoftware.com"
+      user = User.where(email: auth.info.email).first
+      unless user
+        user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])
+        user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
+      else
+        user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
+        user.update_attributes(provider: auth.provider, uid: auth.uid)
+      end
+      user
     else
-      user.update_attributes(provider: auth.provider, uid: auth.uid)
+      false
     end
-    user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
-    user
   end
 
   def role?(role)
