@@ -12,6 +12,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'kaminari'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 gem "omniauth-google-oauth2"
+gem 'bootstrap-datepicker-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
