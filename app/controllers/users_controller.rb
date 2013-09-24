@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  before_action :authenticate_user!
   def index
     @users = User.all
   end
@@ -24,6 +24,8 @@ class UsersController < ApplicationController
   def invite_user
     if request.get?
       @user = User.new
+      @user.bluid_public_profile
+      @user.build_private_profile
     else
       @user = User.new(params[:user].permit(:email, :role))
       @user.password = Devise.friendly_token[0,20]

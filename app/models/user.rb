@@ -29,6 +29,9 @@ class User
 
   accepts_nested_attributes_for :public_profile
   accepts_nested_attributes_for :private_profile
+  
+  validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
+  validates :role, :email, presence: true
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
