@@ -27,7 +27,7 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  embeds_one :public_profile
+  embeds_one :public_profile, :cascade_callbacks => true
   embeds_one :private_profile
 
   accepts_nested_attributes_for :public_profile

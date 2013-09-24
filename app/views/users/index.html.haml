@@ -1,0 +1,25 @@
+.form-heading
+  %h2 All Users
+.form-horizontal
+  %table.table.table-hover
+    %thead
+      %tr
+        %th 
+        %th First Name
+        %th Last Name
+        %th Role
+    %tbody
+      %ul
+        - @users.each do |user|
+          %tr
+            %td
+              %li
+            %td
+              = link_to user.try(:public_profile).try(:first_name), public_profile_path(user)
+            %td
+              = user.try(:public_profile).try(:last_name)
+            %td
+              = user.role
+            %td
+              = link_to 'Edit', '#', class: 'btn btn-primary'
+
