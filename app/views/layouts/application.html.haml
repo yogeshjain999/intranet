@@ -27,7 +27,7 @@
               = link_to "All Users", users_path
           - else
             %li
-              = link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
+              = link_to "Sign in with Josh account", user_omniauth_authorize_path(:google_oauth2)
   .container
     - if flash[:notice]
       .alert.alert-info{style: "margin-top: 10px;"}

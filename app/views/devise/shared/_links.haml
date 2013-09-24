@@ -15,5 +15,5 @@
   %br/
 - if devise_mapping.omniauthable?
   - resource_class.omniauth_providers.each do |provider|
-    = link_to image_tag('sign-in-with-google.png'), omniauth_authorize_path(resource_name, provider), id: "#{provider}"
+    = link_to 'Sign in with Josh Account', omniauth_authorize_path(resource_name, provider), id: "#{provider}", class: "btn controls"
     %br/
