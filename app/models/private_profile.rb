@@ -16,4 +16,8 @@ class PrivateProfile
   accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :relative_details
   #accepts_nested_attributes_for :attachments
+
+  
+  #validates_presence_of :pan_number, :on => :update
+
 end

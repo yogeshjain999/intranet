@@ -15,11 +15,11 @@
             %td
               %li
             %td
-              = link_to user.try(:public_profile).try(:first_name), public_profile_path(user)
+              = link_to user.try(:public_profile).try(:first_name), user_path(user)
             %td
               = user.try(:public_profile).try(:last_name)
             %td
               = user.role
             %td
-              = link_to 'Edit', '#', class: 'btn btn-primary'
+              = link_to 'Edit', edit_user_path(user), class: 'btn btn-primary'
 
