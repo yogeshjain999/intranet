@@ -1,8 +1,5 @@
 class User
   include Mongoid::Document
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
   ROLES = ['Admin', 'Manager', 'HR', 'Employee']
@@ -33,33 +30,14 @@ class User
   accepts_nested_attributes_for :public_profile
   accepts_nested_attributes_for :private_profile
 
-  ## Confirmable
-  # field :confirmation_token,   :type => String
-  # field :confirmed_at,         :type => Time
-  # field :confirmation_sent_at, :type => Time
-  # field :unconfirmed_email,    :type => String # Only if using reconfirmable
-
-  ## Lockable
-  # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
-  # field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
-  # field :locked_at,       :type => Time
-
-  ## Token authenticatable
-  # field :authentication_token, :type => String
-  
-  #validates :first_name, presence: true, on: :update
-  #validates :last_name, presence: true, on: :update
-  #validates :gender, presence: true, on: :update
-  #validates :current_password, length: { is: 5 }, allow_blank: true
-
   def self.from_omniauth(auth)
     user = User.where(email: auth.info.email).first
     unless user
-      user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, first_name: auth.info.first_name,
-                         last_name: auth.info.last_name, password: Devise.friendly_token[0,20])
+      user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])
     else
-      user.update_attributes(provider: auth.provider, uid: auth.uid, first_name: auth.info.first_name, last_name: auth.info.last_name)
+      user.update_attributes(provider: auth.provider, uid: auth.uid)
     end
+    user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
     user
   end
 
