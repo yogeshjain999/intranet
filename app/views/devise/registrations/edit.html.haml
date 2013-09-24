@@ -19,7 +19,11 @@
             = pub.input :mobile_number
             = pub.input :blood_group
             = pub.input :date_of_birth
-            = pub.file_field :attachment
+            %div{:style => "margin-left: 740px; margin-top: -297px; margin-bottom: 240;"}
+              = image_tag(pub.object.photo.url(:thumb))
+              %br
+              %br
+              = pub.file_field :photo
           %center
             = pub.submit :save, class: 'btn btn-lg btn-primary'
       %div.tab-pane#tab2

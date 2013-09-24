@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def edit
     @user.build_private_profile if @user.private_profile.nil?
     @user.build_public_profile if @user.public_profile.nil?
-    2.times{@user.private_profile.relative_details.build} if @user.private_profile.relative_details.empty?
+    2.times {@user.private_profile.relative_details.build} if @user.private_profile.relative_details.empty?
 
     if @user.private_profile.addresses.empty?
       ADDRESSES.each do |a| 
