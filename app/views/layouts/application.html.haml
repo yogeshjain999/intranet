@@ -29,5 +29,7 @@
             %li
               = link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
   .container
-    = flash[:notice]
+    - if flash[:notice]
+      .alert.alert-info{style: "margin-top: 10px;"}
+        = flash[:notice]
     = yield
