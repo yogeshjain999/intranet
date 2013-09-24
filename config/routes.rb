@@ -4,9 +4,9 @@ Intranet::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
   devise_scope :user do
     match :invite_user, to: 'users#invite_user', via: [:get, :post]
-    match :all_users, to: 'users#index', via: [:get]
-    get 'users/:id' => 'users#show', as: :public_profile
   end
+
+  resources :users, except: [:new, :create, :destroy]
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'home#index'

@@ -1,0 +1,62 @@
+%div.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      %a{data: {toggle: "tab"}, href: "#tab1"} 
+        Public 
+    %li
+      %a{data: {toggle: "tab"}, href: "#tab2"} 
+        Private 
+  %div.tab-content
+    %div.tab-pane.active#tab1
+      = f.simple_fields_for :public_profile do |pub|
+        %p
+          = pub.input :first_name
+          = pub.input :last_name
+          = pub.input :gender, collection: GENDER
+          = pub.input :mobile_number
+          = pub.input :blood_group, collection: BLOOD_GROUPS 
+          = pub.input :date_of_birth, input_html: {class: 'datepicker'}
+          %div{style: "margin-left: 740px; margin-top: -297px; margin-bottom: 240;"}
+            = image_tag(pub.object.photo.url(:thumb))
+            %br
+            %br
+            = pub.file_field :photo
+        %center
+          = pub.submit :save, class: 'btn btn-lg btn-primary'
+    %div.tab-pane#tab2
+      = f.simple_fields_for :private_profile do |pri|
+        %h4 Personal Details
+        = pri.input :pan_number
+        = pri.input :passport_number
+        = pri.input :qualification
+        = pri.input :date_of_joining, input_html: {class: 'datepicker'}
+        = pri.input :date_of_relieving, input_html: {class: 'datepicker'}
+        = pri.input :work_experience
+        %br
+        %h4 Relative Details
+        %table
+          %tr
+            = pri.simple_fields_for :relative_details do |r|
+              %td
+                = r.input :relative, collection: RELATIVES
+                = r.input :name
+                = r.input :phone_no
+        %br
+        %br
+        %table{style: "width:88%;"}
+          %tr
+            = pri.simple_fields_for :addresses do |a|
+              %td
+                %h4
+                  = a.object.type_of_address
+                = a.input :type_of_address, as: :hidden           
+                = a.input :flat_or_house_no          
+                = a.input :building_or_society_name 
+                = a.input :road                    
+                = a.input :locality               
+                = a.input :city                  
+                = a.input :state                
+                = a.input :phone_no         
+        %br
+        %center
+          = pri.submit :save, class: 'btn btn-lg btn-primary'
