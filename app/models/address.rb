@@ -10,5 +10,6 @@ class Address
   field :phone_no
   field :same_as_permanent_address, type: Boolean, default: false
 
-  embedded_in :private_profile
+  belongs_to :private_profile
+  belongs_to :leave_application
 end
