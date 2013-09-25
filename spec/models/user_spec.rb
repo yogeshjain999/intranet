@@ -2,20 +2,29 @@ require 'spec_helper'
 
 describe User do
 
- context "When inviting new user" do
-   it "user can invite new user if he is admin" do
-    user = FactoryGirl.create(:user, role: "Admin")
-    ability = Ability.new(user)
-    assert ability.can?(:invite_user, user)
-   end
+  it { should have_fields(:email, :encrypted_password, :role, :uid, :provider, :status, :leave_notification) }
+  it { should have_field(:status).of_type(String).with_default_value_of(STATUS[0]) }
+  it { should embed_one :public_profile }
+  it { should embed_one :private_profile }
+  it { should accept_nested_attributes_for(:public_profile) }
+  it { should accept_nested_attributes_for(:private_profile) }
+  it { should validate_presence_of(:role) }
+  it { should validate_presence_of(:email) }
 
-   it "user cannot invite new user if he is not admin" do
-    user = FactoryGirl.create(:user, role: "Employee")
-    ability = Ability.new(user)
-    assert ability.cannot?(:invite_user, user)
-   end
- end  
 =begin
+  context "When inviting new user" do
+    it "user can invite new user if he is admin" do
+      user = FactoryGirl.create(:user, role: "Admin")
+      ability = Ability.new(user)
+      assert ability.can?(:invite_user, user)
+    end
+
+    it "user cannot invite new user if he is not admin" do
+      user = FactoryGirl.create(:user, role: "Employee")
+      ability = Ability.new(user)
+      assert ability.cannot?(:invite_user, user)
+    end
+  end  
  context "When editing and updating profile"
   it "Should have name"
   it "Should have local address"
@@ -33,4 +42,4 @@ describe User do
   it "Should mention employee id"
   it "Should have passport number"
 =end
- end
+end
