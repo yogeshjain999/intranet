@@ -9,6 +9,7 @@ class User
   field :role,                :type => String, :default => ""
   field :uid,                 :type => String
   field :provider,            :type => String        
+  field :status,              :type => String, :default => STATUS[0]
 
   ## Recoverable
   field :reset_password_token,   :type => String
