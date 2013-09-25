@@ -27,6 +27,8 @@ class User
 
   embeds_one :public_profile, :cascade_callbacks => true
   embeds_one :private_profile
+  has_many :leave_details
+  has_many :leave_applications
 
   accepts_nested_attributes_for :public_profile
   accepts_nested_attributes_for :private_profile

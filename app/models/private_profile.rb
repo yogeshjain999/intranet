@@ -11,7 +11,7 @@ class PrivateProfile
   field :previous_company
 
   embedded_in :user
-  embeds_many :addresses
+  has_many :addresses
   embeds_many :contact_persons
   #embeds_many :attachments 
 

@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       sign_in @user, :bypass => true
       flash.notice = 'Sent for verification Succesfully'
       @hr = User.where(role: User::ROLES[2]).first
-      #UserMailer.verification(@hr, @user).deliver
+      UserMailer.delay.verification(@hr, @user)
       redirect_to edit_user_registration_path
     else
       render "edit"
