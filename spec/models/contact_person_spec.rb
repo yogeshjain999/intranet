@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe ContactPerson do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  it { should have_fields(:relation, :name, :phone_no) }
+  it { should be_embedded_in :private_profile }
+  
 end
