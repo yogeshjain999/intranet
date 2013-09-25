@@ -38,6 +38,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'mongoid-rspec'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'database_cleaner'
