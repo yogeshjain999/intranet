@@ -6,8 +6,8 @@
       %tr
         %th Name
         %td
-          = @user.try(:public_profile).try(:first_name)
-          = @user.try(:public_profile).try(:last_name)
+          = @user.public_profile.first_name
+          = @user.public_profile.last_name
       %tr
         %th Role
         %td
@@ -15,19 +15,35 @@
       %tr
         %th Gender
         %td
-          = @user.try(:public_profile).try(:gender)
+          = @user.public_profile.gender
       %tr
         %th Mobile No.
         %td
-          = @user.try(:public_profile).try(:mobile_number)
+          = @user.public_profile.mobile_number
       %tr
         %th Blood Group
         %td
-          = @user.try(:public_profile).try(:blood_group)
+          = @user.public_profile.blood_group
       %tr
         %th Date of birth
         %td
-          = @user.try(:public_profile).try(:date_of_birth)#.try(:to_formatted_s(:short))
-  %div{:style => "margin-left: 740px; margin-top: -245px; margin-bottom: 240;"}
+          = @user.public_profile.date_of_birth.to_formatted_s(:short)
+      %tr 
+        %th Skills
+        %td
+          = @user.public_profile.try(:skills)
+      %tr 
+        %th Github 
+        %td
+          = @user.public_profile.try(:github_handle)
+      %tr 
+        %th Twitter 
+        %td
+          = @user.public_profile.try(:twitter_handle)
+      %tr 
+        %th Blog Url 
+        %td
+          = @user.public_profile.try(:blog_url)
+  %div{:style => "margin-left: 740px; margin-top: -390px; margin-bottom: 240;"}
     = image_tag(@user.public_profile.photo.url(:thumb))
 
