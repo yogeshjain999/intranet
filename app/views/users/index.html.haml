@@ -7,6 +7,7 @@
         %th 
         %th First Name
         %th Last Name
+        %th Email
         %th Role
     %tbody
       %ul
@@ -15,9 +16,11 @@
             %td
               %li
             %td
-              = link_to user.try(:public_profile).try(:first_name), user_path(user)
+              = link_to user.public_profile.first_name, user_path(user)
             %td
-              = user.try(:public_profile).try(:last_name)
+              = user.public_profile.last_name
+            %td
+              = user.email
             %td
               = user.role
             %td

@@ -1,4 +1,6 @@
 .form-heading
   %h2 Edit User
 = simple_form_for(@user, :url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
-  - render 'devise/registrations/form', f: f
+  = f.input :status, disabled: true, label: 'Current status'
+  = f.input :status, label: 'Approve', collection: [['Yes', STATUS[2]], ['No', STATUS[1]]], as: :radio_buttons, input_html: {style: "height: 14px;"}, item_wrapper_class: 'inline'
+  = render 'devise/registrations/form', f: f

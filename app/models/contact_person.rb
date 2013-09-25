@@ -1,7 +1,6 @@
-class RelativeDetail
+class ContactPerson
   include Mongoid::Document
-  
-  field :relative
+  field :relation
   field :name
   field :phone_no
 
