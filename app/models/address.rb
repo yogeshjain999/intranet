@@ -8,6 +8,7 @@ class Address
   field :city
   field :state
   field :phone_no
+  field :same_as_permanent_address, type: Boolean, default: false
 
   embedded_in :private_profile
 end

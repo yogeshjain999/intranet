@@ -16,7 +16,11 @@
           = pub.input :mobile_number
           = pub.input :blood_group, collection: BLOOD_GROUPS 
           = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
-          %div{style: "margin-left: 740px; margin-top: -297px; margin-bottom: 240;"}
+          = pub.input :skills
+          = pub.input :github_handle
+          = pub.input :twitter_handle
+          = pub.input :blog_url
+          %div{style: "margin-left: 740px; margin-top: -500px; margin-bottom: 355px;"}
             = image_tag(pub.object.photo.url(:thumb))
             %br
             %br
@@ -27,29 +31,34 @@
       = f.simple_fields_for :private_profile do |pri|
         %h4 Personal Details
         = pri.input :pan_number
+        = pri.input :personal_emailid
         = pri.input :passport_number
         = pri.input :qualification
         = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker'}
         = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
         = pri.input :work_experience
+        = pri.input :previous_company
         %br
-        %h4 Relative Details
-        %table
+        %h4 Emergency Contact Details
+        %table{style: "width:100%;"}
           %tr
-            = pri.simple_fields_for :relative_details do |r|
+            = pri.simple_fields_for :contact_persons do |r|
               %td
-                = r.input :relative, collection: RELATIVES
+                = r.input :relation
                 = r.input :name
                 = r.input :phone_no
         %br
         %br
-        %table{style: "width:88%;"}
+        %table{style: "width:100%;"}
           %tr
             = pri.simple_fields_for :addresses do |a|
               %td
                 %h4
                   = a.object.type_of_address
-                = a.input :type_of_address, as: :hidden           
+                - if a.object.type_of_address == ADDRESSES[1]
+                  = a.check_box :same_as_permanent_address, {}, 'true', 'false'
+                  = a.label 'Same as Address', style: "line-height:0px;"
+                = a.input :type_of_address, as: :hidden
                 = a.input :flat_or_house_no          
                 = a.input :building_or_society_name 
                 = a.input :road                    

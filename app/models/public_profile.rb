@@ -8,6 +8,10 @@ class PublicProfile
   field :mobile_number
   field :blood_group
   field :date_of_birth, :type => Date
+  field :skills
+  field :github_handle
+  field :twitter_handle
+  field :blog_url
 
   has_mongoid_attached_file :photo, :styles => { :thumb => "100x100#" }, 
                                     :path => ":rails_root/public/system/photo/:id/:style/:filename",
@@ -17,10 +21,9 @@ class PublicProfile
   #validates_attachment :photo, :content_type => { :content_type => "image/jpg" }
 
   embedded_in :user
-=begin
-  validates_presence_of :first_name, :last_name, :gender, :mobile_number, :date_of_birth, :on => :update
+  
+  validates_presence_of :first_name, :last_name, :gender, :mobile_number, :date_of_birth, :blood_group, :on => :update
   validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/, message: "Only letters are allowed." }
   validates :gender, inclusion: { in: GENDER }, :on => :update
   validates :blood_group, inclusion: { in: BLOOD_GROUPS }, :on => :update
-=end
 end
