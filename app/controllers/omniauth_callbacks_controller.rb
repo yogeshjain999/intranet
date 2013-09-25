@@ -11,7 +11,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_to new_user_registration_url
       end
     else
-      flash.notice = "You are not authorized to sign in!"
+      flash.notice = "You are not authorized to sign in!!! Before you leave this page, Please logout from your google account."
       redirect_to new_user_session_path
     end
   end
