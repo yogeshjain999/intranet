@@ -24,14 +24,14 @@ class UsersController < ApplicationController
   def invite_user
     if request.get?
       @user = User.new
-      @user.bluid_public_profile
+      @user.build_public_profile
       @user.build_private_profile
     else
       @user = User.new(params[:user].permit(:email, :role))
       @user.password = Devise.friendly_token[0,20]
       if @user.save
         flash.notice = 'Invitation sent Succesfully'
-        UserMailer.invitation(current_user, @user).deliver
+        UserMailer.delay.invitation(current_user, @user)
         redirect_to root_path
       else
         render 'invite_user'

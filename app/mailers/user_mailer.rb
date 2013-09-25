@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
     @receiver = receiver
     mail(from: @sender.email, to: @receiver.email, subject: "Invitation to join Josh Intranet")
   end
-  
+
   def verification(sender, receiver)
     @sender = sender
     @receiver = receiver

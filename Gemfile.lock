@@ -16,6 +16,14 @@ GIT
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
 
+GIT
+  remote: git@github.com:Guidecase/delayed_job_mongoid.git
+  revision: 09c3ec54ed5fc07059c28b565f8553084d8ca413
+  specs:
+    delayed_job_mongoid (3.0.0)
+      delayed_job (= 4.0.0.beta1)
+      mongoid (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -65,6 +73,8 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     database_cleaner (1.1.1)
+    delayed_job (4.0.0.beta1)
+      activesupport (>= 3.0, < 4.1)
     devise (3.0.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -215,6 +225,7 @@ DEPENDENCIES
   cancan
   coffee-rails (~> 4.0.0)
   database_cleaner
+  delayed_job_mongoid!
   devise
   factory_girl_rails
   haml-rails
