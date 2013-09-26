@@ -11,6 +11,7 @@ describe User do
   it { should validate_presence_of(:role) }
   it { should validate_presence_of(:email) }
 
+
 =begin
   context "When inviting new user" do
     it "user can invite new user if he is admin" do
