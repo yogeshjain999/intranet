@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       2.times {@user.private_profile.contact_persons.build}
       ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a})}
 
-      if @user.save!
+      if @user.save
         flash.notice = 'Invitation sent Succesfully'
         UserMailer.delay.invitation(current_user, @user)
         redirect_to root_path
