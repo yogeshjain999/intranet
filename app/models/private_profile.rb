@@ -18,8 +18,6 @@ class PrivateProfile
   accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :contact_persons
   #accepts_nested_attributes_for :attachments
-
   
   validates_presence_of :qualification, :date_of_joining, :personal_emailid, :on => :update
-
 end

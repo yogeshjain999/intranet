@@ -1,8 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   
   def edit
-    @user.build_private_profile if @user.private_profile.nil?
-    @user.build_public_profile if @user.public_profile.nil?
+    #@user.build_private_profile if @user.private_profile.nil?
+    #@user.build_public_profile if @user.public_profile.nil?
+    @user = current_user
+    @public_profile = @user.public_profile 
+    @private_profile = @user.private_profile
     2.times {@user.private_profile.contact_persons.build} if @user.private_profile.contact_persons.empty?
 
     if @user.private_profile.addresses.empty?
