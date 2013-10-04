@@ -6,7 +6,12 @@ Intranet::Application.routes.draw do
     match :invite_user, to: 'users#invite_user', via: [:get, :post]
   end
 
-  resources :users, except: [:new, :create, :destroy]
+  resources :users, except: [:new, :create, :destroy] do
+    member do
+      match :public_profile, via: [:get, :put]
+      match :private_profile, via: [:get, :put]
+    end
+  end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'home#index'

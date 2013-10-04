@@ -30,9 +30,9 @@ class User
   has_many :leave_details
   has_many :leave_applications
 
+  accepts_nested_attributes_for :private_profile 
   accepts_nested_attributes_for :public_profile
-  accepts_nested_attributes_for :private_profile
-  
+
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 

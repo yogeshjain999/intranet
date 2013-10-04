@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_user, only: [:edit, :update, :show]
+  before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
+  before_action :load_profiles, only: [:public_profile, :private_profile]
 
   def index
     @users = User.all
@@ -19,7 +20,27 @@ class UsersController < ApplicationController
   
   def show
   end
-  
+
+  def public_profile
+    if request.put?
+      if @public_profile.update_attributes(params.require(:public_profile).permit!)
+        redirect_to public_profile_user_path(@user)
+      else
+        render "public_profile"
+      end
+    end
+  end
+
+  def private_profile
+    if request.put?
+      if @private_profile.update_attributes(params.require(:private_profile).permit!)
+        redirect_to private_profile_user_path(@user)
+      else
+        render "public_profile"
+      end
+    end
+  end
+
   def invite_user
     if request.get?
       @user = User.new
@@ -42,8 +63,12 @@ class UsersController < ApplicationController
   end
 
   private
-  
   def load_user
     @user = User.find(params[:id])
+  end
+
+  def load_profiles
+    @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
+    @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
   end
 end

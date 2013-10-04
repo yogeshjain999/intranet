@@ -1,0 +1,41 @@
+= simple_form_for(@private_profile, url: private_profile_user_path, :html => { method: :put, class: "form-horizontal private-profile", multipart: true}) do |pri|
+  %h4 Personal Details
+  = pri.input :pan_number
+  = pri.input :personal_emailid
+  = pri.input :passport_number
+  = pri.input :qualification
+  = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker'}
+  = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
+  = pri.input :work_experience
+  = pri.input :previous_company
+  %br
+  %h4 Emergency Contact Details
+  %table{style: "width:100%;"}
+    %tr
+      = pri.simple_fields_for :contact_persons do |r|
+        %td
+          = r.input :relation
+          = r.input :name
+          = r.input :phone_no
+  %br
+  %br
+  %table{style: "width:100%;"}
+    %tr
+      = pri.simple_fields_for :addresses do |a|
+        %td
+          %h4
+            = a.object.type_of_address
+          - if a.object.type_of_address == ADDRESSES[1]
+            = a.check_box :same_as_permanent_address, {}, 'true', 'false'
+            = a.label 'Same as Address', style: "line-height:0px;"
+          = a.input :type_of_address, as: :hidden
+          = a.input :flat_or_house_no          
+          = a.input :building_or_society_name 
+          = a.input :road                    
+          = a.input :locality               
+          = a.input :city                  
+          = a.input :state                
+          = a.input :phone_no         
+  %br
+  %center
+    = pri.submit :save, class: 'btn btn-lg btn-primary', id: 'private-button'

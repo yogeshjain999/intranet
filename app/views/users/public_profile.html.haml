@@ -1,0 +1,25 @@
+.form-heading
+  - if current_user == @user
+    %h2 My Profile
+  -else
+    %h2 #{@user.public_profile.first_name}'s Profile
+
+%div.tabbable
+  %ul.nav.nav-tabs
+    %li.active.public-tab
+      %a{data: {toggle: 'tab'}, href: "#public"} 
+        Public 
+    %li.private-tab
+      %a{data: {toggle: "tab"}, href: "#private"} 
+        Private 
+  .tab-content
+    .tab-pane.active#public
+      = render partial: "public_profile"
+    .tab-pane#private
+      = render partial: "private_profile"
+:javascript
+  error = #{!@private_profile.errors.full_messages.empty?}
+  $("[data-behaviour~=datepicker]").datepicker({
+    format: "dd-mm-yyyy",
+    autoclose: true
+  });
