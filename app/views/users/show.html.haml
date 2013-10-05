@@ -27,7 +27,7 @@
       %tr
         %th Date of birth
         %td
-          = @user.public_profile.date_of_birth.to_formatted_s(:short)
+          = @user.public_profile.date_of_birth.strftime("%B %d") if @user.public_profile.date_of_birth?
       %tr 
         %th Skills
         %td
@@ -46,4 +46,3 @@
           = @user.public_profile.try(:blog_url)
   %div{:style => "margin-left: 740px; margin-top: -390px; margin-bottom: 240;"}
     = image_tag(@user.public_profile.photo.url(:thumb))
-

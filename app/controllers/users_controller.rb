@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
-  before_action :load_profiles, only: [:public_profile, :private_profile]
+  before_action :load_profiles, only: [:public_profile, :private_profile, :update]
 
   def index
     @users = User.all
@@ -11,30 +11,30 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(params.require(:user).permit!)
-      redirect_to edit_user_path(@user)
-    else
-      render "edit"
-    end
+    @user.set(params.require(:user).permit!)
+    redirect_to users_path
+    flash.notice = 'Profile status updated Succesfully'
   end
   
   def show
   end
 
   def public_profile
-    if request.put?
-      if @public_profile.update_attributes(params.require(:public_profile).permit!)
-        redirect_to public_profile_user_path(@user)
-      else
-        render "public_profile"
-      end
-    end
+    profile = params.has_key?("private_profile") ? "private_profile" : "public_profile"
+    update_profile(profile)
   end
 
   def private_profile
+    profile = params.has_key?("private_profile") ? "private_profile" : "public_profile"
+    update_profile(profile)
+  end
+  
+  def update_profile(profile)
+    user_profile = (profile == "private_profile") ? @private_profile : @public_profile
     if request.put?
-      if @private_profile.update_attributes(params.require(:private_profile).permit!)
-        redirect_to private_profile_user_path(@user)
+      if user_profile.update_attributes(params.require(profile).permit!)
+        flash.notice = 'Profile Updated Succesfully'
+        redirect_to public_profile_user_path(@user)
       else
         render "public_profile"
       end
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
       @user.build_public_profile
       @user.build_private_profile
       2.times {@user.private_profile.contact_persons.build}
-      ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a})}
+      ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a}).save}
 
       if @user.save
         flash.notice = 'Invitation sent Succesfully'

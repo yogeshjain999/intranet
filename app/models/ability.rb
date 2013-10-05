@@ -8,10 +8,9 @@ class Ability
     elsif user.role? 'Admin'
       can :invite_user, User
     elsif user.role? 'HR'
-      can :public_profile, User
-      can :private_profile, User
+      can [:public_profile, :private_profile], User
     else
-      can :show, User
+      can :read, User
     end
   end
 end
