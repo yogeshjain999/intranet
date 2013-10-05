@@ -3,7 +3,8 @@
     %h2 My Profile
   -else
     %h2 #{@user.public_profile.first_name}'s Profile
-
+- if can? :edit, current_user
+  = render partial: "update_status"
 %div.tabbable
   %ul.nav.nav-tabs
     %li.active.public-tab

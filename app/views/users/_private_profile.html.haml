@@ -24,18 +24,19 @@
       = pri.simple_fields_for :addresses do |a|
         %td
           %h4
+            - disable = (a.object.type_of_address == ADDRESSES[1] and a.object.same_as_permanent_address) ? true : false
             = a.object.type_of_address
           - if a.object.type_of_address == ADDRESSES[1]
             = a.check_box :same_as_permanent_address, {}, 'true', 'false'
             = a.label 'Same as Address', style: "line-height:0px;"
           = a.input :type_of_address, as: :hidden
-          = a.input :flat_or_house_no          
-          = a.input :building_or_society_name 
-          = a.input :road                    
-          = a.input :locality               
-          = a.input :city                  
-          = a.input :state                
-          = a.input :phone_no         
+          = a.input :flat_or_house_no, disabled: disable          
+          = a.input :building_or_society_name, disabled: disable 
+          = a.input :road, disabled: disable                    
+          = a.input :locality, disabled: disable               
+          = a.input :city, disabled: disable                  
+          = a.input :state, disabled: disable                
+          = a.input :phone_no, disabled: disable         
   %br
   %center
     = pri.submit :save, class: 'btn btn-lg btn-primary', id: 'private-button'

@@ -13,19 +13,18 @@
         %ul.nav.pull-right.top-list
           - if user_signed_in?
             %li
-              = link_to "My Profile", '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
+              = link_to "All Employees", users_path
+            %li
+              = link_to current_user.email, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
               %ul.dropdown-menu
                 - if can? :invite_user, current_user
                   %li
                     = link_to "Invite User", invite_user_path
-                - if can? :public_profile, current_user
-                  %li
-                    = link_to "Profile", public_profile_user_path(current_user)
+                %li
+                  = link_to "Profile", public_profile_user_path(current_user)
                 %li.divider
                 %li
                   = link_to 'Sign out', destroy_user_session_path, method: :delete
-            %li
-              = link_to "All Employees", users_path
           - else
             %li
               = link_to "Sign in with Josh account", user_omniauth_authorize_path(:google_oauth2)
