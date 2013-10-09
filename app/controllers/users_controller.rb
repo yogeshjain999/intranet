@@ -11,18 +11,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:user][:employee_detail_attributes].present?
-      @user.employee_detail.update_attributes(params[:user][:employee_detail_attributes].permit(:employee_id, :notification_emails))
-    elsif params[:user][:attachments_attributes].present?
-      logger.info '-------------------'
-      @user.update(params[:user].permit!)
-      @user.save(validate: false)
+    if @user.update_attributes(user_params)
+      flash.notice = 'Profile status updated Succesfully'
     else
-      @user.set(params.require(:user).permit(:status))
+      flash[:error] = "Error #{@user.errors.full_messages}"
     end
-    logger.info @user.errors.full_messages
     redirect_to users_path
-    flash.notice = 'Profile status updated Succesfully'
   end
 
   def show
@@ -74,6 +68,17 @@ class UsersController < ApplicationController
   private
   def load_user
     @user = User.find(params[:id])
+  end
+  
+  def user_params 
+    if params[:user][:employee_detail_attributes].present?
+      safe_params = [ employee_detail_attributes: [:id, :employee_id, :notification_emails ]]
+    elsif params[:user][:attachments_attributes].present?
+      safe_params = [attachments_attributes: [:id, :name, :document, :_destroy]] 
+    else
+      safe_params = [:status]
+    end
+    params.require(:user).permit(*safe_params)
   end
 
   def load_profiles

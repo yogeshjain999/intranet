@@ -33,13 +33,16 @@ class User
   has_many :leave_applications
   has_many :attachments
 
-  accepts_nested_attributes_for :public_profile, :employee_detail, :attachments, :private_profile 
+  accepts_nested_attributes_for :private_profile, reject_if: :all_blank, allow_destroy: true 
+  accepts_nested_attributes_for :public_profile, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :employee_detail, :attachments, :allow_destroy => true
 
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
+    
       user = User.where(email: auth.info.email).first
       unless user
         user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])

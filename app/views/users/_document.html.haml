@@ -1,5 +1,10 @@
-= simple_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
-  = f.simple_fields_for :attachments do |a|
+= simple_nested_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
+  = f.fields_for :attachments do |a|
     = a.input :name
     = a.input :document
-  = f.submit :save, class: "btn controls"
+    .document{style: "position: relative;margin-left: 400px;top:-96px;"}
+      = link_to 'Download'
+      |
+      = a.link_to_remove 'Remove'
+  = f.link_to_add 'Add new document', :attachments, class: 'btn controls'
+  = f.submit :save, class: "btn"

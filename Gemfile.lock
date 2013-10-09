@@ -143,6 +143,7 @@ GEM
     moped (1.5.1)
     multi_json (1.8.0)
     multipart-post (1.2.0)
+    nested_form (0.3.2)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -261,6 +262,7 @@ DEPENDENCIES
   mongoid-grid_fs!
   mongoid-paperclip
   mongoid-rspec
+  nested_form
   omniauth-google-oauth2
   rails (= 4.0.0)
   rspec-rails
