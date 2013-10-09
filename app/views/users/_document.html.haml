@@ -1,0 +1,5 @@
+= simple_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
+  = f.simple_fields_for :attachments do |a|
+    = a.input :name
+    = a.input :document
+  = f.submit :save, class: "btn controls"

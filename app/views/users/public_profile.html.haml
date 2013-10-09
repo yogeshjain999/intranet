@@ -16,9 +16,6 @@
     %li.emp-details-tab
       %a{data: {toggle: "tab"}, href: "#emp-details"}
         Employee details
-    %li.notification-tab
-      %a{data: {toggle: "tab"}, href: "#notification"}
-        Notifications
     %li.document-tab
       %a{data: {toggle: "tab"}, href: "#document"}
         Documents
@@ -29,9 +26,9 @@
     .tab-pane#private
       = render partial: "private_profile"
     .tab-pane#emp-details
-    .tab-pane#notification
-      = render partial: "notification"
+      = render partial: "employee_detail"
     .tab-pane#document
+      = render partial: "document"
 
 :javascript
   error = #{!@private_profile.errors.full_messages.empty?}

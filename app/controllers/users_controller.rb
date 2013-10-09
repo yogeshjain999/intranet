@@ -11,11 +11,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:user][:notification_attributes].present?
-      @user.notification.update_attributes(params[:user][:notification_attributes].permit(:notification_emails))
+    if params[:user][:employee_detail_attributes].present?
+      @user.employee_detail.update_attributes(params[:user][:employee_detail_attributes].permit(:employee_id, :notification_emails))
+    elsif params[:user][:attachments_attributes].present?
+      logger.info '-------------------'
+      @user.update(params[:user].permit!)
+      @user.save(validate: false)
     else
       @user.set(params.require(:user).permit(:status))
     end
+    logger.info @user.errors.full_messages
     redirect_to users_path
     flash.notice = 'Profile status updated Succesfully'
   end
@@ -74,6 +79,7 @@ class UsersController < ApplicationController
   def load_profiles
     @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
     @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
-    @user.notification.nil? ? @user.build_notification : @user.notification
+    @user.employee_detail.nil? ? @user.build_employee_detail : @user.employee_detail
+    2.times {@user.attachments.build} if @user.attachments.empty?
   end
 end

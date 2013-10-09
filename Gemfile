@@ -4,6 +4,8 @@ ruby "2.0.0"
 gem 'rails', '4.0.0'
 gem 'devise'
 gem 'mongoid', github: 'mongoid/mongoid'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
 gem 'cancan'
