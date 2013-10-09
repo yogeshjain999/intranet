@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/ahoward/mongoid-grid_fs.git
+  revision: f073d250ebf96f8e3bdd653a2bd2fb8002ac7544
+  specs:
+    mongoid-grid_fs (1.9.0)
+      mime-types (~> 1.19)
+      mongoid (>= 3.0, < 5.0)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: f91feef0a0c6b83a1b878e154f1014536aa1c298
   specs:
@@ -61,6 +69,14 @@ GEM
       bson (~> 1.9.2)
     builder (3.1.4)
     cancan (1.6.10)
+    carrierwave (0.9.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+    carrierwave-mongoid (0.6.3)
+      carrierwave (>= 0.8.0, < 0.10.0)
+      mongoid (>= 3.0, < 5.0)
+      mongoid-grid_fs (~> 1.3)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.1)
@@ -231,6 +247,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   bson_ext
   cancan
+  carrierwave-mongoid
   coffee-rails (~> 4.0.0)
   database_cleaner
   delayed_job_mongoid!
@@ -241,6 +258,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mongoid!
+  mongoid-grid_fs!
   mongoid-paperclip
   mongoid-rspec
   omniauth-google-oauth2

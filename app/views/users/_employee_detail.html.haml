@@ -1,0 +1,12 @@
+= simple_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
+  = f.simple_fields_for :employee_detail do |e|
+    = e.input :employee_id, label: "Employee Id"
+    = e.input :notification_emails, as: 'text'    
+  = f.submit :save, class: "btn controls"
+
+%h4 Current Notification to
+- notifications = @user.employee_detail.notification_emails.split(',') if !@user.employee_detail.notification_emails.nil?
+- if !notifications.nil?
+  - notifications.each do |n|
+    = n 
+    %br

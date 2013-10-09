@@ -22,9 +22,6 @@
             %td= user.role
             %td= user.status
             %td= link_to 'Edit', public_profile_user_path(user), class: 'btn'
-          -elsif user.status != 'created'
+          - elsif user.status != 'created'
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)
             %td #{user.email}
-
-          
-
