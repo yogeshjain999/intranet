@@ -11,11 +11,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.set(params.require(:user).permit!)
+    if params[:user][:notification_attributes].present?
+      @user.notification.update_attributes(params[:user][:notification_attributes].permit(:notification_emails))
+    else
+      @user.set(params.require(:user).permit(:status))
+    end
     redirect_to users_path
     flash.notice = 'Profile status updated Succesfully'
   end
-  
+
   def show
   end
 
@@ -70,5 +74,6 @@ class UsersController < ApplicationController
   def load_profiles
     @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
     @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
+    @user.notification.nil? ? @user.build_notification : @user.notification
   end
 end

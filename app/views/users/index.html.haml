@@ -18,8 +18,9 @@
           %td= image_tag(user.public_profile.photo.url(:thumb), class: 'img-polaroid')
           - if can? :edit, current_user
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)
-            %td #{user.role}
-            %td #{user.status}
+            %td= user.email
+            %td= user.role
+            %td= user.status
             %td= link_to 'Edit', public_profile_user_path(user), class: 'btn'
           -elsif user.status != 'created'
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)

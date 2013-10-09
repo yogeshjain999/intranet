@@ -3,7 +3,7 @@
     %h2 My Profile
   -else
     %h2 #{@user.public_profile.first_name}'s Profile
-- if can? :edit, current_user
+- if can? :edit, current_user and current_user.id != @user.id
   = render partial: "update_status"
 %div.tabbable
   %ul.nav.nav-tabs
@@ -12,12 +12,27 @@
         Public 
     %li.private-tab
       %a{data: {toggle: "tab"}, href: "#private"} 
-        Private 
+        Private
+    %li.emp-details-tab
+      %a{data: {toggle: "tab"}, href: "#emp-details"}
+        Employee details
+    %li.notification-tab
+      %a{data: {toggle: "tab"}, href: "#notification"}
+        Notifications
+    %li.document-tab
+      %a{data: {toggle: "tab"}, href: "#document"}
+        Documents
+  
   .tab-content
     .tab-pane.active#public
       = render partial: "public_profile"
     .tab-pane#private
       = render partial: "private_profile"
+    .tab-pane#emp-details
+    .tab-pane#notification
+      = render partial: "notification"
+    .tab-pane#document
+
 :javascript
   error = #{!@private_profile.errors.full_messages.empty?}
   $("[data-behaviour~=datepicker]").datepicker({
