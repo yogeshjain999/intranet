@@ -25,7 +25,7 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  embeds_one :public_profile, :cascade_callbacks => true
+  embeds_one :public_profile#, :cascade_callbacks => true
   embeds_one :private_profile
   embeds_one :notification 
   embeds_one :employee_detail
@@ -33,15 +33,16 @@ class User
   has_many :leave_details
   has_many :leave_applications
 
-  accepts_nested_attributes_for :private_profile 
+  accepts_nested_attributes_for :private_profile, reject_if: :all_blank, allow_destroy: true 
   accepts_nested_attributes_for :notification 
-  accepts_nested_attributes_for :public_profile
+  accepts_nested_attributes_for :public_profile, reject_if: :all_blank, allow_destroy: true
 
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
+    
       user = User.where(email: auth.info.email).first
       unless user
         user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])

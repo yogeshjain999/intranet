@@ -11,13 +11,14 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:user][:notification_attributes].present?
-      @user.notification.update_attributes(params[:user][:notification_attributes].permit(:notification_emails))
+    if @user.update_attributes(user_params)
+      flash.notice = 'Profile status updated Succesfully'
     else
-      @user.set(params.require(:user).permit(:status))
+      flash[:error] = "Error #{@user.errors.full_messages}"
     end
+      #@user.update_attributes(user_params)
+      #@user.set(params.require(:user).permit(:status))
     redirect_to users_path
-    flash.notice = 'Profile status updated Succesfully'
   end
 
   def show
@@ -69,6 +70,19 @@ class UsersController < ApplicationController
   private
   def load_user
     @user = User.find(params[:id])
+  end
+  
+  def user_params
+    
+    safe_params = [
+      notification_attributes: 
+      [
+        :id, 
+        :notification_emails
+      ]
+       
+    ]
+    params.require(:user).permit(*safe_params)
   end
 
   def load_profiles
