@@ -1,0 +1,4 @@
+= simple_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
+  = f.simple_fields_for :notification do |n|
+    = n.input :notification_emails, as: 'text'
+  = f.submit :save, class: "btn controls"
