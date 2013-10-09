@@ -13,6 +13,7 @@ gem 'bson_ext'
 gem 'sass-rails', '~> 4.0.0'
 gem 'kaminari'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+gem 'nested_form'
 gem "omniauth-google-oauth2"
 gem 'bootstrap-datepicker-rails'
 gem 'delayed_job_mongoid', git: "git@github.com:Guidecase/delayed_job_mongoid.git"
