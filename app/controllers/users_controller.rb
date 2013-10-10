@@ -65,6 +65,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def download_document
+    document = Attachment.find(params[:id]).document
+    document_type = MIME::Types.type_for(document.url).first.content_type
+    send_file document.path, filename: document.model.name, type: "#{document_type}"
+  end
+
   private
   def load_user
     @user = User.find(params[:id])
