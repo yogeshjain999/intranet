@@ -10,8 +10,7 @@ class Ability
       can :edit, User
       can [:public_profile, :private_profile], User
     elsif user.role? 'HR'
-      can [:public_profile, :private_profile], User
-      can :edit, User
+      can [:public_profile, :private_profile, :edit], User
     else
       can :read, User
     end

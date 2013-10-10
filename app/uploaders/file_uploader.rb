@@ -1,16 +1,18 @@
 # encoding: utf-8
-
+#require 'carrierwave/processing/mime_types'
 class FileUploader < CarrierWave::Uploader::Base
+  #include CarrierWave::MimeTypes
+
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  #storage :file
-  storage :grid_fs
+  storage :file
+  #storage :grid_fs
   # storage :fog
-
+ # process :set_content_type
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir

@@ -10,6 +10,7 @@ Intranet::Application.routes.draw do
     member do
       match :public_profile, via: [:get, :put]
       match :private_profile, via: [:get, :put]
+      get :download_document
     end
   end
   # You can have the root of your site routed with "root"

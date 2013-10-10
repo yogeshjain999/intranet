@@ -13,9 +13,10 @@
     %li.private-tab
       %a{data: {toggle: "tab"}, href: "#private"} 
         Private
-    %li.emp-details-tab
-      %a{data: {toggle: "tab"}, href: "#emp-details"}
-        Employee details
+    - if can? :edit, current_user
+      %li.emp-details-tab
+        %a{data: {toggle: "tab"}, href: "#emp-details"}
+          Employee details
     %li.document-tab
       %a{data: {toggle: "tab"}, href: "#document"}
         Documents
