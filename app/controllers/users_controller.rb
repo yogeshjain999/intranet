@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
   before_action :load_profiles, only: [:public_profile, :private_profile, :update, :edit]
+  before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
 
   def index
     @users = User.all
@@ -88,8 +89,14 @@ class UsersController < ApplicationController
     @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
     @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
     @user.employee_detail.nil? ? @user.build_employee_detail : @user.employee_detail
-    2.times {@user.private_profile.contact_persons.build} if @user.private_profile.contact_persons.empty?
-    ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a})} if @user.private_profile.addresses.empty?
     @user.attachments.build if @user.attachments.empty? and not (params[:user] && params[:user][:attachments_attributes]).present?
+  end
+
+  def build_addresses
+    if request.get?
+      ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a})} if @user.private_profile.addresses.empty?
+      # need atleast two contact persons details
+      2.times {@user.private_profile.contact_persons.build} if @user.private_profile.contact_persons.empty?
+    end
   end
 end

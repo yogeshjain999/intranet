@@ -8,7 +8,6 @@
   = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
   = pri.input :work_experience
   = pri.input :previous_company
-  %br
   %h4 Emergency Contact Details
   %table{style: "width:100%;"}
     %tr
@@ -17,26 +16,28 @@
           = r.input :relation
           = r.input :name
           = r.input :phone_no
-  %br
-  %br
   %table{style: "width:100%;"}
     %tr
       = pri.simple_fields_for :addresses do |a|
         %td
-          %h4
-            - disable = (a.object.type_of_address == ADDRESSES[1] and a.object.same_as_permanent_address) ? true : false
-            = a.object.type_of_address
           - if a.object.type_of_address == ADDRESSES[1]
-            = a.check_box :same_as_permanent_address, {}, 'true', 'false'
-            = a.label 'Same as Address', style: "line-height:0px;"
-          = a.input :type_of_address, as: :hidden
-          = a.input :flat_or_house_no, disabled: disable          
-          = a.input :building_or_society_name, disabled: disable 
-          = a.input :road, disabled: disable                    
-          = a.input :locality, disabled: disable               
-          = a.input :city, disabled: disable                  
-          = a.input :state, disabled: disable                
-          = a.input :phone_no, disabled: disable         
+            = a.label 'Same as Address'
+            .make-switch{"data-on" => "success", "data-off" => "warning", "data-on-label"=>"Yes", "data-off-label"=> "NO"}
+              = a.check_box :same_as_permanent_address, {}, 'true', 'false'
+          %div{class: "#{a.object.type_of_address.downcase}"}
+            %h4
+              = a.object.type_of_address
+              - disable = (a.object.type_of_address == ADDRESSES[1] and a.object.same_as_permanent_address == "true") ? true : false
+            = a.input :type_of_address, as: :hidden
+            = a.input :flat_or_house_no, disabled: disable          
+            = a.input :building_or_society_name, disabled: disable 
+            = a.input :road, disabled: disable                    
+            = a.input :locality, disabled: disable               
+            = a.input :city, disabled: disable                  
+            = a.input :state, disabled: disable                
+            = a.input :phone_no, disabled: disable         
   %br
   %center
-    = pri.submit :save, class: 'btn btn-lg btn-primary', id: 'private-button'
+    = pri.submit "Update Profile", class: 'btn'
+:css
+  .make-switch{ margin-left: 18px;}
