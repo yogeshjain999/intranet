@@ -11,13 +11,11 @@ class PrivateProfile
   field :previous_company
 
   embedded_in :user
-  has_many :addresses, autosave: true
   embeds_many :contact_persons
-  #embeds_many :attachments 
+  has_many :addresses, autosave: true
 
   accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :contact_persons
-  #accepts_nested_attributes_for :attachments
   
   #validates_presence_of :qualification, :date_of_joining, :personal_emailid, :on => :update
 end

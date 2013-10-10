@@ -45,4 +45,4 @@
         %td
           = @user.public_profile.try(:blog_url)
   %div{:style => "margin-left: 740px; margin-top: -390px; margin-bottom: 240;"}
-    = image_tag(@user.public_profile.photo.url(:thumb))
+    = image_tag(@user.public_profile.image.thumb.url)

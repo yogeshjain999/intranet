@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 
-admin = User.create(email: "Administrator@joshsoftware.com", password: "admin@josh", role: "Super Admin")
-hr = User.create(email: "hr@joshsoftware.com", password: "hr@josh", role: "HR")
+admin = User.create(email: "Administrator@joshsoftware.com", password: "josh123", role: "Super Admin")
+hr = User.create(email: "hr@joshsoftware.com", password: "josh123", role: "HR")
 admin.build_public_profile(first_name: "Josh", last_name: "Admin").save
 hr.build_public_profile(first_name: "Josh", last_name: "HR").save
