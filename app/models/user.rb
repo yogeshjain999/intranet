@@ -35,7 +35,7 @@ class User
 
   accepts_nested_attributes_for :private_profile, reject_if: :all_blank, allow_destroy: true 
   accepts_nested_attributes_for :public_profile, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :employee_detail, :attachments, :allow_destroy => true
+  accepts_nested_attributes_for :employee_detail, :attachments, reject_if: :all_blank, :allow_destroy => true
 
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
