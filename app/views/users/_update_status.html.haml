@@ -1,4 +1,10 @@
 = simple_form_for(@user, :url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
   = f.input :status, disabled: true, label: 'Current status'
-  = f.input :status, label: 'Approve', collection: [['Yes', STATUS[2]], ['No', STATUS[1]]], as: :radio_buttons, input_html: {style: "height: 14px;"}, item_wrapper_class: 'inline'
+  = f.label "Approve"
+  .make-switch{"data-on" => "success", "data-off" => "warning", "data-on-label"=>"Yes", "data-off-label"=> "NO"}
+    = f.check_box :status, {}, "#{STATUS[2]}", "#{STATUS[1]}"
+  %br
+  %br
   = f.submit 'Update Status', class: 'btn controls'
+:css
+  .make-switch{ height: 29px; margin-left: 18px;}

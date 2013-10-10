@@ -21,7 +21,7 @@
                   %li
                     = link_to "Invite User", invite_user_path
                 %li
-                  = link_to "Profile", public_profile_user_path(current_user)
+                  = link_to "Profile", public_profile_user_path(current_user), data: {'no-turbolink' =>  true}
                 %li.divider
                 %li
                   = link_to 'Sign out', destroy_user_session_path, method: :delete

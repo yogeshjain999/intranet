@@ -14,14 +14,19 @@
     %tbody
       - @users.each_with_index do |user, index|
         %tr
-          %td #{index+1}
-          %td= image_tag(user.public_profile.image.url, class: 'img-polaroid') if user.public_profile
           - if can? :edit, current_user
+            %td #{index+1}
+            %td= image_tag(user.public_profile.image.thumb.url, class: 'img-polaroid') if user.public_profile
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user) if user.public_profile
             %td= user.email
             %td= user.role
-            %td= user.status
-            %td= link_to 'Edit', public_profile_user_path(user), class: 'btn'
+            %td
+              - status_class = (user.status == 'approved') ? 'label-success' : 'label-warning'
+              .label{class: status_class} 
+                = user.status
+            %td= link_to 'Edit', public_profile_user_path(user), class: 'btn', data: {'no-turbolink' =>  true}
           - elsif user.status != 'created'
+            %td #{index+1}
+            %td= image_tag(user.public_profile.image.url, class: 'img-polaroid') if user.public_profile
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)
             %td #{user.email}

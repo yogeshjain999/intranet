@@ -2,9 +2,12 @@
   = f.fields_for :attachments do |a|
     = a.input :name
     = a.input :document
-    .document{style: "position: relative;margin-left: 400px;top:-96px;"}
-      = link_to 'Download', download_document_user_path(a.object)
-      |
-      = a.link_to_remove 'Remove'
+    - if a.object.persisted?
+      .document
+        = link_to 'Download', download_document_user_path(a.object)
+        |
+        = a.link_to_remove 'Remove'
   = f.link_to_add 'Add new document', :attachments, class: 'btn controls'
   = f.submit :save, class: "btn"
+:css
+  .document{position: relative;margin-left: 400px;top:-96px;}
