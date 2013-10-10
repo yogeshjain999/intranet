@@ -5,17 +5,17 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @users.each{|u| u.build_public_profile if u.public_profile.nil?}
   end
 
   def edit
   end
 
   def update
-    if @user.update_attributes(user_params)
+    @user.attributes =  user_params
+    if @user.save
       flash.notice = 'Profile status updated Succesfully'
     else
-      flash[:error] = "Error #{@user.errors.full_messages}"
+      flash[:error] = "Error #{@user.errors.full_messages.join(' ')}"
     end
     redirect_to users_path
   end
@@ -72,7 +72,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
   
-  def user_params 
+  def user_params
+    safe_params = [] 
     if params[:user][:employee_detail_attributes].present?
       safe_params = [ employee_detail_attributes: [:id, :employee_id, :notification_emails ]]
     elsif params[:user][:attachments_attributes].present?
@@ -87,8 +88,8 @@ class UsersController < ApplicationController
     @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
     @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
     @user.employee_detail.nil? ? @user.build_employee_detail : @user.employee_detail
-    2.times {@user.attachments.build} if @user.attachments.empty?
     2.times {@user.private_profile.contact_persons.build} if @user.private_profile.contact_persons.empty?
     ADDRESSES.each{|a| @user.private_profile.addresses.build({:type_of_address => a})} if @user.private_profile.addresses.empty?
+    @user.attachments.build if @user.attachments.empty? and not (params[:user] && params[:user][:attachments_attributes]).present?
   end
 end
