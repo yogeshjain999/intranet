@@ -1,20 +1,25 @@
 = simple_form_for(@public_profile, url: public_profile_user_path, :html => { method: :put, class: "form-horizontal public-profile", multipart: true}) do |pub|
-  %p
-    = pub.input :first_name
-    = pub.input :last_name
-    = pub.input :gender, collection: GENDER
-    = pub.input :mobile_number
-    = pub.input :blood_group, collection: BLOOD_GROUPS 
-    = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
-    = pub.input :skills
-    = pub.input :github_handle
-    = pub.input :twitter_handle
-    = pub.input :blog_url
-  %div{style: "margin-left: 740px; margin-top: -500px; margin-bottom: 355px;"}
-    - if !pub.object.nil?
-      = image_tag(pub.object.photo.url(:thumb))
-    %br
-    %br
-    = pub.file_field :photo
+  %table
+    %tr
+      %td
+        = pub.input :first_name
+        = pub.input :last_name
+        = pub.input :gender, collection: GENDER
+        = pub.input :mobile_number
+      %td.photo
+        = image_tag(pub.object.image.thumb.url, class: 'controls')
+        %br
+        %br
+        = pub.input :image, label: 'Photo'
+
+  = pub.input :blood_group, collection: BLOOD_GROUPS 
+  = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
+  = pub.input :skills
+  = pub.input :github_handle
+  = pub.input :twitter_handle
+  = pub.input :blog_url
   %center
-    = pub.submit :save, class: 'btn btn-lg'
+    = pub.submit 'Update Profile', class: 'btn'
+:css
+  .photo{position: relative;  padding-left: 100px;}
+

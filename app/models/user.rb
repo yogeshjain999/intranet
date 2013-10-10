@@ -42,7 +42,6 @@ class User
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
-    
       user = User.where(email: auth.info.email).first
       unless user
         user = User.create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0,20])

@@ -5,6 +5,7 @@ gem 'rails', '4.0.0'
 gem 'devise'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+gem 'rmagick'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'
 gem 'twitter-bootstrap-rails'
 gem 'haml-rails'
@@ -33,7 +34,6 @@ gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
-gem "mongoid-paperclip", :require => "mongoid_paperclip"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
