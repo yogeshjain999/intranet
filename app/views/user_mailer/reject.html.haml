@@ -13,16 +13,16 @@
           Hello  #{@leave.user.name},
     - if @user.profile.nil?
       %p
-        The leave you applied from #{@leave.starts_at} to
-        = @leave.ends_at
-        has bbeen regected by your #{@user.roles} #{@user.email} for the following reason that has been specified.
+        The leave you applied from #{@leave.start_at} to
+        = @leave.end_at
+        has been rejected by your #{@user.roles} #{@user.email} for the following reason that has been specified.
       %ul
         %li
           = @leave.reject_reason
     - else
       %p
-        The leave you applied from #{@leave.starts_at} to
-        = @leave.ends_at
+        The leave you applied from #{@leave.start_at} to
+        = @leave.end_at
         has bbeen regected by your #{@user.roles} #{@user.name} for the following reason that has been specified.
       %ul
         %li

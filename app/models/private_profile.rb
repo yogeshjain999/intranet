@@ -17,5 +17,12 @@ class PrivateProfile
   accepts_nested_attributes_for :addresses
   accepts_nested_attributes_for :contact_persons
   
+  before_save do
+    if self.date_of_joining_changed?
+      user = self.user
+      user.assign_leave
+    end
+  end
+  
   #validates_presence_of :qualification, :date_of_joining, :personal_emailid, :on => :update
 end

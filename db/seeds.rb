@@ -9,5 +9,10 @@
 
 admin = User.create(email: "Administrator@joshsoftware.com", password: "josh123", role: "Super Admin")
 hr = User.create(email: "hr@joshsoftware.com", password: "josh123", role: "HR")
+LeaveType.collection.insert(
+  [ {name: 'Sick', number_of_days: SICK_LEAVE},
+    {name: 'Casual', number_of_days: CASUAL_LEAVE},
+    {name: 'Paid', number_of_days: PAID_LEAVE}
+  ])
 admin.build_public_profile(first_name: "Josh", last_name: "Admin").save
 hr.build_public_profile(first_name: "Josh", last_name: "HR").save

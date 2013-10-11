@@ -9,8 +9,8 @@
     %p
       = @leave.reason
       %br/
-      = @leave.starts_at.strftime("%A, %B %d, %Y")
-      to #{@leave.ends_at.strftime("%A, %B %d, %Y")}
+      = @leave.start_at.strftime("%A, %B %d, %Y")
+      to #{@leave.end_at.strftime("%A, %B %d, %Y")}
     = link_to 'click hear', leaves_path(only_path: false,       host: [@user.organization.slug, '.',JoshIntranet::Application.config.action_mailer.default_url_options[:host]].join)
     to take action.
     %br/
