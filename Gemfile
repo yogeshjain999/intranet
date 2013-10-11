@@ -48,6 +48,7 @@ group :development, :test do
   gem 'database_cleaner'
 end
 
+gem 'sidekiq'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
