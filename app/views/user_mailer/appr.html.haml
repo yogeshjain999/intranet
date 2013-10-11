@@ -13,11 +13,11 @@
           Hello #{@leave.user.name},
     - if @user.profile.nil?
       %p
-        Your #{@user.roles} #{@user.email}  has approved your leave that you had applied from #{@leave.starts_at.strftime("%d %B %Y")} to
+        Your #{@user.roles} #{@user.email}  has approved your leave that you had applied from #{@leave.start_at.strftime("%d %B %Y")} to
         = @leave.ends_at.strftime("%d %B %Y")
     - else
       %p
-        Your #{@user.roles} #{@user.name}  has approved your leave that you had applied from #{@leave.starts_at} to
+        Your #{@user.roles} #{@user.name}  has approved your leave that you had applied from #{@leave.start_at} to
         = @leave.ends_at
     Regards,
     = @user.organization.name

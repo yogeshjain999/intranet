@@ -28,7 +28,7 @@ class User
   embeds_one :public_profile#, :cascade_callbacks => true
   embeds_one :private_profile
   embeds_one :employee_detail
-
+  
   has_many :leave_details
   has_many :leave_applications
   has_many :attachments
@@ -54,6 +54,27 @@ class User
     else
       false
     end
+  end
+  
+  def calculate_remaining_leave(total_leave)  
+    ((total_leave * (12 - (self.private_profile.date_of_joining - 1)))/12).ceil 
+  end
+
+  def assign_leave
+    leave_details = self.leave_details.build(year: Date.today.year)
+    #Logic is that casual 
+    leave_details.available_leave[:Sick] = leave_details.available_leave[:Casual] = calculate_remaining_leave(6) 
+    leave_details.available_leave[:Paid] = calculate_remaining_leave(PAID_LEAVE) 
+    leave_details.available_leave[:Paid] = leave_details.available_leave[:Paid] + 1 if self.private_profile.date_of_joining.month == 6
+    leave_details.save
+  end   
+ 
+  def set_leave_details_per_year
+    available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.available_leave
+    current_leave_details = self.leave_details.build(year: Date.today.year) 
+    current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = 6
+    current_leave_details.available_leave[:Paid] = available_leave[:Paid] > 14 ? 14 : available_leave[:Paid]
+    current_leave_details.save 
   end
 
   def role?(role)
