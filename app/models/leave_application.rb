@@ -2,10 +2,10 @@ class LeaveApplication
   include Mongoid::Document
   belongs_to :user
   belongs_to :leave_type
-  has_one :address
+  #has_one :address
 
-  field :starts_at,       type: Date
-  field :ends_at,         type: Date
+  field :start_at,        type: Date
+  field :end_at,          type: Date
   field :contact_number,  type: Integer
   field :number_of_days,  type: Integer
   field :approved_by,     type: Integer

@@ -7,6 +7,7 @@ Intranet::Application.routes.draw do
   end
 
   resources :users, except: [:new, :create, :destroy] do
+   resources :leave_applications 
     member do
       match :public_profile, via: [:get, :put]
       match :private_profile, via: [:get, :put]

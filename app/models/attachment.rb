@@ -6,4 +6,5 @@ class Attachment
 
   field :name, type: String
   field :document, type: String
+  #validates_presence_of :document, :name
 end
