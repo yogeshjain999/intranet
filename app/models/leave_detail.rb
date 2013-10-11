@@ -1,8 +1,7 @@
 class LeaveDetail
   include Mongoid::Document
-
   belongs_to :user
   
   field :year,            type: Integer
-  field :used_leaves,     type: Hash
+  field :available_leave,     type: Hash
 end
