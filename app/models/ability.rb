@@ -14,7 +14,9 @@ class Ability
       can [:new, :create, :edit, :destroy], LeaveApplication
     else
       can :read, User
-      can [:new, :create, :edit, :destroy], LeaveApplication
+      can [:new, :create, :edit, :destroy], LeaveApplication do
+        #user.date
+      end
     end
   end
 end
