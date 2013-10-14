@@ -10,11 +10,13 @@ class LeaveApplicationsController < ApplicationController
   def create
     @leave_application = LeaveApplication.new(strong_params)
     if @leave_application.save
-      flash[:error] = "Leave Applied Successfully. !Wait till approved" 
+      flash[:error] = "Leave Applied Successfully. !Wait till approved"
+      current_user.sent_mail_for_approval(from_date: @leave_application.start_at, to_date: @leave_application.end_at) 
     else
       flash[:error] = @leave_application.errors.full_messages.join("\n")
+      render 'new'
     end
-    redirect_to public_profile_user(current_user)   
+    redirect_to public_profile_user(current_user) and return 
   end 
 
   def strong_params

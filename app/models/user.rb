@@ -56,8 +56,9 @@ class User
     end
   end
   
-  def calculate_remaining_leave(total_leave)  
-    ((total_leave * (12 - (self.private_profile.date_of_joining - 1)))/12).ceil 
+  def calculate_remaining_leave(total_leave) 
+    p "date #{self.private_profile.date_of_joining.class}" 
+    ((total_leave * (12 - (self.private_profile.date_of_joining.month - 1)))/12).ceil 
   end
 
   def assign_leave
@@ -75,6 +76,17 @@ class User
     current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = 6
     current_leave_details.available_leave[:Paid] = available_leave[:Paid] > 14 ? 14 : available_leave[:Paid]
     current_leave_details.save 
+  end
+  
+  def sent_mail_for_approval(from_date: Date.today, to_date: Date.today)
+    
+    notified_users = [
+                      User.find_by(role: 'HR').email, User.find_by(role: 'Administrator@joshsoftware.com').email,
+                      current_user.employment_details.try(:notification_emails).try(:split, ',')
+                     ].flatten.compact.uniq
+    notified_users.each do|email|
+      UserMailer.delay.leave_application(self, receiver: email, from_date: from_date, to_date: to_date)
+    end
   end
 
   def role?(role)

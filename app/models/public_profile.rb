@@ -2,8 +2,8 @@ class PublicProfile
   include Mongoid::Document
   mount_uploader :image, FileUploader 
 
-  field :first_name
-  field :last_name
+  field :first_name, default: ''
+  field :last_name, default: ''
   field :gender
   field :mobile_number
   field :blood_group
@@ -21,4 +21,8 @@ class PublicProfile
   #validates_presence_of :first_name, :last_name, :gender, :mobile_number, :date_of_birth, :blood_group, :on => :update
   #validates :gender, inclusion: { in: GENDER }, :on => :update
   #validates :blood_group, inclusion: { in: BLOOD_GROUPS }, :on => :update
+  
+  def name
+    "#{first_name} #{last_name}"  
+  end
 end
