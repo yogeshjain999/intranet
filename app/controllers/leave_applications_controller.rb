@@ -4,7 +4,7 @@ class LeaveApplicationsController < ApplicationController
 
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)
-    
+    @leave_types = LeaveType.all.to_a 
   end
 
   def create
@@ -14,6 +14,7 @@ class LeaveApplicationsController < ApplicationController
     else
       flash[:error] = @leave_application.errors.full_messages.join("\n")
     end
+    redirect_to public_profile_user(current_user)   
   end 
 
   def strong_params

@@ -2,10 +2,4 @@
   %h2
     Apply Leave
 = simple_form_for @leave_application, url: user_leave_applications_path(current_user) , html:{class: 'form-horizontal'} do|f|
-  = f.input :start_at, label: 'Start Date', input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
-  = f.input :end_at, label: 'End Date', input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
-  = f.input :number_of_days, as: :decimal, label: 'Days', input_html: {step: 1}
-  = f.input :contact_number, as: :decimal, label: 'Emergency Contact No.'
-  = f.input :reason, as: :text, label: 'Reason'
-  = f.submit :save, class: 'btn btn-success btn-large' 
-  
+  = render 'form', f: f, leave_types: @leave_types 
