@@ -4,6 +4,10 @@
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true 
     = csrf_meta_tags
+    :css
+      .media, .media .media{
+        width: 430px;
+      }
 %body
   .navbar.navbar-inverse.navbar-fixed-top
     .navbar-inner
@@ -12,14 +16,25 @@
           Josh Intranet
         %ul.nav.pull-right.top-list
           - if user_signed_in?
+            %li.dropdown
+              = link_to "#", {:'data-toggle' => 'dropdown', class: 'dropdown-toggle'} do
+                Notifications
+                %span.badge.badge-important
+                  1
+              %ul.dropdown-menu
+                %li
+                  .media
+                    = link_to "#", {class: 'pull-left'} do
+                      %img.media-object
+                    .media-body
+                      Cras sit amet nibh libero, in gravida nulla. Nulla metus scelerisque ante sollicitudin commodo
             %li
               = link_to "All Employees", users_path
             %li
               = link_to current_user.email, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
               %ul.dropdown-menu
                 - if can? :invite_user, current_user
-                  %li
-                    = link_to "Invite User", invite_user_path
+                  = link_to "Invite User", invite_user_path
                 %li
                   = link_to "Profile", public_profile_user_path(current_user), data: {'no-turbolink' =>  true}
                 %li
