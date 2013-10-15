@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe LeavesController do
+describe LeaveApplicationsController do
  it "Employee, manager and HR should be able to apply for leaves"
 
- context "While accepting leaves"
+ context "While accepting leaves" do
   it "Admin as a role should accept leaves for an HR, manager and employee"
   it "An HR as a role should accept leaves for manager and employee"
   it "Manager as a role should accept leaves for employee"
@@ -11,7 +11,7 @@ describe LeavesController do
   it "Admin and HR should get an email notification when leaves are accepted"
  end
 
- Context "Canceling leaves"
+ context "Canceling leaves" do
   it "Should be credited in corresponding account"
   it "Admin should be canceled after accepting or rejecting"
   it "Employee should be able to cancel when leaves are not accepted or rejected"
@@ -20,7 +20,7 @@ describe LeavesController do
   it "Admin cancel leaves then employee should be notified"
  end
 
- context "Rejecting leaves"
+ context "Rejecting leaves" do
   it "Admin should reject leaves for an HR, manager and employee"
   it "An HR should reject leaves for manager and employee"
   it "Manager should reject leaves for employee"
