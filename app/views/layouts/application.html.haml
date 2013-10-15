@@ -5,7 +5,7 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true 
     = csrf_meta_tags
     :css
-      .media, .media .media{
+      .media.notification-menu, .media .media{
         width: 430px;
       }
 %body
@@ -23,7 +23,7 @@
                   1
               %ul.dropdown-menu
                 %li
-                  .media
+                  .media.notification-menu
                     = link_to "#", {class: 'pull-left'} do
                       %img.media-object
                     .media-body
@@ -34,7 +34,8 @@
               = link_to current_user.email, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
               %ul.dropdown-menu
                 - if can? :invite_user, current_user
-                  = link_to "Invite User", invite_user_path
+                  %li
+                    = link_to "Invite User", invite_user_path
                 %li
                   = link_to "Profile", public_profile_user_path(current_user), data: {'no-turbolink' =>  true}
                 %li

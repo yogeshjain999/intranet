@@ -6,7 +6,7 @@ class User
   ## Database authenticatable
   field :email,               :type => String, :default => ""
   field :encrypted_password,  :type => String, :default => ""
-  field :role,                :type => String, :default => ""
+  field :role,                :type => String, :default => "Employee"
   field :uid,                 :type => String
   field :provider,            :type => String        
   field :status,              :type => String, :default => STATUS[0]
