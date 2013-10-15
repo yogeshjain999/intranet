@@ -223,6 +223,10 @@ GEM
       json
       redis (>= 3.0.4)
       redis-namespace (>= 1.3.1)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -287,6 +291,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   simple_form!
+  simplecov
   turbolinks
   twitter-bootstrap-rails
   uglifier (>= 1.3.0)
