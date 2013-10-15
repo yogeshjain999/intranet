@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-  it { should have_fields(:email, :encrypted_password, :role, :uid, :provider, :status, :leave_notification) }
+  it { should have_fields(:email, :encrypted_password, :role, :uid, :provider, :status) }
   it { should have_field(:status).of_type(String).with_default_value_of(STATUS[0]) }
   it { should embed_one :public_profile }
   it { should embed_one :private_profile }
