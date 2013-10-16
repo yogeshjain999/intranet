@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :public_profile do |p|
-    p.association :user
+    #p.association :user
     first_name "fname"
     last_name "lname"
     gender "Male"
