@@ -16,7 +16,7 @@
           Josh Intranet
         %ul.nav.pull-right.top-list
           - if user_signed_in?
-            %li.dropdown
+            %li.dropdown.hide
               = link_to "#", {:'data-toggle' => 'dropdown', class: 'dropdown-toggle'} do
                 Notifications
                 %span.badge.badge-important
@@ -25,7 +25,7 @@
                 %li
                   .media.notification-menu
                     = link_to "#", {class: 'pull-left'} do
-                      %img.media-object
+                      %img.media-object{src: "/uploads/public_profile/image/525e3cf541c90efd02000001/medium_naruto.jpeg", height: 64}
                     .media-body
                       Cras sit amet nibh libero, in gravida nulla. Nulla metus scelerisque ante sollicitudin commodo
             %li
@@ -38,7 +38,7 @@
                     = link_to "Invite User", invite_user_path
                 %li
                   = link_to "Profile", public_profile_user_path(current_user), data: {'no-turbolink' =>  true}
-                %li
+                %li.hide
                   = link_to "Apply Leave", new_user_leave_application_path(current_user)
                 %li.divider
                 %li
