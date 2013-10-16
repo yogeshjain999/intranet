@@ -10,8 +10,10 @@ describe PrivateProfile do
   it { should be_embedded_in(:user) }
   it { should accept_nested_attributes_for(:addresses) }
   it { should accept_nested_attributes_for(:contact_persons) }
+=begin
   it { should validate_presence_of(:qualification).on(:update) }
   it { should validate_presence_of(:date_of_joining).on(:update) }
   it { should validate_presence_of(:personal_emailid).on(:update) }
+=end
 end
   

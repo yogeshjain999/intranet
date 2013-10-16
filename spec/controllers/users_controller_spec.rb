@@ -74,5 +74,9 @@ describe UsersController do
       put :private_profile, params
       @user.errors.full_messages.should eq([])
     end
+
+    it "" do
+      
+    end
   end
 end

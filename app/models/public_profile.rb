@@ -18,9 +18,9 @@ class PublicProfile
 
   embedded_in :user
   
-  validates_presence_of :first_name, :last_name, :gender, :mobile_number, :date_of_birth, :blood_group, :on => :update
-  validates :gender, inclusion: { in: GENDER }, :on => :update
-  validates :blood_group, inclusion: { in: BLOOD_GROUPS }, :on => :update
+  #validates_presence_of :first_name, :last_name, :gender, :mobile_number, :date_of_birth, :blood_group, :on => :update
+  validates :gender, inclusion: { in: GENDER }, allow_blank: true, :on => :update
+  validates :blood_group, inclusion: { in: BLOOD_GROUPS }, allow_blank: true, :on => :update
   
   def name
     "#{first_name} #{last_name}"  

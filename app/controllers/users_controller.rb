@@ -37,6 +37,9 @@ class UsersController < ApplicationController
   def update_profile(profile)
     user_profile = (profile == "private_profile") ? @private_profile : @public_profile
     if request.put?
+      #Need to change these permit only permit attributes which should be updated by user
+      #In our application there are some attributes like joining date which will be only 
+      #updated by hr of company
       if user_profile.update_attributes(params.require(profile).permit!)
         flash.notice = 'Profile Updated Succesfully'
         redirect_to public_profile_user_path(@user)
