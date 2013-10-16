@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe User do
+describe User do  
+
 
   it { should have_fields(:email, :encrypted_password, :role, :uid, :provider, :status) }
   it { should have_field(:status).of_type(String).with_default_value_of(STATUS[0]) }
@@ -11,7 +12,12 @@ describe User do
   it { should validate_presence_of(:role) }
   it { should validate_presence_of(:email) }
 
-
+  
+  it "should have employer as default role when created" do
+    user = FactoryGirl.build(:user)
+    user.role.should eq("Employee")
+    user.role?("Employee").should eq(true)
+  end 
 =begin
   context "When inviting new user" do
     it "user can invite new user if he is admin" do
