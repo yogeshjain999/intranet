@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  
+=begin  
   def edit
     #@user.build_private_profile if @user.private_profile.nil?
     #@user.build_public_profile if @user.public_profile.nil?
@@ -33,4 +33,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
       render "public_profile"
     end
   end
+=end
 end

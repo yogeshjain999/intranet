@@ -8,20 +8,16 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def edit
-  end
 
   def update
     @user.attributes =  user_params
     if @user.save
       flash.notice = 'Profile status updated Succesfully'
+      UserMailer.delay.verification(@user.id)
     else
       flash[:error] = "Error #{@user.errors.full_messages.join(' ')}"
     end
     redirect_to users_path
-  end
-
-  def show
   end
 
   def public_profile
@@ -42,6 +38,7 @@ class UsersController < ApplicationController
       #updated by hr of company
       if user_profile.update_attributes(params.require(profile).permit!)
         flash.notice = 'Profile Updated Succesfully'
+        UserMailer.delay.verification(@user.id)
         redirect_to public_profile_user_path(@user)
       else
         render "public_profile"
@@ -57,7 +54,7 @@ class UsersController < ApplicationController
       @user.password = Devise.friendly_token[0,20]
       if @user.save
         flash.notice = 'Invitation sent Succesfully'
-        UserMailer.delay.invitation(current_user, @user)
+        UserMailer.delay.invitation(current_user.id, @user.id)
         redirect_to root_path
       else
         render 'invite_user'
@@ -66,7 +63,7 @@ class UsersController < ApplicationController
   end
 
   def download_document
-    document = Attachment.find(params[:id]).document
+    document = Attachment.where(id: params[:id]).first.document
     document_type = MIME::Types.type_for(document.url).first.content_type
     send_file document.path, filename: document.model.name, type: "#{document_type}"
   end
