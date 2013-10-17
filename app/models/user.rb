@@ -40,6 +40,8 @@ class User
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 
+  scope :employees, self.in(role: ['Employee', 'Manager'])
+
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
       user = User.where(email: auth.info.email).first
