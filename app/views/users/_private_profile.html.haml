@@ -22,7 +22,7 @@
         %td
           - if a.object.type_of_address == ADDRESSES[1]
             = a.label 'Same as Address'
-            .make-switch{"data-on" => "success", "data-off" => "warning", "data-on-label"=>"Yes", "data-off-label"=> "NO"}
+            .make-switch#address_button{"data-on" => "success", "data-off" => "warning", "data-on-label"=>"Yes", "data-off-label"=> "NO"}
               = a.check_box :same_as_permanent_address, {}, 'true', 'false'
           %div{class: "#{a.object.type_of_address.downcase}"}
             %h4
@@ -41,3 +41,19 @@
     = pri.submit "Update Profile", class: 'btn'
 :css
   .make-switch{ margin-left: 18px;}
+
+:javascript
+  $('#address_button').on('switch-change', function(e, data){
+    var $el = $(data.el)
+      , value = data.value;
+   
+    if(value)
+    {
+      $('div.temporary .control-group .controls input').attr('disabled', 'disabled')
+    }
+    else
+    {
+      $('div.temporary .control-group .controls input').removeAttr('disabled')
+    }
+  
+  });
