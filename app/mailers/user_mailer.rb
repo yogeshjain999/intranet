@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     admin = User.where(role: 'Super Admin').first
     @updated_user = User.where(id: updated_user_id).first
     hr = User.where(role: 'HR').first
-    mail(to: [admin.email, hr.email].join(',') , subject: "#{@updated_user.public_profile.name} Profile has been updated profile")
+    mail(to: [admin.email, hr.email].join(',') , subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
   
   def leave_application(user, receiver: 'hr@joshsoftware.com', from_date: Date.today , to_date: Date.today)
