@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
 
   def index
-    @users = User.all
+    @users = User.employees
   end
 
 
