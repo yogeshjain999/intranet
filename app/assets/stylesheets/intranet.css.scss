@@ -1,0 +1,36 @@
+#header {
+  background: url("header_bkg.png") no-repeat center;
+  width:100%;
+  float:left;
+  height:107px;
+  min-height: 107px;
+  margin-bottom:0;
+  .wrap {
+    position:relative;
+    margin:0 auto;
+    width:940px;
+    .logo {
+      a {
+        display: block;
+        width: 215px;
+        height: 58px;
+        margin-top: 10px;
+        float: left;
+      }
+    }
+    .main-menu {
+      float: left;
+      width: inherit;
+      margin: -42px 0 0 460px;
+      font-size: 1.2em;
+      a {
+        color: #586064;
+        /*color: #621003;*/
+        /*padding-bottom:11px;*/
+      }
+    }
+  }
+}
+.drop{
+  position: relative;
+}

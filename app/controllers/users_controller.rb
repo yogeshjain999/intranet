@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Error #{@user.errors.full_messages.join(' ')}"
     end
-    redirect_to users_path
+    redirect_to public_profile_user_path(@user)
   end
 
   def public_profile

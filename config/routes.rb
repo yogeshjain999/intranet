@@ -4,6 +4,7 @@ Intranet::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
   devise_scope :user do
     match :invite_user, to: 'users#invite_user', via: [:get, :post]
+    match '/admin', to: 'devise/sessions#new', via: [:get]
   end
 
   resources :users, except: [:new, :create, :destroy] do

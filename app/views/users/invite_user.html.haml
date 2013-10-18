@@ -1,6 +1,6 @@
 = simple_form_for @user, url: invite_user_path,:html => {class: "form-horizontal"} do |f|
   .form-heading
-    %h2= 'Invite User'
+    %h2= 'Invite Employee'
   .control-group
     = f.input :email
     = f.input :role, collection: User::ROLES, prompt: 'Select Role'

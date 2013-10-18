@@ -9,12 +9,12 @@
         width: 430px;
       }
 %body
-  .navbar.navbar-inverse.navbar-fixed-top
-    .navbar-inner
-      .container
-        .brand 
-          Josh Intranet
-        %ul.nav.pull-right.top-list
+  #header
+    .wrap
+      .logo
+        =link_to(image_tag("Josh-Software-Logo.svg"), root_path)
+      .main-menu
+        %ul.nav.nav-pills
           - if user_signed_in?
             %li.dropdown.hide
               = link_to "#", {:'data-toggle' => 'dropdown', class: 'dropdown-toggle'} do
@@ -29,13 +29,13 @@
                     .media-body
                       Cras sit amet nibh libero, in gravida nulla. Nulla metus scelerisque ante sollicitudin commodo
             %li
-              = link_to "All Employees", users_path
+              = link_to "Employees", users_path
             %li
-              = link_to current_user.email, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
-              %ul.dropdown-menu
+              = link_to current_user.public_profile.name, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
+              %ul.dropdown-menu.drop
                 - if can? :invite_user, current_user
                   %li
-                    = link_to "Invite User", invite_user_path
+                    = link_to "Invite Employee", invite_user_path
                 %li
                   = link_to "Profile", public_profile_user_path(current_user), data: {'no-turbolink' =>  true}
                 %li.hide
