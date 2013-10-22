@@ -57,11 +57,13 @@ gem 'sidekiq'
 
 #gem for deploying to remote server
 gem 'mina', github: 'nadarei/mina'
+gem 'mina-sidekiq', github: 'Mic92/mina-sidekiq'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 #webserver for staging, production
 gem 'unicorn'
+gem 'thin'
 # Use unicorn as the app server
 # gem 'unicorn'
 
