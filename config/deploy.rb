@@ -3,6 +3,7 @@ require 'mina/rails'
 require 'mina/git'
 #require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 require 'mina/rvm'    # for rvm support. (http://rvm.io)
+require 'mina_sidekiq/tasks'
 
 #Basic settings:
 #domain       - The hostname to SSH to.
@@ -68,7 +69,9 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/shared/public/system"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/system"]
-
+  
+  queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/system"]
 end
 
 desc "Deploys the current version to the server."
@@ -76,6 +79,7 @@ task :deploy => :environment do
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
+    invoke :'sidekiq:quiet'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
@@ -89,16 +93,17 @@ task :deploy => :environment do
       end
 
       # unicorn restart
-      queue 'touch tmp/restart.txt'
-      queue 'cd #{deploy_to}/current && bundle exec unicorn'
+      #queue 'touch tmp/restart.txt'
+      #queue 'cd #{deploy_to}/current && bundle exec unicorn'
 
       # THIN restart
-      #queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
-      #queue "cd #{deploy_to}/current && bundle exec thin start -d -e#{env} -p#{8080}"
+      queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
+      queue "cd #{deploy_to}/current && bundle exec thin start -d -e#{env} -p#{8080}"
 
       # SIDEKIQ restart
       #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
       #we need to stop & start the sidekiq server again
+      invoke :'sidekiq:restart' 
       #queue "cd #{deploy_to}/current && nohup sidekiq -e RAILS_ENV=#{env} &"
       #queue "sudo monit restart sidekiq"
 
