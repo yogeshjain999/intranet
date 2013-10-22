@@ -5,3 +5,52 @@ body {
     padding-bottom: 40px;
     background-color: #f5f5f5;
 }
+
+
+/* begin styles for RSS Feed */
+
+.rss-box {
+  width: 550px;
+  background-color: #FFFFFF;
+  /*border: 7px solid #FF9900;*/
+
+}
+.rss-item-auth{
+  color: #9B2813;
+}
+.rss-items {
+  margin-top:0px;
+  padding:0.5em;
+  color: #FFFFFF;
+}
+p.rss-title {padding:0.5em;}
+.rss-title {
+  text-decoration: none;
+  font-family: small tahoma, "Bitstream Vera Sans", "Trebuchet MS", "Lucida Grande", lucida, helvetica, sans-serif;
+  font-size: 15px;
+  background-color:#9B2813;
+  color:white;
+  font-weight:bold;
+  margin: 0px;
+  padding:0em;
+  text-align: left;
+}
+
+.rss-item  {
+  list-style:none;
+  padding-bottom:1em;
+}
+
+.rss-item a {
+  text-decoration : none;
+  color: #3300FF;
+}
+
+.rss-item a:visited {
+  color: #330066;
+}
+
+.rss-date {
+  font-size: 85%;
+  color: black;
+} 

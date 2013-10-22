@@ -14,5 +14,5 @@
     - notifications.each do |n|
       - user = User.where(email: n.strip).first
       %tr
-        %td= user.public_profile.first_name + ' ' + user.public_profile.last_name if user
+        %td= user.public_profile.name if user
         %td= n 
