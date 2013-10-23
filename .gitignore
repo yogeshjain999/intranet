@@ -6,6 +6,11 @@
 #ignore coverage 
 /coverage
 
+#ignore seed file
+/db/seeds.rb
+#ignore smtp credentials
+/config/initializers/smtp_gmail.rb
+
 # Ignore bundler config
 /.bundle
 

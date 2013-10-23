@@ -1,0 +1,11 @@
+= simple_nested_form_for @project, :html => {:method => :post, class: "form-horizontal"} do |f|
+  .form-heading
+    %h2= "Add New Project"
+  .control-group
+    = f.input :name
+    = f.input :code_climate_id
+    = f.input :code_climate_snippet, as: :text
+    = f.fields_for :users do |u|
+      = u.input :email
+    = f.link_to_add "Add Developer", :users, class: "btn controls"
+    = f.submit :save, class: 'btn'

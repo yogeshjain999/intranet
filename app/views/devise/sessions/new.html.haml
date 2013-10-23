@@ -4,10 +4,4 @@
   .control-group
     = f.input :email, :autofocus => true, placeholder: "Email address" 
     = f.input :password, placeholder: "Password"
-    - if devise_mapping.rememberable?
-      .control-group
-        .controls
-          %label.checkbox
-            %strong Remember me
-            = f.check_box :remember_me
     = f.submit "Sign in", class: "btn controls"

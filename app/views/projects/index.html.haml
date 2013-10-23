@@ -1,0 +1,16 @@
+.form-heading
+  %h2 Projects
+.form-horizontal
+  %table.table.table-hover
+    %thead
+      %tr
+        %th #
+        %th Project Name
+        %th Project Id
+    %tbody
+      - @projects.each_with_index do |p, i|
+        %tr
+          %td= i+1
+          %td=link_to p.name, project_path(p)
+          %td=p.code_climate_id
+        
