@@ -75,16 +75,4 @@ describe UsersController do
       @user.errors.full_messages.should eq([])
     end
   end
-
-  describe "GET download_document" do
-    it "user should be able to download document" do
-      user = FactoryGirl.create(:user, role: "Employee")
-      a = FactoryGirl.create(:attachment)
-      sign_in user
-      p '---------------'
-      p a.inspect
-      get :download_document, id: a.id
-    end
-  end
-
 end
