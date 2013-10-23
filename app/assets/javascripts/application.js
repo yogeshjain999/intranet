@@ -17,5 +17,6 @@
 //= require bootstrap-datepicker
 //= require bootstrap-switch
 //= require jquery_nested_form
-//= require jqBootstrapValidation 
+//= require jqBootstrapValidation
+//= require select2.min
 //= require_tree .
