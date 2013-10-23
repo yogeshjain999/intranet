@@ -12,10 +12,10 @@
 
 
 # config/unicorn.rb
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
+worker_processes Integer(ENV["WEB_CONCURRENCY"] || 4)
 timeout 15
 preload_app true
-
+pid "/home/sanjiv/projects/staging/current/tmp/pids/unicorn.pid"
 before_fork do |server, worker|
   Signal.trap 'TERM' do
     puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
@@ -35,5 +35,5 @@ after_fork do |server, worker|
     ActiveRecord::Base.establish_connection
 end
 
-stderr_path "/path/to/app/shared/log/unicorn.log"
-stdout_path "/path/to/app/shared/log/unicorn.log"
+stderr_path "/home/sanjiv/projects/staging/current/log/unicorn.log"
+stdout_path "/home/sanjiv/projects/staging/current/log/unicorn.log"
