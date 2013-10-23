@@ -1,0 +1,278 @@
+diff --git a/.gitignore b/.gitignore
+index ad18c21..dd2c604 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -8,14 +8,16 @@
+ 
+ #ignore seed file
+ /db/seeds.rb
++/config/mongoid.yml
+ #ignore smtp credentials
++
+ /config/initializers/smtp_gmail.rb
+ # Ignore bundler config
+ /.bundle
+ 
+ # Ignore the default SQLite database.
+ /db/*.sqlite3
+-/db/mongoid.yml
++
+ # Ignore all logfiles and tempfiles.
+ /log/*.log
+ /tmp
+diff --git a/1 b/1
+index 3cc771f..e69de29 100644
+--- a/1
++++ b/1
+@@ -1,124 +0,0 @@
+-diff --git a/app/views/user_mailer/invitation.html.haml b/app/views/user_mailer/invitation.html.haml
+-index 2acad8d..8337ea1 100644
+---- a/app/views/user_mailer/invitation.html.haml
+-+++ b/app/views/user_mailer/invitation.html.haml
+-@@ -4,7 +4,3 @@
+-   #{@sender.email} has invited you to #{root_url}, you can accept it through the link below.
+- %p
+-   = link_to 'Accept invitation', new_user_session_url
+--%p
+--  If you don't want to accept the invitation, please ignore this email.
+--  %br/
+--  Your account won't be created until you access the link above and set your password.
+-diff --git a/config/environments/production.rb b/config/environments/production.rb
+-index dfcba3b..66f9846 100644
+---- a/config/environments/production.rb
+-+++ b/config/environments/production.rb
+-@@ -13,6 +13,7 @@ Intranet::Application.configure do
+-   # Full error reports are disabled and caching is turned on.
+-   config.consider_all_requests_local       = false
+-   config.action_controller.perform_caching = true
+-+  config.action_mailer.default_url_options = { :host => 'intranet.joshsoftware.com' }
+- 
+-   # Enable Rack::Cache to put a simple HTTP cache in front of your application
+-   # Add `rack-cache` to your Gemfile before enabling this.
+-diff --git a/config/initializers/smtp_gmail.rb b/config/initializers/smtp_gmail.rb
+-index a94f2b5..3d61b89 100644
+---- a/config/initializers/smtp_gmail.rb
+-+++ b/config/initializers/smtp_gmail.rb
+-@@ -7,6 +7,15 @@ if Rails.env != 'production'
+-     :authentication => :plain,
+-     :enable_starttls_auto => true
+-   }
+-+else
+-+  ActionMailer::Base.smtp_settings = {
+-+    :address => "smtp.gmail.com",
+-+    :port => 587,
+-+    :user_name => "intranet@joshsoftware.com",
+-+    :password => "Josh1234",
+-+    :authentication => :plain,
+-+    :enable_starttls_auto => true
+-+  }
+- end
+- require 'development_mail_interceptor'
+- Mail.register_interceptor(DevelopmentMailInterceptor) if Rails.env != 'production'
+-diff --git a/config/mongoid.yml b/config/mongoid.yml
+-index 6aa52d4..2aa7a86 100644
+---- a/config/mongoid.yml
+-+++ b/config/mongoid.yml
+-@@ -1,67 +1,21 @@
+- development:
+--  # Configure available database sessions. (required)
+-   sessions:
+--    # Defines the default session. (required)
+-     default:
+--      # Defines the name of the default database that Mongoid can connect to.
+--      # (required).
+-       database: intranet_development
+--      # Provides the hosts the default session can connect to. Must be an array
+--      # of host:port pairs. (required)
+-       hosts:
+-         - localhost:27017
+-       options:
+--        # Change whether the session persists in safe mode by default.
+--        # (default: false)
+--        # safe: false
+--
+--        # Change the default consistency model to :eventual or :strong.
+--        # :eventual will send reads to secondaries, :strong sends everything
+--        # to master. (default: :eventual)
+--        # consistency: :eventual
+--
+--        # How many times Moped should attempt to retry an operation after
+--        # failure. (default: 30)
+--        # max_retries: 30
+--
+--        # The time in seconds that Moped should wait before retrying an
+--        # operation on failure. (default: 1)
+--        # retry_interval: 1
+--  # Configure Mongoid specific options. (optional)
+-   options:
+--    # Enable the identity map, needed for eager loading. (default: false)
+--    # identity_map_enabled: false
+--
+--    # Includes the root model name in json serialization. (default: false)
+--    # include_root_in_json: false
+--
+--    # Include the _type field in serializaion. (default: false)
+--    # include_type_for_serialization: false
+--
+--    # Preload all models in development, needed when models use
+--    # inheritance. (default: false)
+--    # preload_models: false
+--
+--    # Protect id and type from mass assignment. (default: true)
+--    # protect_sensitive_fields: true
+--
+--    # Raise an error when performing a #find and the document is not found.
+--    # (default: true)
+--    # raise_not_found_error: true
+- 
+--    # Raise an error when defining a scope with the same name as an
+--    # existing method. (default: false)
+--    # scope_overwrite_exception: false
+--
+--    # Skip the database version check, used when connecting to a db without
+--    # admin access. (default: false)
+--    # skip_version_check: false
+--
+--    # User Active Support's time zone in conversions. (default: true)
+--    # use_activesupport_time_zone: true
+-+production: 
+-+  sessions:
+-+    default:
+-+      database: intranet_production
+-+      hosts:
+-+        - localhost:27017
+-+      options:
+-+  options:  
+- 
+--    # Ensure all times are UTC in the app side. (default: false)
+--    # use_utc: false
+- test:
+-   sessions:
+-     default:
+diff --git a/dump.rdb b/dump.rdb
+deleted file mode 100644
+index 2e34e84..0000000
+Binary files a/dump.rdb and /dev/null differ
+diff --git a/public/public/uploads/attachment/document/52566922e1271e2485000005/317124_298631756907405_2044434795_n.jpg b/public/public/uploads/attachment/document/52566922e1271e2485000005/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/public/uploads/attachment/document/52566922e1271e2485000005/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/52565550e1271e6bd500000a/317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/52565550e1271e6bd500000a/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/attachment/document/52565550e1271e6bd500000a/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/5256a383e1271ed45b000170/317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/5256a383e1271ed45b000170/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/attachment/document/5256a383e1271ed45b000170/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/5256a383e1271ed45b000170/thumb_317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/5256a383e1271ed45b000170/thumb_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index ee77911..0000000
+Binary files a/public/uploads/attachment/document/5256a383e1271ed45b000170/thumb_317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/525e3c60e1271e507d000035/317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/525e3c60e1271e507d000035/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/attachment/document/525e3c60e1271e507d000035/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/525e3c60e1271e507d000035/medium_317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/525e3c60e1271e507d000035/medium_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index bffc162..0000000
+Binary files a/public/uploads/attachment/document/525e3c60e1271e507d000035/medium_317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/attachment/document/525e3c60e1271e507d000035/thumb_317124_298631756907405_2044434795_n.jpg b/public/uploads/attachment/document/525e3c60e1271e507d000035/thumb_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index 84d52da..0000000
+Binary files a/public/uploads/attachment/document/525e3c60e1271e507d000035/thumb_317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/317124_298631756907405_2044434795_n.jpg b/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/medium_317124_298631756907405_2044434795_n.jpg b/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/medium_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index bffc162..0000000
+Binary files a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/medium_317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/thumb_317124_298631756907405_2044434795_n.jpg b/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/thumb_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index 84d52da..0000000
+Binary files a/public/uploads/public_profile/image/5256a221e1271ee0dc00013c/thumb_317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/tmp/1381325591-9460-3523/paypal_cert_pem.txt b/public/uploads/tmp/1381325591-9460-3523/paypal_cert_pem.txt
+deleted file mode 100644
+index 3067306..0000000
+--- a/public/uploads/tmp/1381325591-9460-3523/paypal_cert_pem.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+------BEGIN CERTIFICATE-----
+-MIIDDjCCAnegAwIBAgIJAPNVkXrSrkcBMA0GCSqGSIb3DQEBBQUAMIGfMQswCQYD
+-VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEPMA0GA1UEBwwGRnJlb250MRow
+-GAYDVQQKDBFVbml0ZWQgUHJvc3Blcml0eTEdMBsGA1UEAwwUdW5pdGVkcHJvc3Bl
+-cml0eS5vcmcxLzAtBgkqhkiG9w0BCQEWIGJoYWxjaGFuZGVyQHVuaXRlZHByb3Nw
+-ZXJpdHkub3JnMB4XDTEzMTAwODEwNTQwM1oXDTE0MTAwODEwNTQwM1owgZ8xCzAJ
+-BgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMQ8wDQYDVQQHDAZGcmVvbnQx
+-GjAYBgNVBAoMEVVuaXRlZCBQcm9zcGVyaXR5MR0wGwYDVQQDDBR1bml0ZWRwcm9z
+-cGVyaXR5Lm9yZzEvMC0GCSqGSIb3DQEJARYgYmhhbGNoYW5kZXJAdW5pdGVkcHJv
+-c3Blcml0eS5vcmcwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALDB5GS1gDJL
+-fI7g9WBr+gmXcehz/PtVT4B5TJEih1qEXt5JpvVT6ju0OWrnusKMQKTi5EI6sUJL
+-3wjVl8DdA9ofHCa+2/95CUpMEw2EBNbZ1HP1gPLdh41yB10J797fH3F3d6FSY2d6
+-R4gohxLkkCgDbtVSkZGZPF2sUCGoFWfdAgMBAAGjUDBOMB0GA1UdDgQWBBRur/p0
+-7kvzK0vGxJn0GxjE3v1zqTAfBgNVHSMEGDAWgBRur/p07kvzK0vGxJn0GxjE3v1z
+-qTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAKnXHgUHyShmg91/+NVI
+-mjfyqu2nstw2iLl+oX30npcSG6B+mn/R80YbvFiwL1D0V15iUOn22HfbkLAcVH2P
+-mNrMCIFgZupPYPp7kO00Z59bH4JQZ1YoY+RTg9uO1tSrvJid2x87I0kZXdcPE66x
+-myIegV6c59PrNDMURaccfR7s
+------END CERTIFICATE-----
+diff --git a/public/uploads/tmp/1381326282-9460-5707/paypal_cert_pem.txt b/public/uploads/tmp/1381326282-9460-5707/paypal_cert_pem.txt
+deleted file mode 100644
+index 3067306..0000000
+--- a/public/uploads/tmp/1381326282-9460-5707/paypal_cert_pem.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+------BEGIN CERTIFICATE-----
+-MIIDDjCCAnegAwIBAgIJAPNVkXrSrkcBMA0GCSqGSIb3DQEBBQUAMIGfMQswCQYD
+-VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEPMA0GA1UEBwwGRnJlb250MRow
+-GAYDVQQKDBFVbml0ZWQgUHJvc3Blcml0eTEdMBsGA1UEAwwUdW5pdGVkcHJvc3Bl
+-cml0eS5vcmcxLzAtBgkqhkiG9w0BCQEWIGJoYWxjaGFuZGVyQHVuaXRlZHByb3Nw
+-ZXJpdHkub3JnMB4XDTEzMTAwODEwNTQwM1oXDTE0MTAwODEwNTQwM1owgZ8xCzAJ
+-BgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMQ8wDQYDVQQHDAZGcmVvbnQx
+-GjAYBgNVBAoMEVVuaXRlZCBQcm9zcGVyaXR5MR0wGwYDVQQDDBR1bml0ZWRwcm9z
+-cGVyaXR5Lm9yZzEvMC0GCSqGSIb3DQEJARYgYmhhbGNoYW5kZXJAdW5pdGVkcHJv
+-c3Blcml0eS5vcmcwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALDB5GS1gDJL
+-fI7g9WBr+gmXcehz/PtVT4B5TJEih1qEXt5JpvVT6ju0OWrnusKMQKTi5EI6sUJL
+-3wjVl8DdA9ofHCa+2/95CUpMEw2EBNbZ1HP1gPLdh41yB10J797fH3F3d6FSY2d6
+-R4gohxLkkCgDbtVSkZGZPF2sUCGoFWfdAgMBAAGjUDBOMB0GA1UdDgQWBBRur/p0
+-7kvzK0vGxJn0GxjE3v1zqTAfBgNVHSMEGDAWgBRur/p07kvzK0vGxJn0GxjE3v1z
+-qTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAKnXHgUHyShmg91/+NVI
+-mjfyqu2nstw2iLl+oX30npcSG6B+mn/R80YbvFiwL1D0V15iUOn22HfbkLAcVH2P
+-mNrMCIFgZupPYPp7kO00Z59bH4JQZ1YoY+RTg9uO1tSrvJid2x87I0kZXdcPE66x
+-myIegV6c59PrNDMURaccfR7s
+------END CERTIFICATE-----
+diff --git a/public/uploads/tmp/1381326561-9460-4600/paypal_cert_pem.txt b/public/uploads/tmp/1381326561-9460-4600/paypal_cert_pem.txt
+deleted file mode 100644
+index 3067306..0000000
+--- a/public/uploads/tmp/1381326561-9460-4600/paypal_cert_pem.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+------BEGIN CERTIFICATE-----
+-MIIDDjCCAnegAwIBAgIJAPNVkXrSrkcBMA0GCSqGSIb3DQEBBQUAMIGfMQswCQYD
+-VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEPMA0GA1UEBwwGRnJlb250MRow
+-GAYDVQQKDBFVbml0ZWQgUHJvc3Blcml0eTEdMBsGA1UEAwwUdW5pdGVkcHJvc3Bl
+-cml0eS5vcmcxLzAtBgkqhkiG9w0BCQEWIGJoYWxjaGFuZGVyQHVuaXRlZHByb3Nw
+-ZXJpdHkub3JnMB4XDTEzMTAwODEwNTQwM1oXDTE0MTAwODEwNTQwM1owgZ8xCzAJ
+-BgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMQ8wDQYDVQQHDAZGcmVvbnQx
+-GjAYBgNVBAoMEVVuaXRlZCBQcm9zcGVyaXR5MR0wGwYDVQQDDBR1bml0ZWRwcm9z
+-cGVyaXR5Lm9yZzEvMC0GCSqGSIb3DQEJARYgYmhhbGNoYW5kZXJAdW5pdGVkcHJv
+-c3Blcml0eS5vcmcwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALDB5GS1gDJL
+-fI7g9WBr+gmXcehz/PtVT4B5TJEih1qEXt5JpvVT6ju0OWrnusKMQKTi5EI6sUJL
+-3wjVl8DdA9ofHCa+2/95CUpMEw2EBNbZ1HP1gPLdh41yB10J797fH3F3d6FSY2d6
+-R4gohxLkkCgDbtVSkZGZPF2sUCGoFWfdAgMBAAGjUDBOMB0GA1UdDgQWBBRur/p0
+-7kvzK0vGxJn0GxjE3v1zqTAfBgNVHSMEGDAWgBRur/p07kvzK0vGxJn0GxjE3v1z
+-qTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAKnXHgUHyShmg91/+NVI
+-mjfyqu2nstw2iLl+oX30npcSG6B+mn/R80YbvFiwL1D0V15iUOn22HfbkLAcVH2P
+-mNrMCIFgZupPYPp7kO00Z59bH4JQZ1YoY+RTg9uO1tSrvJid2x87I0kZXdcPE66x
+-myIegV6c59PrNDMURaccfR7s
+------END CERTIFICATE-----
+diff --git a/public/uploads/tmp/1381409561-12191-5901/317124_298631756907405_2044434795_n.jpg b/public/uploads/tmp/1381409561-12191-5901/317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/tmp/1381409561-12191-5901/317124_298631756907405_2044434795_n.jpg and /dev/null differ
+diff --git a/public/uploads/tmp/1381409561-12191-5901/thumb_317124_298631756907405_2044434795_n.jpg b/public/uploads/tmp/1381409561-12191-5901/thumb_317124_298631756907405_2044434795_n.jpg
+deleted file mode 100644
+index dd939b7..0000000
+Binary files a/public/uploads/tmp/1381409561-12191-5901/thumb_317124_298631756907405_2044434795_n.jpg and /dev/null differ
