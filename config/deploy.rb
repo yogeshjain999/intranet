@@ -70,8 +70,11 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/public/system"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/system"]
   
+  queue! %[mkdir -p "#{deploy_to}/shared/public/uploads"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/uploads"] 
+ 
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/system"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
 end
 
 desc "Deploys the current version to the server."
@@ -98,7 +101,7 @@ task :deploy => :environment do
 
       # THIN restart
       queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
-      queue "cd #{deploy_to}/current && bundle exec thin start -e staging -p#{8080}"
+      queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
 
       # SIDEKIQ restart
       #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
