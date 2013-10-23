@@ -5,7 +5,7 @@
   = f.submit :save, class: "btn controls"
 
 - notifications = @user.employee_detail.notification_emails.split(',') if !@user.employee_detail.notification_emails.nil?
-- if !notifications.empty?
+- if notifications
   %h4 Current Notification to
   %table.table.table-hover
     %tr
