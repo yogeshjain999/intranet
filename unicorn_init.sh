@@ -6,10 +6,26 @@ set -e
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/home/sanjiv/projects/staging/current
+
+while getopts ":e:" opt; do
+  case $opt in
+    e)
+      echo "environment variable passed to server $OPTARG";
+      RAILS_ENV=$OPTARG 
+      ;;
+    ?)
+      echo "You need to environment option to unicorn server";
+      exit 1 ;
+      ;;
+  esac 
+done
+
+
 PID=$APP_ROOT/tmp/pids/unicorn.pid
-CMD="bundle exec $APP_ROOT/vendor/bundle/ruby/2.0.0/bin/unicorn -D -c $APP_ROOT/config/unicorn.rb"
+CMD="bundle exec $APP_ROOT/vendor/bundle/ruby/2.0.0/bin/unicorn --env $RAILS_ENV -D -c $APP_ROOT/config/unicorn.rb"
 INIT_CONF=$APP_ROOT/config/init.conf
 action="$1"
+
 set -u
 
 test -f "$INIT_CONF" && . $INIT_CONF
