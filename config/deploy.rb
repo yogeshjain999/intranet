@@ -105,7 +105,8 @@ task :deploy => :environment do
     
       #unicorn restart
       p env
-      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh restart -e #{env}"
+      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh stop -e #{env}"
+      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh start -e #{env}"
       #queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
 
 
