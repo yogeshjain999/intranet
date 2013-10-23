@@ -12,4 +12,6 @@ class Address
 
   belongs_to :private_profile
   belongs_to :leave_application
+  
+  validates :phone_no, length: { minimum: 10 }, numericality: { only_integer: true }, allow_blank: true
 end
