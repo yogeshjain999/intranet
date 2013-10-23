@@ -100,8 +100,13 @@ task :deploy => :environment do
       #queue 'cd #{deploy_to}/current && bundle exec unicorn'
 
       # THIN restart
-      queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
-      queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
+      #queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
+      #queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
+    
+      #unicorn restart
+      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh restart"
+      #queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
+
 
       # SIDEKIQ restart
       #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
