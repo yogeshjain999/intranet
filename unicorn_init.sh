@@ -2,7 +2,7 @@
 set -e
 # Example init script, this can be used with nginx, too,
 # since nginx and unicorn accept the same signals
-
+#added the support for passing env variable
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/home/sanjiv/projects/staging/current
