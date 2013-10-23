@@ -25,5 +25,5 @@ class PrivateProfile
     end
   end
   
-  #validates_presence_of :qualification, :date_of_joining, :personal_emailid, :on => :update
+  validates_presence_of :qualification, :date_of_joining, :personal_emailid, :on => :update
 end
