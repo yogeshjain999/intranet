@@ -32,6 +32,7 @@ class User
   has_many :leave_details
   has_many :leave_applications
   has_many :attachments
+  has_and_belongs_to_many :projects
 
   accepts_nested_attributes_for :private_profile, reject_if: :all_blank, allow_destroy: true 
   accepts_nested_attributes_for :public_profile, reject_if: :all_blank, allow_destroy: true

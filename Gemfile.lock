@@ -40,7 +40,7 @@ GIT
       activemodel (>= 4.0.0, < 4.1)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.0.0)
       actionpack (= 4.0.0)

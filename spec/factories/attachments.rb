@@ -2,5 +2,7 @@
 
 FactoryGirl.define do
   factory :attachment do
+    name "Photo"
+    document "test.pdf"
   end
 end
