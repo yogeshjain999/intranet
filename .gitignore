@@ -8,9 +8,10 @@
 
 #ignore seed file
 /db/seeds.rb
+/config/mongoid.yml
 #ignore smtp credentials
-/config/initializers/smtp_gmail.rb
 
+/config/initializers/smtp_gmail.rb
 # Ignore bundler config
 /.bundle
 
