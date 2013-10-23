@@ -4,5 +4,5 @@ class EmployeeDetail
   embedded_in :user
 
   field :employee_id, type: Integer
-  field :notification_emails, type: String
+  field :notification_emails, type: Array
 end
