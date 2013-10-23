@@ -40,4 +40,12 @@ describe ProjectsController do
       should render_template(:new)
     end
   end
+
+  describe "GET show" do
+    it "should find one project record" do
+      project = FactoryGirl.create(:project)
+      get :show, id: project.id
+      expect(assigns(:project)).to eq(project)
+    end
+  end
 end
