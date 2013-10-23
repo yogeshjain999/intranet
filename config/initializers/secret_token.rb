@@ -8,5 +8,5 @@
 # You can use `rake secret` to generate a secure secret key.
 
 # Make sure your secret_key_base is kept private
-# if you're sharing your code publicly.
+# if you're sharing your code publicly. Need to push these to git
 Intranet::Application.config.secret_key_base = 'c0d8496bcd86ac0245af7c2276eef401d39dcb049326d6a77452c5b313e7a5ca727cb034f27a555b8d39e3d0776bf3933b7ab66f6712750193142f4e269f80ff'
