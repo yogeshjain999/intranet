@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def update
     @user.attributes =  user_params
     if @user.save
-      flash.notice = 'Profile status updated Succesfully'
+      flash.notice = 'Profile updated Succesfully'
       UserMailer.delay.verification(@user.id)
     else
       flash[:error] = "Error #{@user.errors.full_messages.join(' ')}"
