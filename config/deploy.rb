@@ -34,7 +34,7 @@ set :branch, branch
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/mongoid.yml', 'log', 'tmp', 'public/system', 
-					'public/uploads', 'config/initializers/secret_token.rb']
+					'public/uploads', 'config/initializers/secret_token.rb', "config/initializers/smtp_gmail.rb"]
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
