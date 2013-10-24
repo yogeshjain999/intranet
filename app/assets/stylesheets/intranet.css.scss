@@ -20,8 +20,9 @@
     }
     .main-menu {
       float: left;
-      width: inherit;
-      margin: -42px 0 0 460px;
+      /*min-width: 0px;*/
+      /*margin: -42px 0 0 460px;*/
+      margin: 26px 0 0 275px;
       font-size: 1.2em;
       a {
         color: #586064;
