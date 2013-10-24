@@ -57,7 +57,7 @@ gem 'sidekiq'
 
 #gem for deploying to remote server
 gem 'mina', github: 'nadarei/mina'
-gem 'mina-sidekiq', github: 'Mic92/mina-sidekiq'
+gem 'mina_extensions', github: 'marcosbeirigo/mina_extensions'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
