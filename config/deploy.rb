@@ -30,6 +30,7 @@ set :user, 'sanjiv'
 set :deploy_to, "/home/sanjiv/projects/#{env}"
 set :repository, 'git@github.com:joshsoftware/intranet.git'
 set :branch, branch
+set :rails_env, env
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
