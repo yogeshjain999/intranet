@@ -1,22 +1,19 @@
 = simple_form_for(@user,:url => user_path(@user), :html => { method: :put, class: "form-horizontal", multipart: true}) do |f|
   = f.simple_fields_for :employee_detail do |e|
     = e.input :employee_id, label: "Employee Id"
-    = e.input :notification_emails, collection: User.all.collect(&:email), input_html: {id: 'email', multiple: true, style: "width:240px;"}
+    = e.input :notification_emails, collection: @emails, input_html: {class: 'notification_emails', multiple: true, style: "width:240px;", "data-placeholder" => "You can add multiple emails"}
+  .hide
+    = f.input :project_ids, collection: @projects, input_html: {class: 'notification_emails', multiple: true, style: "width:240px;", "data-placeholder" => "Add projects"}, label: "Projects" 
   = f.submit :save, class: "btn controls"
-//need to remove this to controller 
-- notifications = @user.employee_detail.notification_emails if !@user.employee_detail.notification_emails.nil?
-- if notifications
+- if @notify_users
   %h4 Current Notification to
   %table.table.table-hover
     %tr
       %th Name
       %th Email
-    - notifications.each do |n|
-      - user = User.where(email: n).first
+    - @notify_users.each do |n|
       %tr
-        %td= user.public_profile.name if user
-        %td= n
+        %td= n.public_profile.name if n
+        %td= n.email
 :javascript 
-  $("#email").select2({
-    placeholder: "You can add multiple emails"
-  });
+  $(".notification_emails").select2();

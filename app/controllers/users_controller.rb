@@ -23,6 +23,8 @@ class UsersController < ApplicationController
   def public_profile
     profile = params.has_key?("private_profile") ? "private_profile" : "public_profile"
     update_profile(profile)
+    load_emails_and_projects
+    @user.attachments.first || @user.attachments.build  
   end
 
   def private_profile
@@ -76,8 +78,7 @@ class UsersController < ApplicationController
   def user_params
     safe_params = [] 
     if params[:user][:employee_detail_attributes].present?
-      params["user"]["employee_detail_attributes"]["notification_emails"].reject!(&:blank?)
-      safe_params = [ employee_detail_attributes: [:id, :employee_id, :notification_emails => [] ]]
+      safe_params = [ employee_detail_attributes: [:id, :employee_id, :notification_emails => [] ], :project_ids => [] ]
     elsif params[:user][:attachments_attributes].present?
       safe_params = [attachments_attributes: [:id, :name, :document, :_destroy]] 
     else
@@ -87,11 +88,11 @@ class UsersController < ApplicationController
   end
 
   def load_profiles
-    @public_profile = @user.public_profile.nil? ? @user.build_public_profile : @user.public_profile   
-    @private_profile = @user.private_profile.nil? ? @user.build_private_profile : @user.private_profile
-    @user.employee_detail.nil? ? @user.build_employee_detail : @user.employee_detail
-    @user.attachments.build if @user.attachments.empty? and not (params[:user] && params[:user][:attachments_attributes]).present?
+    @public_profile = @user.public_profile || @user.build_public_profile
+    @private_profile = @user.private_profile || @user.build_private_profile
+    @user.employee_detail || @user.build_employee_detail
   end
+  
 
   def build_addresses
     if request.get?
@@ -99,5 +100,12 @@ class UsersController < ApplicationController
       # need atleast two contact persons details
       2.times {@user.private_profile.contact_persons.build} if @user.private_profile.contact_persons.empty?
     end
+  end
+
+  def load_emails_and_projects
+    @emails = User.all.collect(&:email)
+    @projects = Project.all.collect { |p| [p.name, p.id] }
+    notification_emails = @user.employee_detail.notification_emails 
+    @notify_users = User.where(:email.in => notification_emails || []) 
   end
 end
