@@ -1,17 +1,16 @@
 GIT
-  remote: git://github.com/Mic92/mina-sidekiq.git
-  revision: 2a38663c6208e9cfbc02500c8358f36bfe58f072
-  specs:
-    mina-sidekiq (0.3.0)
-      mina
-
-GIT
   remote: git://github.com/ahoward/mongoid-grid_fs.git
   revision: f073d250ebf96f8e3bdd653a2bd2fb8002ac7544
   specs:
     mongoid-grid_fs (1.9.0)
       mime-types (~> 1.19)
       mongoid (>= 3.0, < 5.0)
+
+GIT
+  remote: git://github.com/marcosbeirigo/mina_extensions.git
+  revision: a363bb053bacc07d572da2b023bd3f04a0831934
+  specs:
+    mina_extensions (0.0.2)
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
@@ -296,7 +295,7 @@ DEPENDENCIES
   jquery-turbolinks
   kaminari
   mina!
-  mina-sidekiq!
+  mina_extensions!
   mongoid!
   mongoid-grid_fs!
   mongoid-rspec
