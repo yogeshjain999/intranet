@@ -114,7 +114,7 @@ task :deploy => :environment do
       # SIDEKIQ restart
       #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
       #we need to stop & start the sidekiq server again
-      invoke :'sidekiq:stop' if [ -f tmp/pids/thin.pid ]
+      invoke :'sidekiq:stop'
       invoke :'sidekiq:start'
       #queue "cd #{deploy_to}/current && nohup sidekiq -e RAILS_ENV=#{env} &"
       #queue "sudo monit restart sidekiq"
