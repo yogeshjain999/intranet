@@ -49,6 +49,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'brakeman', :require => false
 end
 gem 'simplecov', :require => false, :group => :test
 
