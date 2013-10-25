@@ -35,7 +35,7 @@ set :rails_env, env
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/mongoid.yml', 'log', 'tmp', 'public/system', 
-					'public/uploads', 'config/initializers/secret_token.rb', "config/initializers/smtp_gmail.rb"]
+					'public/uploads', 'config/initializers/secret_token.rb', "config/initializers/smtp_gmail.rb", "db/seeds.rb"]
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -79,6 +79,10 @@ task :setup => :environment do
  
   queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/db/"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/db/"]
+  queue! %[touch g+rx,u+rwx "#{deploy_to}/shared/db/seeds.rb"]
 end
 
 desc "Deploys the current version to the server."
@@ -115,7 +119,8 @@ task :deploy => :environment do
       # SIDEKIQ restart
       #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
       #we need to stop & start the sidekiq server again
-      invoke :'sidekiq:stop'
+      invoke :'sidekiq:quiet' 
+      invoke :'sidekiq:stop' 
       invoke :'sidekiq:start'
       #queue "cd #{deploy_to}/current && nohup sidekiq -e RAILS_ENV=#{env} &"
       #queue "sudo monit restart sidekiq"
