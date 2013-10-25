@@ -5,4 +5,8 @@ class EmployeeDetail
 
   field :employee_id, type: Integer
   field :notification_emails, type: Array
+
+  before_save do 
+    self.notification_emails.try(:reject!, &:blank?)
+  end
 end
