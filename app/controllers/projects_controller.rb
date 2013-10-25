@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController
-  
+  load_and_authorize_resource
+  before_action :load_project, except: [:index, :new, :create]
+
   def index
     @projects = Project.all
   end
@@ -17,13 +19,36 @@ class ProjectsController < ApplicationController
       render 'new'
     end
   end
+  
+  def update
+    if @project.update_attributes(safe_params)
+     flash[:notice] = "Project updated Succesfully" 
+     redirect_to projects_path
+    else
+      flash[:alert] = "Project: #{@project.errors.full_messages.join(',')}" 
+      render 'edit'
+    end
+  end
 
   def show
-    @project = Project.find(params[:id])
+    @users = @project.users
+  end
+  
+  def destroy
+    if @project.destroy
+     flash[:notice] = "Project deleted Succesfully" 
+    else
+     flash[:notice] = "Error in deleting project"
+    end
+     redirect_to projects_path
   end
 
   private
   def safe_params
-    params.require(:project).permit(:name, :code_climate_id, :code_climate_snippet)
+    params.require(:project).permit(:name, :code_climate_id, :code_climate_snippet, :is_active)
+  end
+
+  def load_project
+    @project = Project.find(params[:id])
   end
 end
