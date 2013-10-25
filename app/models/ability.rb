@@ -9,11 +9,17 @@ class Ability
       can :invite_user, User
       can :edit, User
       can [:public_profile, :private_profile], User
+      can :manage, Project
     elsif user.role? 'HR'
       can [:public_profile, :private_profile, :edit, :apply_leave], User
       can [:new, :create, :edit, :destroy], LeaveApplication
+      can :manage, Project
+    elsif user.role? 'Employee'
+      can [:public_profile, :private_profile, :apply_leave], User
+      can :read, :all
     else
-      can :read, User
+      can :read, :all
+      #can [:public_profile, :private_profile, :edit, :apply_leave], User
       can [:new, :create, :edit, :destroy], LeaveApplication do
         #user.date
       end
