@@ -25,9 +25,9 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  embeds_one :public_profile#, :cascade_callbacks => true
+  embeds_one :public_profile
   embeds_one :private_profile
-  embeds_one :employee_detail
+  embeds_one :employee_detail, cascade_callbacks: true
   
   has_many :leave_details
   has_many :leave_applications
@@ -46,16 +46,20 @@ class User
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
       user = User.where(email: auth.info.email).first
-      if user
-        user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
-        user.update_attributes(provider: auth.provider, uid: auth.uid)
-      end
+      create_public_profile_if_not_present(user, auth)
       user
     else
       false
     end
   end
   
+  def self.create_public_profile_if_not_present(user, auth)
+    if user && !user.public_profile?
+      user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
+      user.update_attributes(provider: auth.provider, uid: auth.uid)
+    end
+  end
+
   def calculate_remaining_leave(total_leave) 
     ((total_leave * (12 - (self.private_profile.date_of_joining.month - 1)))/12).ceil 
   end
