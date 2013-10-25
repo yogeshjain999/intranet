@@ -7,6 +7,6 @@ class EmployeeDetail
   field :notification_emails, type: Array
 
   before_save do 
-    self.notification_emails.reject!(&:blank?)
+    self.notification_emails.try(:reject!, &:blank?)
   end
 end

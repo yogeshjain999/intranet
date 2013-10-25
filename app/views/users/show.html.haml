@@ -1,44 +1,38 @@
-.form-heading
+.profile
   = image_tag(@user.public_profile.image.thumb.url)
-  %h2.name{style: "position: absolute;top: 120px;left: 170px;"}
+  %h2.name
     = @user.public_profile.name
-.form-horizontal
   %table.table{style: "width: 0%"}
     %tbody
-      %tr
-        %td.icon-signal{title: "Mobile No."}
-        %td
-          = @user.public_profile.mobile_number
-      %tr
-        %td
-          = image_tag "blood-icon.png", title: "Blood Group"
-        %td
-          = @user.public_profile.blood_group
-      %tr
-        %td
-          = image_tag "birth.png", title: "Date of Birth"
-        %td
-          = @user.public_profile.date_of_birth.strftime("%B %d") if @user.public_profile.date_of_birth?
-      %tr 
-        %td 
-          = image_tag "skills.png", title: "Skills"
-        %td
-          = @user.public_profile.try(:skills)
-      %tr 
-        %td 
-          = image_tag "github_small.png", title: "Github Handle"
-        %td
-          = @user.public_profile.try(:github_handle)
-      %tr 
-        %td
-          = image_tag "twitter_small.png", title: "Twitter Handle"
-        %td
-          = @user.public_profile.try(:twitter_handle)
-      %tr 
-        %td
-          = image_tag "rss_small.png", title: "Blog Url"
-        %td
-          = @user.public_profile.try(:blog_url)
+      - if @user.public_profile.mobile_number?
+        %tr
+          %td.icon-signal{title: "Mobile No."}
+          %td= @user.public_profile.mobile_number
+      - if @user.public_profile.blood_group?
+        %tr
+          %td= image_tag "blood-icon.png", title: "Blood Group"
+          %td= @user.public_profile.blood_group
+      - if @user.public_profile.date_of_birth?
+        %tr
+          %td= image_tag "birth.png", title: "Date of Birth"
+          %td= @user.public_profile.date_of_birth.strftime("%B %d") 
+      - if @user.public_profile.skills?
+        %tr 
+          %td= image_tag "skills.png", title: "Skills"
+          %td= @user.public_profile.skills
+      - if @user.public_profile.github_handle?
+        %tr 
+          %td= image_tag "github_small.png", title: "Github Handle"
+          %td= @user.public_profile.github_handle
+      - if @user.public_profile.twitter_handle?
+        %tr 
+          %td= image_tag "twitter_small.png", title: "Twitter Handle"
+          %td= @user.public_profile.try(:twitter_handle)
+      - if @user.public_profile.blog_url?
+        %tr 
+          %td= image_tag "rss_small.png", title: "Blog Url"
+          %td= @user.public_profile.blog_url
 :css
+  .table{margin-top: 30px;}
   .table th { border-top: 1px solid #ffffff; }
-  .table td { border-top: 1px solid #ffffff; }
+  .table td { border-top: 1px solid #ffffff; padding: 2px;}
