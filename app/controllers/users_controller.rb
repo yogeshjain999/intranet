@@ -105,7 +105,7 @@ class UsersController < ApplicationController
   def load_emails_and_projects
     @emails = User.all.collect(&:email)
     @projects = Project.all.collect { |p| [p.name, p.id] }
-    notification_emails = @user.employee_detail.notification_emails 
+    notification_emails = @user.employee_detail.try(:notification_emails) 
     @notify_users = User.where(:email.in => notification_emails || []) 
   end
 end

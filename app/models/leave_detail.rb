@@ -7,6 +7,6 @@ class LeaveDetail
 
   
   def validate_leave(name, number_of_day)
-    ((self.available_leave[name.to_sym] - number_of_day) > 1).blank? ? true: false          
+    ((self.available_leave[name] - number_of_day) > 1).blank? ? true: false          
   end
 end

@@ -24,6 +24,7 @@ class LeaveApplication
   private
     def validate_leave_details
       user = self.user
+      
       if user.leave_details.where(year: Date.today.year).first.validate_leave(self.leave_type.name, self.number_of_days) 
         errors.add(:base, 'Not Sufficient Leave !Contact Administrator ') 
       end
