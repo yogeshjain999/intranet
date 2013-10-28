@@ -3,7 +3,8 @@ require 'spec_helper'
 describe ProjectsController do
   
   before(:each) do
-   @admin = FactoryGirl.create(:user)
+   @admin = FactoryGirl.create(:user, role: 'Admin')
+   sign_in @admin
   end
   describe "GET index" do
     it "should list all projects" do

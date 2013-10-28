@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     elsif params[:user][:attachments_attributes].present?
       safe_params = [attachments_attributes: [:id, :name, :document, :_destroy]] 
     else
-      safe_params = [:status]
+      safe_params = [:status, :role]
     end
     params.require(:user).permit(*safe_params)
   end

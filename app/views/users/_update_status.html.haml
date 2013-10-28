@@ -5,6 +5,7 @@
     = f.check_box :status, {}, "#{STATUS[2]}", "#{STATUS[1]}"
   %br
   %br
-  = f.submit 'Update Status', class: 'btn controls'
+  = f.input :role, collection: User::ROLES, prompt: 'Select Role', required: false, label: "Change Role"
+  = f.submit 'Update', class: 'btn controls'
 :css
   .make-switch{ height: 29px; margin-left: 18px;}
