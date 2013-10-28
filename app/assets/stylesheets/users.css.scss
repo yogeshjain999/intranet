@@ -36,5 +36,27 @@
   margin-top: 5%;
 }
 .document{position: relative;margin-left: 400px;top:-96px;}
-.profile{max-width: 380px;padding: 30px 30px; background-color: white;}
-.name{position: absolute; top: 202px;left: 200px;}
+.profile{max-width: 380px;max-height: 350px;padding: 30px 30px; background-color: white; box-shadow: 2px 2px 23px 0px;}
+.name{position: absolute; top: 160px;left: 200px;}
+.projects{
+  position: relative;  
+  max-width: 260px;  
+  max-height: 350px;
+  top: -404px;  
+  left: 460px;
+  padding: 1px 15px;
+  background-color: white; 
+  box-shadow: 2px 2px 23px 0px;
+}
+.active-projects{
+  position: absolute;  
+  min-width: 210px; 
+  max-height: 295px;
+  top: 106px;  
+  left: 634px;
+  padding: 0px 30px;
+  background-color: white; 
+  box-shadow: 2px 2px 23px 0px;
+  margin-top: 60px;
+}
+.project-heading{position: absolute; top: -10px;}

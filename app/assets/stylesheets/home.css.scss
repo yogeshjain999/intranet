@@ -10,10 +10,13 @@ body {
 /* begin styles for RSS Feed */
 
 .rss-box {
+  position: absolute;
+  top: 167px;
   width: 550px;
   background-color: #FFFFFF;
-  margin-top: 60px;
+  margin-top: 0px;
   /*border: 7px solid #FF9900;*/
+  box-shadow: 2px 2px 23px 0px;
 
 }
 .rss-item-auth{

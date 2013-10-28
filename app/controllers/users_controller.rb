@@ -8,6 +8,9 @@ class UsersController < ApplicationController
     @users = User.employees
   end
 
+  def show
+    @projects = @user.projects
+  end
 
   def update
     @user.attributes =  user_params

@@ -4,7 +4,7 @@
   /*float:left;*/
   height:107px;
   min-height: 107px;
-  margin-bottom:50px;
+  margin-bottom:0px;
   .wrap {
     position:relative;
     margin:0 auto;
@@ -33,6 +33,8 @@
   }
 }
 .drop{
-  position: relative;
+  //position: relative;
+  top: inherit;
+  left: inherit;
 }
 
