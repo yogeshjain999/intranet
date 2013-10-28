@@ -41,7 +41,7 @@ class User
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 
-  scope :employees, self.in(role: ['Employee', 'Manager'])
+  scope :employees, self.in(role: ['Employee', 'Manager']).asc("public_profile.first_name")
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
