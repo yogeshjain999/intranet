@@ -9,7 +9,7 @@ class Project
   accepts_nested_attributes_for :users
   validates_presence_of :name
   before_save :check_active
-  scope :all_active, where(is_active: true)
+  scope :all_active, where(is_active: true).asc(:name)
 
   def check_active
     self.is_active = (self.is_active == 'true' ? true : false)

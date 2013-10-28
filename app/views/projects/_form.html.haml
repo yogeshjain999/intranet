@@ -2,11 +2,11 @@
   .form-heading
     %h2= "Add New Project"
   .control-group
-    = f.input :name
+    = f.input :name, required: false
     = f.label "Is Active"
     .make-switch{"data-on" => "success", "data-off" => "warning", "data-on-label" => "True", "data-off-label" => "False"}
       = f.check_box :is_active, {}, 'true', 'false'
-    = f.input :code_climate_id
+    = f.input :code_climate_id, label: "Code climate id"
     = f.input :code_climate_snippet, as: :text
     = f.submit :save, class: 'btn controls'
 :css

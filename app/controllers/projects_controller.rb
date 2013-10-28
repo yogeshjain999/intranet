@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
-  #load_and_authorize_resource 
+  load_and_authorize_resource 
+  skip_load_and_authorize_resource :only => :create
   before_action :authenticate_user!
   before_action :load_project, except: [:index, :new, :create]
 

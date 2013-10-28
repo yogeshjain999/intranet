@@ -1,4 +1,5 @@
 = render 'profile'
-.projects
-  %table.table{style: "width: 0%"}
-    = render partial: 'project', collection: @projects
+- unless @projects.empty?
+  .projects
+    %table.table{style: "width: 0%"}
+      = render partial: 'project', collection: @projects

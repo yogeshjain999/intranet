@@ -17,6 +17,7 @@ class Ability
     elsif user.role? 'Employee'
       can [:public_profile, :private_profile, :apply_leave], User
       can :read, :all
+      cannot :manage, Project
     else
       can :read, :all
       #can [:public_profile, :private_profile, :edit, :apply_leave], User
