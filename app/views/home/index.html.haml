@@ -1,4 +1,4 @@
-- if user_signed_in? and !@projects.blank?
+- unless @projects.blank?
   .active-projects
     %table.table{style: "width: 0%"}
       = render partial: 'users/project', collection: @projects
