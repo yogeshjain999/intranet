@@ -41,7 +41,8 @@
 .projects{
   position: relative;  
   max-width: 260px;  
-  max-height: 350px;
+  max-height: 406px;
+  overflow-y: auto;
   top: -410px;  
   left: 460px;
   padding: 1px 15px;
@@ -50,8 +51,11 @@
 }
 .active-projects{
   position: absolute;  
+  max-width: 210px; 
   min-width: 210px; 
-  max-height: 295px;
+  max-height: 355px;
+  overflow-y: auto;
+  overflow-x: auto;
   top: 106px;  
   left: 634px;
   padding: 0px 30px;

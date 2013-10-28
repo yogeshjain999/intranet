@@ -8,13 +8,13 @@
         %th
         %th Employee Name
         %th Email
-        - if can? :edit, current_user
+        - if can? :edit, User
           %th Role
           %th Status
     %tbody
       - @users.each_with_index do |user, index|
         %tr
-          - if can? :edit, current_user
+          - if can? :edit, User
             %td #{index+1}
             %td= image_tag(user.public_profile.image.thumb.url, class: 'img-polaroid') if user.public_profile
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user) if user.public_profile

@@ -1,6 +1,6 @@
 = link_to current_user.public_profile.name, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
 %ul.dropdown-menu.drop
-  - if can? :invite_user, current_user
+  - if can? :invite_user, User
     %li
       = link_to "Invite Employee", invite_user_path
   %li

@@ -1,17 +1,17 @@
 .form-heading
   - user_name = @user.public_profile.nil? ? @user.public_profile.first_name : @user.email.split('@')[0]
   %h2=current_user == @user ? 'My Profile' : "#{user_name}'s Profile"
-- if can? :edit, current_user and current_user.id != @user.id
+- if can? :edit, User and current_user.id != @user.id
   = render partial: "update_status"
 %div.tabbable
   %ul.nav.nav-tabs
     %li.active.public-tab
       %a{data: {toggle: 'tab'}, href: "#public"} 
-        Public 
+        Public Profile
     %li.private-tab
       %a{data: {toggle: "tab"}, href: "#private"} 
-        Private
-    - if can? :edit, current_user
+        Personal Details
+    - if can? :edit, User
       %li.emp-details-tab
         %a{data: {toggle: "tab"}, href: "#emp-details"}
           Employee details
