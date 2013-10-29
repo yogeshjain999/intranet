@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   before_action :load_project, except: [:index, :new, :create]
 
   def index
-    @projects = Project.all
+    @projects = Project.get_all_sorted_by_name
   end
 
   def new
