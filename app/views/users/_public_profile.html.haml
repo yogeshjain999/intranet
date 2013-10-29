@@ -13,7 +13,7 @@
         = pub.input :image, label: 'Photo'
 
   = pub.input :blood_group, collection: BLOOD_GROUPS 
-  = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker'}
+  = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @public_profile.date_of_birth.try(:strftime, "%d-%m-%Y")}
   = pub.input :skills, as: :text
   = pub.input :github_handle
   = pub.input :twitter_handle

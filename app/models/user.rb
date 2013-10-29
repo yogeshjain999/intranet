@@ -93,12 +93,11 @@ class User
   def sent_mail_for_approval(from_date: Date.today, to_date: Date.today)
     
     notified_users = [
-                      User.find_by(role: 'HR').email, User.find_by(role: 'Administrator@joshsoftware.com').email,
-                      current_user.employment_details.try(:notification_emails).try(:split, ',')
+                      User.find_by(role: 'HR').email, User.find_by(role: 'Super Admin').email,
+                      self.employment_detail.try(:notification_emails).try(:split, ',')
                      ].flatten.compact.uniq
-    notified_users.each do|email|
-      UserMailer.delay.leave_application(self, receiver: email, from_date: from_date, to_date: to_date)
-    end
+    
+    UserMailer.delay.leave_application(self, receiver: notified_users, from_date: from_date, to_date: to_date)
   end
 
   def role?(role)
