@@ -23,15 +23,18 @@
       - if @user.public_profile.github_handle?
         %tr 
           %td= image_tag "github_small.png", title: "Github Handle"
-          %td= @user.public_profile.github_handle
+          %td
+            = link_to @user.public_profile.github_handle, "https://github.com/#{@user.public_profile.github_handle}", target: '_blank'
       - if @user.public_profile.twitter_handle?
         %tr 
           %td= image_tag "twitter_small.png", title: "Twitter Handle"
-          %td= @user.public_profile.try(:twitter_handle)
+          %td
+            = link_to @user.public_profile.twitter_handle, "https://twitter.com/#{@user.public_profile.twitter_handle}", target: '_blank'
       - if @user.public_profile.blog_url?
         %tr 
           %td= image_tag "rss_small.png", title: "Blog Url"
-          %td= @user.public_profile.blog_url
+          %td
+            = link_to @user.public_profile.blog_url, "#{@user.public_profile.blog_url}", target: '_blank'
 :css
   .table{margin-top: 30px;}
   .table th { border-top: 1px solid #ffffff; }
