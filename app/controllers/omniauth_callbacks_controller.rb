@@ -4,7 +4,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if user
       if user.persisted?
         flash.notice = "Signed in Successfully!"
-        sign_in_and_redirect user
+        sign_in user
+        redirect_to public_profile_user_path(user)
       else
         session["devise.user_attributes"] = user.attributes
         flash.notice = "Contact Josh Software Admin for valid invitation request"
