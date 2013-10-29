@@ -9,3 +9,7 @@ GENDER = ['Male', 'Female']
 ADDRESSES = ['Permanent Address', 'Temporary Address']
 BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
 STATUS = ['created', 'pending', 'approved']
+
+GOOGLE_API_CLIENT_ID = "663367146304.apps.googleusercontent.com"
+GOOGLE_API_CLIENT_SECRET="X9ZqbLESrv5ogPQznxZpnhTX"
+GOOGLE_APT_REDIRECT_URL="http://intranet.joshsoftware.com/google/auth_api"
