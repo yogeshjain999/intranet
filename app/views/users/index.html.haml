@@ -26,7 +26,7 @@
                 = user.status
             %td= link_to 'Edit', public_profile_user_path(user), class: 'btn', data: {'no-turbolink' =>  true}
           - elsif user.status != 'created'
-            %td #{index+1}
+            %td 
             %td= image_tag(user.public_profile.image.url, class: 'img-polaroid') if user.public_profile
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)
             %td #{user.email}
