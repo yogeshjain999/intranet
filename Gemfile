@@ -65,8 +65,8 @@ gem 'mina_extensions', github: 'marcosbeirigo/mina_extensions'
 #webserver for staging, production
 gem 'unicorn'
 gem 'thin'
-# Use unicorn as the app server
-# gem 'unicorn'
+
+gem 'google-api-client'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
