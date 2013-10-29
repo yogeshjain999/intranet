@@ -1,9 +1,11 @@
 class Project
   include Mongoid::Document
+  include Mongoid::Slug
   field :name
   field :code_climate_id
   field :code_climate_snippet
   field :is_active, type: Boolean, default: true
+  slug :name
 
   has_and_belongs_to_many :users
   accepts_nested_attributes_for :users

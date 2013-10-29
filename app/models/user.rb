@@ -1,8 +1,9 @@
 class User
   include Mongoid::Document
+  include Mongoid::Slug
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
-  ROLES = ['Admin', 'Manager', 'HR', 'Employee']
+  ROLES = ['Admin', 'Manager', 'HR', 'Employee', 'Intern']
   ## Database authenticatable
   field :email,               :type => String, :default => ""
   field :encrypted_password,  :type => String, :default => ""
@@ -10,6 +11,7 @@ class User
   field :uid,                 :type => String
   field :provider,            :type => String        
   field :status,              :type => String, :default => STATUS[0]
+
 
   ## Recoverable
   field :reset_password_token,   :type => String
@@ -24,7 +26,7 @@ class User
   field :last_sign_in_at,    :type => Time
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
-
+    
   embeds_one :public_profile
   embeds_one :private_profile
   embeds_one :employee_detail, cascade_callbacks: true
@@ -41,7 +43,14 @@ class User
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
 
-  scope :employees, self.in(role: ['Employee', 'Manager']).asc("public_profile.first_name")
+  scope :employees, all.asc("public_profile.first_name")
+  
+  #Public profile will be nil when admin invite user for sign in with only email address 
+  delegate :name, to: :public_profile, :allow_nil => true
+  slug :name do|u|
+    u.name.try(:to_url) || u.id.to_s   
+  end
+
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
@@ -52,7 +61,7 @@ class User
       false
     end
   end
-  
+
   def self.create_public_profile_if_not_present(user, auth)
     if user && !user.public_profile?
       user.build_public_profile(first_name: auth.info.first_name, last_name: auth.info.last_name).save
