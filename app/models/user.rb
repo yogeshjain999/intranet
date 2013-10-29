@@ -105,7 +105,7 @@ class User
   end
   
   def can_edit_user?(user)
-    (["HR", "Admin"].include?(self.role)) || self == user 
+    (["HR", "Admin", "Super Admin"].include?(self.role)) || self == user 
   end
 
   def can_edit?(user)
