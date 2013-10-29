@@ -95,7 +95,6 @@ class UsersController < ApplicationController
     @private_profile = @user.private_profile || @user.build_private_profile
     @user.employee_detail || @user.build_employee_detail
   end
-  
 
   def build_addresses
     if request.get?

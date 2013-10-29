@@ -20,8 +20,15 @@ class LeaveApplication
 
   validate :validate_leave_details
 
+  after_save :deduct_available_leave_send_mail
 
   private
+    def deduct_available_leave_send_mail
+      user = self.user
+      user.leave_details.where(year: Date.today.year).first.deduct_available_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
+      user.sent_mail_for_approval(from_date: self.start_at, to_date: self.end_at) 
+    end
+
     def validate_leave_details
       user = self.user
       

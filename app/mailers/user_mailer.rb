@@ -14,10 +14,12 @@ class UserMailer < ActionMailer::Base
     mail(to: [admin.email, hr.email].join(',') , subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
   
-  def leave_application(user, receiver: 'hr@joshsoftware.com', from_date: Date.today , to_date: Date.today)
-    @user = user
-    @receiver = receiver
+  def leave_application(sender_email, receivers: ['hr@joshsoftware.com'], from_date: Date.today , to_date: Date.today)
+    @user = sender_email
+    @receivers = receivers
     @from_date = from_date
-    @to_date = to_date     
+    @to_date = to_date    
+      
+    mail(from: sender_email, to: receivers, subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
 end
