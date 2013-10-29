@@ -6,5 +6,5 @@ class ContactPerson
 
   embedded_in :private_profile
   
-  validates :phone_no, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
+  #validates :phone_no, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
 end

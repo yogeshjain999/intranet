@@ -103,4 +103,14 @@ class User
   def role?(role)
     self.role == role
   end
+  
+  def can_edit_user?(user)
+    (["HR", "Admin"].include?(self.role)) || self == user 
+  end
+
+  def can_edit?(user)
+    return true if self.role?("Admin")
+    return true if self.role?("HR") and self != user
+    return false
+  end
 end

@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
   before_action :load_profiles, only: [:public_profile, :private_profile, :update, :edit]
   before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
+  before_action :authorize, only: [:public_profile, :edit]
 
   def index
     @users = User.employees
@@ -109,5 +110,10 @@ class UsersController < ApplicationController
     @projects = Project.all.collect { |p| [p.name, p.id] }
     notification_emails = @user.employee_detail.try(:notification_emails) 
     @notify_users = User.where(:email.in => notification_emails || []) 
+  end
+
+  def authorize
+    message = "You are not authorize to perform this action"
+    (current_user.can_edit_user?(@user)) || (flash[:error] = message; redirect_to root_url)
   end
 end
