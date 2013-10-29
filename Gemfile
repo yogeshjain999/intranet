@@ -4,6 +4,7 @@ ruby "2.0.0"
 gem 'rails', '4.0.0'
 gem 'devise'
 gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid_slug'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'rmagick'
 gem 'mongoid-grid_fs', github: 'ahoward/mongoid-grid_fs'

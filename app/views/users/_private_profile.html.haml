@@ -6,8 +6,8 @@
   = pri.input :qualification
   = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker', value: @private_profile.date_of_joining.try(:strftime, '%d-%m-%Y')}
   = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @private_profile.date_of_relieving.try(:strftime, '%d-%m-%Y')}
-  = pri.input :work_experience
-  = pri.input :previous_company
+  = pri.input :work_experience, placeholder: 'No of years'
+  = pri.input :previous_company, as: :text
   %h4 Emergency Contact Details
   %table{style: "width:100%;"}
     %tr
@@ -31,11 +31,11 @@
             = a.input :type_of_address, as: :hidden
             = a.input :flat_or_house_no, disabled: disable          
             = a.input :building_or_society_name, disabled: disable 
-            = a.input :road, disabled: disable                    
             = a.input :locality, disabled: disable               
             = a.input :city, disabled: disable                  
             = a.input :state, disabled: disable                
-            = a.input :phone_no, disabled: disable         
+            = a.input :phone_no, disabled: disable        
+            = a.input :pin_code, disabled: disable
   %br
   %center
     = pri.submit "Update Profile", class: 'btn'
