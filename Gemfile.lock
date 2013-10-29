@@ -167,6 +167,9 @@ GEM
       mongoid (>= 3.0.1)
       rake
       rspec (>= 2.14)
+    mongoid_slug (3.1.2)
+      mongoid (> 3.0)
+      stringex (~> 1.4)
     moped (1.5.1)
     multi_json (1.8.0)
     multipart-post (1.2.0)
@@ -267,6 +270,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    stringex (1.5.1)
     temple (0.6.7)
     terminal-table (1.4.5)
     thin (1.6.0)
@@ -324,6 +328,7 @@ DEPENDENCIES
   mongoid!
   mongoid-grid_fs!
   mongoid-rspec
+  mongoid_slug
   nested_form
   omniauth-google-oauth2
   rails (= 4.0.0)

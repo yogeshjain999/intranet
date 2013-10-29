@@ -10,11 +10,15 @@ class Ability
       can :edit, User
       can [:public_profile, :private_profile], User
       can :manage, Project
-    elsif user.role? 'HR'
+    elsif user.role? 'HR' 
       can :manage, Project
       can [:public_profile, :private_profile, :edit, :apply_leave], User
       can [:new, :create, :edit, :destroy], LeaveApplication
     elsif user.role? 'Employee'
+      can [:public_profile, :private_profile, :apply_leave], User
+      can :read, :all
+      cannot :manage, Project
+    elsif user.role? 'Intern'
       can [:public_profile, :private_profile, :apply_leave], User
       can :read, :all
       cannot :manage, Project
