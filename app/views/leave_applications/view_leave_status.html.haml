@@ -1,0 +1,69 @@
+:css
+  .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus{
+    background: -webkit-gradient( linear, left top, left bottom, from(#fff3db), to(rgba(0, 0, 0, 0.39)));
+  }
+%ul.leave_applicationTab.nav.nav-tabs
+  %li.active
+    %a{data:{toggle: "tab"}, href: '#approved_leave'}
+      Approved
+  %li
+    %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
+      Need Approval
+.leave_application_tab_content.tab-content
+  #approved_leave.tab-pane.fade.in.active
+    = render 'leave_applications/leave_view', leave_data: @approved_leave
+    -#
+      %table.table.table-hover
+        %thead
+          %th
+            From
+          %th 
+            Leave Type
+          %th 
+            Reason
+          %th
+            Action
+        %tbody
+          - @approved_leave.each do|appr_leave|
+            %tr
+              %td= appr_leave.user.try(:name)
+              %td= appr_leave.leave_type.name
+              %td= appr_leave.reason
+              %td
+                Approved
+  #unapproved_leave.tab-pane.fade
+    = render 'leave_applications/leave_view', leave_data: @pending_leave
+    -#
+      %table.table.table-hover
+        %thead
+          %th
+            From
+          %th
+            Start Date
+          %th
+            Last Date 
+          %th 
+            Leave Type
+          %th 
+            Reason
+          %th
+            Action  
+        %tbody
+          - @pending_leave.each do|appr_leave|
+            %tr
+              %td= appr_leave.user.try(:name)
+              %td= appr_leave.start_at
+              %td= appr_leave.end_a
+              %td= appr_leave.leave_type.name
+              %td= appr_leave.reason
+              %td
+                .btn-group
+                  %a.btn.dropdown-toggle.btn-primary{data:{toggle: "dropdown"}, href: '#'}
+                    Action
+                    %span.caret
+                  %ul.dropdown-menu 
+                    %li
+                      %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
+                        Approved Leave
+                      %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
+                        Cancel Leave

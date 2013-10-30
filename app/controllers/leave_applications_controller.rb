@@ -20,7 +20,7 @@ class LeaveApplicationsController < ApplicationController
     end
     redirect_to public_profile_user_path(current_user) and return 
   end 
-  a
+  
   def view_leave_status
     @pending_leave = LeaveApplication.where(leave_status: 'Pending')
     @approved_leave = LeaveApplication.where(leave_status: 'Approved') 

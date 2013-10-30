@@ -1,0 +1,36 @@
+%table.table.table-hover
+  %thead
+    %th
+      From
+    %th
+      Start Date
+    %th
+      Last Date 
+    %th 
+      Leave Type
+    %th 
+      Reason
+    %th
+      Action  
+  %tbody
+    - leave_data.each do|appr_leave|
+      %tr
+        %td= appr_leave.user.try(:name)
+        %td= appr_leave.start_at
+        %td= appr_leave.end_at
+        %td= appr_leave.leave_type.name
+        %td= appr_leave.reason
+        %td
+          - if appr_leave.leave_status == "Pending"
+            .btn-group
+              %a.btn.dropdown-toggle.btn-primary{data:{toggle: "dropdown"}, href: '#'}
+                Action
+                %span.caret
+              %ul.dropdown-menu 
+                %li
+                  %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
+                    Approved Leave
+                  %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
+                    Cancel Leave
+          - else
+            = appr_leave.status 

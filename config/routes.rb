@@ -8,17 +8,16 @@ Intranet::Application.routes.draw do
   end
 
   resources :users, except: [:new, :create, :destroy] do
-   resources :leave_applications 
+   resources :leave_applications, except: [:view_leave_status] 
     member do
       match :public_profile, via: [:get, :put]
       match :private_profile, via: [:get, :put]
       get :download_document
     end
 
-    collection do
-      get 'view_status' =>  :view_leave_status
-    end
   end
+  
+  get 'view/leave_applications' => 'leave_applications#view_leave_status', as: :view_leaves 
 
   resources :projects
   # You can have the root of your site routed with "root"
