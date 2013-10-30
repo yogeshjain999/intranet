@@ -12,6 +12,7 @@ class Ability
       can :manage, Project
     elsif user.role? 'HR' 
       can :manage, Project
+      can :invite_user, User
       can [:public_profile, :private_profile, :edit, :apply_leave], User
       can [:new, :create, :edit, :destroy], LeaveApplication
     elsif user.role? 'Employee'

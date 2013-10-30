@@ -6,7 +6,6 @@ class PrivateProfile
   field :passport_number
   field :qualification
   field :date_of_joining, :type => Date
-  field :date_of_relieving, :type => Date
   field :work_experience
   field :previous_company
 

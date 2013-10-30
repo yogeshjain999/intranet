@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
   before_action :load_profiles, only: [:public_profile, :private_profile, :update, :edit]
   before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
+  before_action :authorize, only: [:public_profile, :edit]
 
   def index
     @users = User.employees
@@ -81,7 +82,7 @@ class UsersController < ApplicationController
   def user_params
     safe_params = [] 
     if params[:user][:employee_detail_attributes].present?
-      safe_params = [ employee_detail_attributes: [:id, :employee_id, :notification_emails => [] ], :project_ids => [] ]
+      safe_params = [ employee_detail_attributes: [:id, :employee_id, :date_of_relieving,:notification_emails => [] ], :project_ids => [] ]
     elsif params[:user][:attachments_attributes].present?
       safe_params = [attachments_attributes: [:id, :name, :document, :_destroy]] 
     else
@@ -109,5 +110,10 @@ class UsersController < ApplicationController
     @projects = Project.all.collect { |p| [p.name, p.id] }
     notification_emails = @user.employee_detail.try(:notification_emails) 
     @notify_users = User.where(:email.in => notification_emails || []) 
+  end
+
+  def authorize
+    message = "You are not authorize to perform this action"
+    (current_user.can_edit_user?(@user)) || (flash[:error] = message; redirect_to root_url)
   end
 end
