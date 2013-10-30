@@ -12,7 +12,6 @@ class User
   field :provider,            :type => String        
   field :status,              :type => String, :default => STATUS[0]
 
-
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -50,7 +49,6 @@ class User
   slug :name do|u|
     u.name.try(:to_url) || u.id.to_s   
   end
-
 
   def self.from_omniauth(auth)
     if auth.info.email.include? "joshsoftware.com"
@@ -109,8 +107,13 @@ class User
   end
 
   def can_edit?(user)
-    return true if self.role?("Admin")
+    return true if (["Admin", "Super Admin"]).include?(self.role)
     return true if self.role?("HR") and self != user
+    return false
+  end
+
+  def allow_in_listing?
+    return true if self.status == 'approved'
     return false
   end
 end
