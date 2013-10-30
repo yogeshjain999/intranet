@@ -59,7 +59,7 @@ describe UsersController do
 
     it "private profile successfully " do
       params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_emailid"=>"narutosanjiv@gmail.com", 
-                "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013", "date_of_relieving"=>"", 
+                "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013",  
                 "work_experience"=>"", "previous_company"=>"", "id" => @user.private_profile.id}, "id"=> @user.id}
 
       put :private_profile, params
@@ -68,7 +68,7 @@ describe UsersController do
 
     it "should fail if required data not sent" do
       params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_emailid"=>"", 
-                "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013", "date_of_relieving"=>"", 
+                "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013",
                 "work_experience"=>"", "previous_company"=>"", "id" => @user.private_profile.id}, "id"=> @user.id}
 
       put :private_profile, params

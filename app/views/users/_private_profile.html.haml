@@ -5,7 +5,6 @@
   = pri.input :passport_number
   = pri.input :qualification
   = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker', value: @private_profile.date_of_joining.try(:strftime, '%d-%m-%Y')}
-  = pri.input :date_of_relieving, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @private_profile.date_of_relieving.try(:strftime, '%d-%m-%Y')}
   = pri.input :work_experience, placeholder: 'No of years'
   = pri.input :previous_company, as: :text
   %h4 Emergency Contact Details

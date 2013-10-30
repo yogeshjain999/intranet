@@ -8,10 +8,11 @@ class UserMailer < ActionMailer::Base
   end
 
   def verification(updated_user_id)
-    admin = User.where(role: 'Super Admin').first
+    admin_emails = User.where(role: 'Admin').all.map(&:email)
     @updated_user = User.where(id: updated_user_id).first
     hr = User.where(role: 'HR').first
-    mail(to: [admin.email, hr.email].join(',') , subject: "#{@updated_user.public_profile.name} Profile has been updated")
+    receiver_emails = [admin_emails, hr.email].flatten.join(',')
+    mail(to: receiver_emails , subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
   
   def leave_application(sender_email, receivers: ['hr@joshsoftware.com'], from_date: Date.today , to_date: Date.today)
