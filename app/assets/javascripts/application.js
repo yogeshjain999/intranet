@@ -19,4 +19,5 @@
 //= require jquery_nested_form
 //= require jqBootstrapValidation
 //= require select2.min
+//= require leave_applications 
 //= require_tree .

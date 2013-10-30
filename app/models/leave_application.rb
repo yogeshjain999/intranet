@@ -22,6 +22,19 @@ class LeaveApplication
 
   after_save :deduct_available_leave_send_mail
 
+
+  def process_after_update(status)
+    send("process_#{status}") 
+  end
+  
+  def process_approved
+    #send approval mail
+  end
+
+  def process_rejected
+    #added the leave 
+  end
+
   private
     def deduct_available_leave_send_mail
       user = self.user

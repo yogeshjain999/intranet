@@ -33,37 +33,24 @@
                 Approved
   #unapproved_leave.tab-pane.fade
     = render 'leave_applications/leave_view', leave_data: @pending_leave
-    -#
-      %table.table.table-hover
-        %thead
-          %th
-            From
-          %th
-            Start Date
-          %th
-            Last Date 
-          %th 
-            Leave Type
-          %th 
-            Reason
-          %th
-            Action  
-        %tbody
-          - @pending_leave.each do|appr_leave|
-            %tr
-              %td= appr_leave.user.try(:name)
-              %td= appr_leave.start_at
-              %td= appr_leave.end_a
-              %td= appr_leave.leave_type.name
-              %td= appr_leave.reason
-              %td
-                .btn-group
-                  %a.btn.dropdown-toggle.btn-primary{data:{toggle: "dropdown"}, href: '#'}
-                    Action
-                    %span.caret
-                  %ul.dropdown-menu 
-                    %li
-                      %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
-                        Approved Leave
-                      %a{href: '#', class: 'unapproved_action', data:{id: appr_leave.id.to_s}}
-                        Cancel Leave
+:javascript
+  $('.leave_application_tab_content').on('click', '.cancel_leave, .approve_leave', function(){
+    leave_application_id = $(this).data('id');
+    url = "/" + $(this).data('url');
+    action = $(this).data('action');
+ 
+    $.ajax({
+      url: '/approve_leave_application',
+      type: 'GET',
+      data: {leave_application_id: leave_application_id, action: 'cancel_leave'},
+      success: function(){
+        tr_id = "#leave_application_" + leave_application_id;
+        b = $(tr_id).detach();
+        b.children().last().text(action);
+        $('#approved_leave table tbody').append(b)  
+      },
+      error: function(){
+        alert('contact server');
+      }
+    });  
+  });

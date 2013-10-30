@@ -18,7 +18,8 @@ Intranet::Application.routes.draw do
   end
   
   get 'view/leave_applications' => 'leave_applications#view_leave_status', as: :view_leaves 
-
+  get 'cancel_leave_application' => 'leave_applications#cancel_leave' 
+  get 'approve_leave_application' => 'leave_applications#approve_leave' 
   resources :projects
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
