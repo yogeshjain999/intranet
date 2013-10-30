@@ -12,6 +12,9 @@
 #ignore smtp credentials
 
 /config/initializers/smtp_gmail.rb
+
+#ignore google auth keys
+/config/initializers/constants.rb
 # Ignore bundler config
 /.bundle
 

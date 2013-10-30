@@ -12,10 +12,13 @@ body {
 .rss-box {
   position: absolute;
   top: 30%;
+  left: 2%;
   min-width: 28%;
   max-width: 28%;
-  max-height: 58%;
-  min-height: 58%;
+  max-height: 62%;
+  min-height: 62%;
+  overflow-y: auto;
+  overflow-x: auto;
   background-color: #FFFFFF;
   box-shadow: 2px 2px 23px 0px;
   border-radius: 3%;

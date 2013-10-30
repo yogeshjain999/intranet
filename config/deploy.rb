@@ -35,7 +35,8 @@ set :rails_env, env
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/mongoid.yml', 'log', 'tmp', 'public/system', 
-					'public/uploads', 'config/initializers/secret_token.rb', "config/initializers/smtp_gmail.rb", "db/seeds.rb"]
+					'public/uploads', 'config/initializers/secret_token.rb', "config/initializers/smtp_gmail.rb", "db/seeds.rb",
+          "config/initializers/constants.rb"]
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -61,6 +62,7 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/initializers/secret_token.rb"]
    
   queue! %[touch "#{deploy_to}/shared/config/initializers/smtp_gmail.rb"]
+  queue! %[touch "#{deploy_to}/shared/config/initializers/constants.rb"]
 
   queue! %[touch "#{deploy_to}/shared/config/mongoid.yml"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/config/mongoid.yml"]
