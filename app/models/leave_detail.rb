@@ -7,7 +7,7 @@ class LeaveDetail
 
   
   def validate_leave(name, number_of_day)
-    ((self.available_leave[name] - number_of_day) > 1).blank? ? true: false          
+    ((self.available_leave[name] - number_of_day) > 0).blank? ? true: false          
   end
   
   def deduct_available_leave(leave_type: "Sick", no_of_leave: 1)

@@ -14,6 +14,10 @@ Intranet::Application.routes.draw do
       match :private_profile, via: [:get, :put]
       get :download_document
     end
+
+    collection do
+      get 'view_status' =>  :view_leave_status
+    end
   end
 
   resources :projects
