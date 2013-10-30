@@ -68,6 +68,7 @@ gem 'unicorn'
 gem 'thin'
 
 gem 'google-api-client'
+gem 'authority'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

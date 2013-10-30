@@ -18,9 +18,26 @@ class GoogleClient
       :signing_key => key)
 
 # # Request a token for our service account
+    
+    @event = {
+    'summary' => 'Check',
+    'location' => 'this is where the location goes',
+     'description' => 'desc',
+    'start' => {
+      'dateTime' => DateTime.now # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
+    },
+    'end' => {
+      'dateTime' => '2013-02-08T10:25:00.000-07:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
+    }
+  }    
+
     client.authorization.fetch_access_token!
     service = client.discovered_api('calendar', 'v3')
-     
+    result = client.execute(api_method: service.events.insert, 
+                   parameters: {'calendarId' => 'primary'},
+                   body: JSON.dump(@event),
+                   :headers => {'Content-Type' => 'application/json'})
+    p result
   end 
 end 
 GoogleClient.connect
