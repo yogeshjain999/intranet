@@ -28,6 +28,17 @@
                     .media-body
                       Cras sit amet nibh libero, in gravida nulla. Nulla metus scelerisque ante sollicitudin commodo
             %li= link_to "Employees", users_path
+<<<<<<< Updated upstream
+=======
+            %li
+              = link_to "Projects", '#', "data-toggle" => "dropdown", class: "dropdown-toggle"
+              %ul.dropdown-menu.drop
+                %li
+                  =link_to 'Add Project', new_project_path
+                %li.divider
+                %li
+                  =link_to 'All Projects', projects_path
+>>>>>>> Stashed changes
             %li
               = render 'layouts/project_menu'
             %li
