@@ -2,7 +2,7 @@ class PrivateProfile
   include Mongoid::Document
   
   field :pan_number
-  field :personal_emailid
+  field :personal_email
   field :passport_number
   field :qualification
   field :date_of_joining, :type => Date

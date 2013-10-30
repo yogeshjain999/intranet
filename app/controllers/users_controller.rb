@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @user.attributes =  user_params
     if @user.save
       flash.notice = 'Profile updated Succesfully'
-      UserMailer.delay.verification(@user.id)
+      #UserMailer.delay.verification(@user.id)
     else
       flash[:error] = "Error #{@user.errors.full_messages.join(' ')}"
     end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       #updated by hr of company
       if user_profile.update_attributes(params.require(profile).permit!)
         flash.notice = 'Profile Updated Succesfully'
-        UserMailer.delay.verification(@user.id)
+        #UserMailer.delay.verification(@user.id)
         redirect_to public_profile_user_path(@user)
       else
         render "public_profile"
