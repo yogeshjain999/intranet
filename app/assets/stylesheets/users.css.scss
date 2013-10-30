@@ -38,8 +38,8 @@
 .document{position: relative;margin-left: 400px;top:-96px;}
 .profile {
   position: absolute;
-  max-width: 33%;
-  min-width: 33%;
+  max-width: 26%;
+  min-width: 26%;
   max-height: 60%;
   top: 30%;
   padding: 30px 30px; 
@@ -47,7 +47,7 @@
   box-shadow: 2px 2px 23px 0px;
   border-radius: 10px;
 }
-.name{position: absolute; top: 13%;left: 30%;}
+.name{position: absolute; top: 13%;left: 35%;}
 .projects{
   position: absolute;  
   max-width: 20%;  
@@ -55,7 +55,7 @@
   max-height: 68%;
   overflow-y: auto;
   top: 30%;  
-  left: 44%;
+  left: 37%;
   padding: 1px 15px;
   background-color: white; 
   box-shadow: 2px 2px 23px 0px;
@@ -63,9 +63,10 @@
 }
 .active-projects{
   position: absolute;  
-  max-width: 16%; 
-  min-width: 16%; 
-  max-height: 52%;
+  max-width: 20%; 
+  min-width: 20%; 
+  max-height: 58%;
+  min-height: 58%;
   overflow-y: auto;
   overflow-x: auto;
   top: 30%;  

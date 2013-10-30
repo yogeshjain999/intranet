@@ -1,7 +1,7 @@
 .form-heading
   - user_name = @user.public_profile.nil? ? @user.public_profile.first_name : @user.email.split('@')[0]
   %h2=current_user == @user ? 'My Profile' : "#{user_name}'s Profile"
-- if can? :edit, User and current_user.role == 'Admin'
+- if current_user.can_edit?(@user)
   = render partial: "update_status"
 %div.tabbable
   %ul.nav.nav-tabs

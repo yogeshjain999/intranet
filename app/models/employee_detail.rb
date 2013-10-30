@@ -4,6 +4,7 @@ class EmployeeDetail
   embedded_in :user
 
   field :employee_id, type: Integer
+  field :date_of_relieving, :type => Date
   field :notification_emails, type: Array
 
   before_save do 
