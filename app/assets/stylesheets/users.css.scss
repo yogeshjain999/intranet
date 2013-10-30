@@ -38,8 +38,8 @@
 .document{position: relative;margin-left: 400px;top:-96px;}
 .profile {
   position: absolute;
-  max-width: 26%;
-  min-width: 26%;
+  max-width: 35%;
+  min-width: 35%;
   max-height: 60%;
   top: 30%;
   padding: 30px 30px; 
@@ -47,19 +47,18 @@
   box-shadow: 2px 2px 23px 0px;
   border-radius: 10px;
 }
-.name{position: absolute; top: 13%;left: 35%;}
+.name{position: absolute; top: 4%;left: 30%;}
 .projects{
   position: absolute;  
   max-width: 20%;  
   min-width: 20%;  
   max-height: 68%;
   overflow-y: auto;
-  top: 30%;  
-  left: 37%;
-  padding: 1px 15px;
-  background-color: white; 
+  top: 53%;  
+  left: 24%;
+ /* background-color: white; 
   box-shadow: 2px 2px 23px 0px;
-  border-radius: 10px;
+  border-radius: 10px;*/
 }
 .active-projects{
   position: absolute;  
@@ -77,3 +76,9 @@
   border-radius: 3%;
 }
 .project-heading{position: absolute; top: -10px;}
+.skills{
+  position: absolute;
+  top: 15%;
+  max-width: 59%;
+  left: 30%;
+}
