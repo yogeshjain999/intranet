@@ -19,6 +19,8 @@
     %tr
       %td
         = pri.input :previous_company, as: :text
+      %td
+        = pri.input :bonusly_auth_token
   %h4 Emergency Contact Details
   %table{style: "width:100%;"}
     %tr
@@ -43,7 +45,7 @@
             = a.input :address, as: :text, disabled: disable
             = a.input :city, disabled: disable                  
             = a.input :state, disabled: disable                
-            = a.input :landline_no, disabled: disable        
+            = a.input :landline_no, disabled: disable, label: 'Landline/Mobile No' 
             = a.input :pin_code, disabled: disable
   %br
   %center
@@ -59,11 +61,13 @@
     if(value)
     {
       $('div.temporary .control-group .controls input').attr('disabled', 'disabled')
+      $('div.temporary .control-group .controls textarea').attr('disabled', 'disabled')
       $('#private_profile_addresses_attributes_1_type_of_address').removeAttr('disabled')
     }
     else
     {
       $('div.temporary .control-group .controls input').removeAttr('disabled')
+      $('div.temporary .control-group .controls textarea').removeAttr('disabled')
     }
   
   });

@@ -8,6 +8,7 @@ class PrivateProfile
   field :date_of_joining, :type => Date
   field :work_experience
   field :previous_company
+  field :bonusly_auth_token
 
   embedded_in :user
   embeds_many :contact_persons
