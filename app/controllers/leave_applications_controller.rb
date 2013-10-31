@@ -23,7 +23,7 @@ class LeaveApplicationsController < ApplicationController
   
   def view_leave_status
     @pending_leave = LeaveApplication.where(leave_status: 'Pending')
-    @approved_leave = LeaveApplication.where(leave_status: 'Approved') 
+    @approved_leave = LeaveApplication.where(:leave_status.ne => 'Pending') 
   end
 
   def strong_params

@@ -8,5 +8,5 @@ describe LeaveApplication do
   it { should validate_presence_of(:end_at) }
   it { should validate_presence_of(:reason) }
   it { should validate_presence_of(:contact_number) }
-  
+  it { should validate_numericality_of(:contact_number) }
 end

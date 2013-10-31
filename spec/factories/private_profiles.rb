@@ -8,6 +8,5 @@ FactoryGirl.define do
   	qualification  "B.E"
   	date_of_joining Date.new(2013, 01, 01)
   	work_experience "2"
-  	
   end
 end

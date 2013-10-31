@@ -6,6 +6,5 @@ FactoryGirl.define do
     end_at Date.today + 3
     reason "Sick"
     contact_number "1234567890"
-    l.association(:address)
   end
 end

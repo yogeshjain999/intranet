@@ -6,10 +6,10 @@
 %ul.leave_applicationTab.nav.nav-tabs
   %li.active
     %a{data:{toggle: "tab"}, href: '#approved_leave'}
-      Read Leave Message
+      Leave History
   %li
     %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
-      Need Approval
+      Pending (#{@pending_leave.count}) 
 .leave_application_tab_content.tab-content
   #approved_leave.tab-pane.fade.in.active
     = render 'leave_applications/leave_view', leave_data: @approved_leave
@@ -31,7 +31,7 @@
         b.children().last().text(action);
         $('#approved_leave table tbody').append(b);
         message = 'Leave Approved';
-        if(action == 'cancel_leave')
+        if(action == 'cancel')
         {
           message = 'Leave Cancelled';  
         }

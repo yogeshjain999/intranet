@@ -72,8 +72,8 @@ class User
   end
 
   def assign_leave
-    leave_details = self.leave_details.build(year: Date.today.year)
-    #Logic is that casual 
+    leave_details = self.leave_details.find_or_initialize_by(year: Date.today.year)
+    #Logic is that casual and sick leave are 6 per years and paid leave calculated per month
     leave_details.available_leave[:Sick] = leave_details.available_leave[:Casual] = calculate_remaining_leave(6) 
     leave_details.available_leave[:Paid] = calculate_remaining_leave(PAID_LEAVE) 
     leave_details.available_leave[:Paid] = leave_details.available_leave[:Paid] + 1 if self.private_profile.date_of_joining.month == 6
@@ -92,7 +92,7 @@ class User
     
     notified_users = [
                       User.find_by(role: 'HR').email, User.find_by(role: 'Super Admin').email,
-                      self.employment_detail.try(:notification_emails).try(:split, ',')
+                      self.employee_detail.try(:notification_emails).try(:split, ',')
                      ].flatten.compact.uniq
     
     UserMailer.delay.leave_application(self, receiver: notified_users, from_date: from_date, to_date: to_date)
