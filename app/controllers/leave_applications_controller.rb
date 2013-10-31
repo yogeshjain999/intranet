@@ -49,6 +49,5 @@ class LeaveApplicationsController < ApplicationController
     leave_application.save
     leave_application.process_accept_application 
     render :nothing => true
-    render :nothing => true
   end  
 end

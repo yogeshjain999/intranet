@@ -2,6 +2,7 @@
   .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus{
     background: -webkit-gradient( linear, left top, left bottom, from(#fff3db), to(rgba(0, 0, 0, 0.39)));
   }
+.alert-message
 %ul.leave_applicationTab.nav.nav-tabs
   %li.active
     %a{data:{toggle: "tab"}, href: '#approved_leave'}
@@ -23,12 +24,18 @@
     $.ajax({
       url: '/approve_leave_application',
       type: 'GET',
-      data: {leave_application_id: leave_application_id, action: 'cancel_leave'},
+      data: {id: leave_application_id, action: action},
       success: function(){
         tr_id = "#leave_application_" + leave_application_id;
         b = $(tr_id).detach();
         b.children().last().text(action);
-        $('#approved_leave table tbody').append(b)  
+        $('#approved_leave table tbody').append(b);
+        message = 'Leave Approved';
+        if(action == 'cancel_leave')
+        {
+          message = 'Leave Cancelled';  
+        }
+        $('.alert-message').alert({txt: message});   
       },
       error: function(){
         alert('contact server');
