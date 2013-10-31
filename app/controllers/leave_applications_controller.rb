@@ -46,7 +46,7 @@ class LeaveApplicationsController < ApplicationController
   def approve_leave
     leave_application = LeaveApplication.where(id: params[:id]).first
     leave_application.leave_status = 'Approved' 
-    leave_application.save
+    leave_application.save!
     leave_application.process_accept_application 
     render :nothing => true
   end  

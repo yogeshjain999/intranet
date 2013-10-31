@@ -18,9 +18,9 @@ class LeaveApplication
   validates :start_at, :end_at, :contact_number, :reason, :number_of_days, :user_id, :leave_type_id, presence: true 
   validates :contact_number, numericality: {only_integer: true}, length: {is: 10}
 
-  validate :validate_leave_details
+  validate :validate_leave_details, on: :create
 
-  after_save :deduct_available_leave_send_mail
+  after_create :deduct_available_leave_send_mail
 
 
   def process_after_update(status)
@@ -30,11 +30,11 @@ class LeaveApplication
   def process_reject_application
     user = self.user
     user.leave_details.where(year: Date.today.year).first.add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
-    UserMailer.delay.reject_leave(from_date: self.start_at, to_date: self.end_at, user: user) 
+    UserMailer.reject_leave(from_date: self.start_at, to_date: self.end_at, user: user) 
   end
 
   def process_accept_application
-    UserMailer.delay.send_accept_leave(from_date: self.start_at, to_date: self.end_at, user: user)
+    UserMailer.accept_leave(from_date: self.start_at, to_date: self.end_at, user: user)
   end
 
   private
@@ -46,7 +46,6 @@ class LeaveApplication
 
     def validate_leave_details
       user = self.user
-      
       if user.leave_details.where(year: Date.today.year).first.validate_leave(self.leave_type.name, self.number_of_days) 
         errors.add(:base, 'Not Sufficient Leave !Contact Administrator ') 
       end

@@ -10,6 +10,11 @@ class LeaveDetail
     ((self.available_leave[name] - number_of_day) > 0).blank? ? true: false          
   end
   
+  def add_rejected_leave(leave_type: "Sick", no_of_leave: 1)
+    self.available_leave[leave_type] = self.available_leave[leave_type] + no_of_leave
+    self.save
+  end 
+ 
   def deduct_available_leave(leave_type: "Sick", no_of_leave: 1)
     self.available_leave[leave_type] = self.available_leave[leave_type] - no_of_leave
     self.save 

@@ -22,7 +22,7 @@
     action = $(this).data('action');
  
     $.ajax({
-      url: '/approve_leave_application',
+      url: url,
       type: 'GET',
       data: {id: leave_application_id, action: action},
       success: function(){
@@ -36,10 +36,10 @@
           message = 'Leave Cancelled';  
         }
         $('.alert-message').alert({txt: message, type: 'success'});  
-        return false; 
       },
       error: function(){
         $('.alert-message').alert({txt: 'Internal Server Error! Please contact web sysadmin', type: 'error'});  
       }
     });  
+    return false;
   });

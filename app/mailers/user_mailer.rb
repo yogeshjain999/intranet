@@ -24,15 +24,20 @@ class UserMailer < ActionMailer::Base
     mail(from: sender_email, to: receivers, subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
 
-  def reject_leave(from_date, to_date, user)
+  def reject_leave(from_date: Date.today, to_date: Date.today, user: nil)
     @from_date = from_date
     @to_date = to_date
     @user = user
+    
+    mail(from: "admin@joshsofware.com", to: user.email, subject: "Leave Request got rejected")
   end
 
   def accept_leave(from_date: Date.today, to_date: Date.today, user: nil)
     @from_date = from_date
     @to_date = to_date
     @user = user
+
+    
+    mail(from: "admin@joshsofware.com", to: user.email, subject: "Congrats! Leave Request got accepted")
   end
 end
