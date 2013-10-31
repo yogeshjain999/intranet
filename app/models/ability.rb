@@ -15,6 +15,11 @@ class Ability
       can :invite_user, User
       can [:public_profile, :private_profile, :edit, :apply_leave], User
       can [:new, :create, :edit, :destroy], LeaveApplication
+    elsif user.role? 'Finance'
+      can [:public_profile, :private_profile, :edit, :apply_leave], User 
+    elsif user.role? 'Manager'
+      can :manage, Project
+      can [:public_profile, :private_profile, :apply_leave], User 
     elsif user.role? 'Employee'
       can [:public_profile, :private_profile, :apply_leave], User
       can :read, :all
