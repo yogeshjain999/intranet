@@ -27,12 +27,14 @@ class LeaveApplication
     send("process_#{status}") 
   end
   
-  def process_approved
-    #send approval mail
+  def process_reject_application
+    user = self.user
+    user.leave_details.where(year: Date.today.year).first.add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
+    UserMailer.delay.reject_leave(from_date: self.start_at, to_date: self.end_at, user: user) 
   end
 
-  def process_rejected
-    #added the leave 
+  def process_accept_application
+    UserMailer.delay.send_accept_leave(from_date: self.start_at, to_date: self.end_at, user: user)
   end
 
   private

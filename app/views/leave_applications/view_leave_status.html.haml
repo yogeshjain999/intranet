@@ -5,32 +5,13 @@
 %ul.leave_applicationTab.nav.nav-tabs
   %li.active
     %a{data:{toggle: "tab"}, href: '#approved_leave'}
-      Approved
+      Read Leave Message
   %li
     %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
       Need Approval
 .leave_application_tab_content.tab-content
   #approved_leave.tab-pane.fade.in.active
     = render 'leave_applications/leave_view', leave_data: @approved_leave
-    -#
-      %table.table.table-hover
-        %thead
-          %th
-            From
-          %th 
-            Leave Type
-          %th 
-            Reason
-          %th
-            Action
-        %tbody
-          - @approved_leave.each do|appr_leave|
-            %tr
-              %td= appr_leave.user.try(:name)
-              %td= appr_leave.leave_type.name
-              %td= appr_leave.reason
-              %td
-                Approved
   #unapproved_leave.tab-pane.fade
     = render 'leave_applications/leave_view', leave_data: @pending_leave
 :javascript
