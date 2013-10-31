@@ -46,7 +46,9 @@
   box-shadow: 2px 2px 23px 0px;
   border-radius: 10px;
 }
-.name{position: absolute; top: 4%;left: 30%;}
+.name{
+/*  position: absolute; top: 4%;left: 30%;margin-top: 3%;*/
+}
 .projects{
   position: absolute;  
   max-width: 20%;  
@@ -75,10 +77,13 @@
 }
 .project-heading{position: absolute; top: -10px;}
 .skills{
-  position: absolute;
-  top: 15%;
-  max-width: 59%;
-  left: 30%;
+  position: relative;
+  margin-top: -10px;
 }
-
+.profile-title{
+  position: absolute;
+  top: 3%;
+  left: 28%;
+  max-width: 70%;
+}
 

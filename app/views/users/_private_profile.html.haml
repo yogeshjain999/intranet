@@ -44,9 +44,9 @@
             = a.input :type_of_address, as: :hidden
             = a.input :address, as: :text, disabled: disable
             = a.input :city, disabled: disable                  
+            = a.input :pin_code, disabled: disable
             = a.input :state, disabled: disable                
             = a.input :landline_no, disabled: disable, label: 'Landline/Mobile No' 
-            = a.input :pin_code, disabled: disable
   %br
   %center
     = pri.submit "Update Profile", class: 'btn'
