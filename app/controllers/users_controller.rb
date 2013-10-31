@@ -61,7 +61,7 @@ class UsersController < ApplicationController
       if @user.save
         flash.notice = 'Invitation sent Succesfully'
         UserMailer.delay.invitation(current_user.id, @user.id)
-        redirect_to root_path
+        redirect_to invite_user_path
       else
         render 'invite_user'
       end
