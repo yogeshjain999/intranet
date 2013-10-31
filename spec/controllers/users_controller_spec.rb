@@ -22,7 +22,7 @@ describe UsersController do
     it 'invitee should have joshsoftware account' do
       post :invite_user, {user: {email: "invitee@joshsoftware.com", role: "Employee"}}
       flash.notice.should eql("Invitation sent Succesfully")
-      should redirect_to(root_path)
+      should redirect_to(invite_user_path)
     end
 
     it 'should send invitation mail on success' do
@@ -30,7 +30,7 @@ describe UsersController do
       post :invite_user, {user: {email: 'invitee@joshsoftware.com', role: 'Employee'}}
       flash.notice.should eql("Invitation sent Succesfully")
       UserMailer.delay.invitation(@admin, user)
-      should redirect_to(root_path)
+      should redirect_to(invite_user_path)
     end  
   end
   context "update" do
