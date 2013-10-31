@@ -35,10 +35,11 @@
         {
           message = 'Leave Cancelled';  
         }
-        $('.alert-message').alert({txt: message});   
+        $('.alert-message').alert({txt: message, type: 'success'});  
+        return false; 
       },
       error: function(){
-        alert('contact server');
+        $('.alert-message').alert({txt: 'Internal Server Error! Please contact web sysadmin', type: 'error'});  
       }
     });  
   });
