@@ -21,8 +21,10 @@
     .main-menu {
       float: left;
       /*min-width: 0px;*/
-      /*margin: -42px 0 0 460px;*/
-      margin: 26px 0 0 275px;
+      min-width: 69%;
+      max-width: 69%;
+      margin: -42px 0 0 460px;
+      /*margin: 26px 0 0 275px;*/
       font-size: 1.2em;
       a {
         color: #586064;

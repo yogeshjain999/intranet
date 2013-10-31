@@ -4,8 +4,8 @@
   %table.table.table-hover
     %thead
       %tr
-        %th #
         %th
+        %th Employee Id
         %th Employee Name
         %th Email
         - if can? :edit, User
@@ -15,8 +15,8 @@
       - @users.each_with_index do |user, index|
         %tr
           - if can? :edit, User
-            %td #{index+1}
             %td= image_tag(user.public_profile.image.thumb.url, class: 'img-polaroid') if user.public_profile
+            %td= user.employee_detail.try(:employee_id) if user.employee_detail
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user) if user.public_profile
             %td= user.email
             %td= user.role
@@ -26,8 +26,8 @@
                 = user.status
             %td= link_to 'Edit', public_profile_user_path(user), class: 'btn', data: {'no-turbolink' =>  true}
           - elsif user.allow_in_listing?
-            %td 
-            %td= image_tag(user.public_profile.image.url, class: 'img-polaroid') if user.public_profile
+            %td= image_tag(user.public_profile.image.thumb.url, class: 'img-polaroid') if user.public_profile
+            %td= user.employee_detail.try(:employee_id) if user.employee_detail
             %td= link_to user.public_profile.first_name + " " + user.public_profile.last_name, user_path(user)
             %td #{user.email}
 :css
