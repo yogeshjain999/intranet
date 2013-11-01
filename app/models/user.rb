@@ -3,7 +3,7 @@ class User
   include Mongoid::Slug
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
-  ROLES = ['Admin', 'Manager', 'HR', 'Employee', 'Intern']
+  ROLES = ['Admin', 'Manager', 'HR', 'Employee', 'Intern', 'Finance']
   ## Database authenticatable
   field :email,               :type => String, :default => ""
   field :encrypted_password,  :type => String, :default => ""
@@ -103,10 +103,10 @@ class User
   end
   
   def can_edit_user?(user)
-    (["HR", "Admin", "Super Admin"].include?(self.role)) || self == user 
+    (["HR", "Admin", "Finance", "Manager", "Super Admin"].include?(self.role)) || self == user 
   end
 
-  def can_edit?(user)
+  def can_change_role_and_status?(user)
     return true if (["Admin", "Super Admin"]).include?(self.role)
     return true if self.role?("HR") and self != user
     return false

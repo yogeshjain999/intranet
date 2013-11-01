@@ -24,7 +24,7 @@ describe UsersController do
       flash.notice.should eql("Invitation sent Succesfully")
       User.count.should == 2
     end
-      
+
   end
   context "update" do
     before(:each) do
