@@ -1,0 +1,8 @@
+= simple_form_for(@attachment, html: { class: "form-horizontal", multipart: true}) do |f|
+  %h2
+    = title
+  = f.input :name
+  = f.input :document
+  = f.hidden_field :document_type, value: "company" 
+  = f.submit 'Add Document', class: "btn controls"
+= link_to "Add documet", attachments_path unless @attachment.new_record?

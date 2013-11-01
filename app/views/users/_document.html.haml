@@ -4,9 +4,10 @@
     = a.input :document
     - if a.object.persisted?
       .document
-        = link_to 'Download', download_document_user_path(a.object)
-        |
-        = a.link_to_remove 'Remove'
+        %h4
+          = link_to '', download_document_user_path(a.object), class: "icon-download"
+          |
+          = a.link_to_remove '', class: "icon-trash"
   = f.link_to_add 'Add new document', :attachments, class: 'btn controls'
   = f.submit :save, class: "btn"
 :css

@@ -61,4 +61,20 @@ p.rss-title {padding:0.5em;}
 .rss-date {
   font-size: 85%;
   color: black;
-} 
+}
+
+
+.bonusly-updates{
+  position: absolute;  
+  max-width: 35%; 
+  min-width: 35%; 
+  max-height: 68%;
+  min-height: 68%;
+  overflow-y: auto;
+  overflow-x: auto;
+  left: 58%;
+  padding: 0px 30px;
+  background-color: white; 
+  box-shadow: 2px 2px 23px 0px;
+  border-radius: 3%;
+}

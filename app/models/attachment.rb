@@ -1,10 +1,17 @@
 class Attachment
   include Mongoid::Document
+  include Mongoid::Slug
+
   mount_uploader :document, FileUploader 
-  
-  belongs_to :user
 
   field :name, type: String
   field :document, type: String
-  #validates_presence_of :document, :name
+  field :document_type, type: String, default: "user"
+
+  slug :name
+  
+  belongs_to :user
+
+  scope :user_documents, where(document_type: "user")
+  scope :company_documents, where(document_type: "company")
 end
