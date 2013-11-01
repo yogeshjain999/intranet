@@ -18,7 +18,6 @@ class PrivateProfile
   accepts_nested_attributes_for :contact_persons
   
   before_save do
-   
     if self.date_of_joining_changed?
       user = self.user
       user.assign_leave

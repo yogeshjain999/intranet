@@ -27,7 +27,7 @@ class User
   field :last_sign_in_ip,    :type => String
     
   embeds_one :public_profile
-  embeds_one :private_profile
+  embeds_one :private_profile, cascade_callbacks: true
   embeds_one :employee_detail, cascade_callbacks: true
   
   has_many :leave_details

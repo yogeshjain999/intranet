@@ -22,16 +22,9 @@ describe UsersController do
     it 'invitee should have joshsoftware account' do
       post :invite_user, {user: {email: "invitee@joshsoftware.com", role: "Employee"}}
       flash.notice.should eql("Invitation sent Succesfully")
-      should redirect_to(root_path)
+      User.count.should == 2
     end
-
-    it 'should send invitation mail on success' do
-      user = FactoryGirl.build(:user, email: 'invitee@joshsoftware.com', role: 'Employee')
-      post :invite_user, {user: {email: 'invitee@joshsoftware.com', role: 'Employee'}}
-      flash.notice.should eql("Invitation sent Succesfully")
-      UserMailer.delay.invitation(@admin, user)
-      should redirect_to(root_path)
-    end  
+      
   end
   context "update" do
     before(:each) do

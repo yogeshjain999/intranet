@@ -3,9 +3,13 @@ require 'spec_helper'
 describe LeaveApplicationsController do
   context "Employee, manager and HR" do
     before(:each) do
+       
+      hr = FactoryGirl.create(:user, email: 'administrator@joshsoftware.com', role: 'Super Admin') 
+      hr = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
+      hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, role: 'Employee')
       sign_in @user
-      @leave_application = FactoryGirl.build(:leave_application)
+      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
     end
 
     it "should able to view new leave apply page" do
@@ -19,10 +23,12 @@ describe LeaveApplicationsController do
     end
 
     it "should be able to apply leave" do
-      @user.private_profile = FactoryGirl.build(:private_profile)
+      leave_type = FactoryGirl.create(:leave_type)
+      @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
       @user.public_profile = FactoryGirl.build(:public_profile)
       @user.save
-      post :create, {user_id: @user.id, leave_application: @leave_application.attributes}
+      @user.leave_details.should_not be([])
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id)}
       LeaveApplication.count.should == 1 
     end
   end

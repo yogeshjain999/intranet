@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :leave_type do
+    name 'Sick' 
   end
 end
