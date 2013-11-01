@@ -17,6 +17,11 @@ Intranet::Application.routes.draw do
   end
 
   resources :projects
+  resources :attachments do 
+    member do
+      get :download_document
+    end
+  end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'home#index'

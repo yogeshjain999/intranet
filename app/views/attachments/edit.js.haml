@@ -1,0 +1,3 @@
+$('.doc-form').html("#{escape_javascript(render :partial => 'form', locals: {title: "Edit document"})}");
+$('#attachment_name').focus();
+$('.btn').val("Update Document")

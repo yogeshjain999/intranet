@@ -1,0 +1,8 @@
+%td
+  %h4= doc.name
+%td
+  %h4
+    = link_to "", download_document_attachment_path(doc), class: "icon-download"
+    -if can? :mannage, Attachment
+      = link_to "", edit_attachment_path(doc), remote: true, class: "icon-edit"
+      = link_to "", attachment_path(doc), data: {method: :delete, confirm: "Are you sure?"}, class: "icon-trash"
