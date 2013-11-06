@@ -83,8 +83,8 @@ class User
   def set_leave_details_per_year
     available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.available_leave
     current_leave_details = self.leave_details.build(year: Date.today.year) 
-    current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = 6
-    current_leave_details.available_leave[:Paid] = available_leave[:Paid] > 14 ? 14 : available_leave[:Paid]
+    current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = SICK_LEAVE
+    current_leave_details.available_leave[:Paid] = available_leave[:Paid] > CAN_CARRY_FORWARD ? CAN_CARRY_FORWARD : available_leave[:Paid]
     current_leave_details.save 
   end
   
