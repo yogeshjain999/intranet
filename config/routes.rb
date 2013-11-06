@@ -21,6 +21,11 @@ Intranet::Application.routes.draw do
   get 'cancel_leave_application' => 'leave_applications#cancel_leave' 
   get 'approve_leave_application' => 'leave_applications#approve_leave' 
   resources :projects
+  resources :attachments do 
+    member do
+      get :download_document
+    end
+  end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'home#index'
