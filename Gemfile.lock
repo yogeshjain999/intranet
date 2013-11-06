@@ -109,6 +109,7 @@ GEM
       mongoid-grid_fs (~> 1.3)
     celluloid (0.15.1)
       timers (~> 1.1.0)
+    chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -332,6 +333,9 @@ GEM
     uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
+    whenever (0.8.4)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -378,3 +382,4 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier (>= 1.3.0)
   unicorn
+  whenever

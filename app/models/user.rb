@@ -88,6 +88,11 @@ class User
     current_leave_details.save 
   end
   
+  def assign_monthly_leave
+    available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.monthly_paid_leave()
+    available_leave.save 
+  end 
+ 
   def sent_mail_for_approval(from_date: Date.today, to_date: Date.today)
     
     notified_users = [
@@ -102,6 +107,10 @@ class User
     self.role == role
   end
   
+  def eligible_for_leave?
+    !! self.private_profile.date_of_joining.present?
+  end 
+ 
   def can_edit_user?(user)
     (["HR", "Admin", "Finance", "Manager", "Super Admin"].include?(self.role)) || self == user 
   end

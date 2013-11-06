@@ -128,9 +128,9 @@ task :deploy => :environment do
       #queue "sudo monit restart sidekiq"
 
       # Update whenever 
-      #unless nocron
-      #  queue "cd #{deploy_to}/current && bundle exec whenever -i qwikcom_whenever_tasks --update-crontab --set 'environment=#{env}'"
-      #end
+      unless nocron
+        queue "cd #{deploy_to}/current && bundle exec whenever -i intranet_whenever_tasks --update-crontab --set 'environment=#{env}'"
+      end
 
       # Take backup if required
       #if bkp
