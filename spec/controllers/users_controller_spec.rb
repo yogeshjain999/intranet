@@ -22,7 +22,7 @@ describe UsersController do
     it 'invitee should have joshsoftware account' do
       post :invite_user, {user: {email: "invitee@joshsoftware.com", role: "Employee"}}
       flash.notice.should eql("Invitation sent Succesfully")
-      should redirect_to(root_path)
+      should redirect_to(invite_user_path)
     end
 
     it 'should send invitation mail on success' do
@@ -30,7 +30,7 @@ describe UsersController do
       post :invite_user, {user: {email: 'invitee@joshsoftware.com', role: 'Employee'}}
       flash.notice.should eql("Invitation sent Succesfully")
       UserMailer.delay.invitation(@admin, user)
-      should redirect_to(root_path)
+      should redirect_to(invite_user_path)
     end  
   end
   context "update" do
@@ -58,7 +58,7 @@ describe UsersController do
     end
 
     it "private profile successfully " do
-      params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_emailid"=>"narutosanjiv@gmail.com", 
+      params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_email"=>"narutosanjiv@gmail.com", 
                 "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013",  
                 "work_experience"=>"", "previous_company"=>"", "id" => @user.private_profile.id}, "id"=> @user.id}
 
@@ -67,7 +67,7 @@ describe UsersController do
     end
 
     it "should fail if required data not sent" do
-      params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_emailid"=>"", 
+      params = {"private_profile" => {"pan_number"=> @user.private_profile.pan_number, "personal_email"=>"", 
                 "passport_number" =>"", "qualification"=>"BE", "date_of_joining"=>"01-01-2013",
                 "work_experience"=>"", "previous_company"=>"", "id" => @user.private_profile.id}, "id"=> @user.id}
 

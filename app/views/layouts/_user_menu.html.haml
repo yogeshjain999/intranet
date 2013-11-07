@@ -1,4 +1,5 @@
-= link_to current_user.public_profile.name, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle"
+= image_tag current_user.public_profile.image.thumb.url, class: 'img-rounded'
+= link_to current_user.public_profile.name, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle user-name"
 %ul.dropdown-menu.drop
   - if can? :invite_user, User
     %li
@@ -10,3 +11,7 @@
   %li.divider
   %li
     = link_to 'Sign out', destroy_user_session_path, method: :delete
+:css
+  .img-rounded{width: 4%; position: absolute; top: 26px; z-index: 1; margin-left: 10px;height: 36px;}
+  .user-name{position: relative; left: 40px;}
+    

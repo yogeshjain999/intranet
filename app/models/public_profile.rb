@@ -11,6 +11,8 @@ class PublicProfile
   field :blood_group
   field :date_of_birth, :type => Date
   field :skills
+  field :skype_id
+  field :pivotal_tracker_id
   field :github_handle
   field :twitter_handle
   field :blog_url

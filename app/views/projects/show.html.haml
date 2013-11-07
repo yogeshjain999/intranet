@@ -11,6 +11,6 @@
       %tbody
         - @users.each_with_index do |user|
           %tr
-            %td= image_tag(user.public_profile.image.url, class: 'img-polaroid') if user.public_profile
+            %td= image_tag(user.public_profile.image.thumb.url, class: 'img-polaroid') if user.public_profile
             %td= link_to user.public_profile.name, user_path(user)
             %td= user.email

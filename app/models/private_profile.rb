@@ -2,12 +2,13 @@ class PrivateProfile
   include Mongoid::Document
   
   field :pan_number
-  field :personal_emailid
+  field :personal_email
   field :passport_number
   field :qualification
   field :date_of_joining, :type => Date
   field :work_experience
   field :previous_company
+  field :bonusly_auth_token
 
   embedded_in :user
   embeds_many :contact_persons
