@@ -6,14 +6,17 @@ class LeaveApplicationsController < ApplicationController
     @leave_application = LeaveApplication.new(user_id: current_user.id)
     @leave_types = LeaveType.all.to_a 
   end
-
+  
+  def index
+    @all_available_leave = LeaveDetail.details 
+  end  
+  
   def create
     @leave_application = LeaveApplication.new(strong_params)
     if @leave_application.save
       flash[:error] = "Leave Applied Successfully. !Wait till approved"
       current_user.sent_mail_for_approval(from_date: @leave_application.start_at, to_date: @leave_application.end_at) 
     else
-      
       @leave_types = LeaveType.all.to_a 
       flash[:error] = @leave_application.errors.full_messages.join("\n")
       render 'new' and return
@@ -24,6 +27,11 @@ class LeaveApplicationsController < ApplicationController
   def view_leave_status
     @pending_leave = LeaveApplication.where(leave_status: 'Pending')
     @approved_leave = LeaveApplication.where(:leave_status.ne => 'Pending') 
+  end
+  
+  def update_leave_details
+    
+    render nothing: true  
   end
 
   def strong_params

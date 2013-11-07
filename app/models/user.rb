@@ -43,7 +43,7 @@ class User
   validates :role, :email, presence: true
 
   scope :employees, all.asc("public_profile.first_name")
-  
+  scope :approved, where(status: 'approved')  
   #Public profile will be nil when admin invite user for sign in with only email address 
   delegate :name, to: :public_profile, :allow_nil => true
   slug :name do|u|
@@ -74,9 +74,7 @@ class User
   def assign_leave
     leave_details = self.leave_details.find_or_initialize_by(year: Date.today.year)
     #Logic is that casual and sick leave are 6 per years and paid leave calculated per month
-    leave_details.available_leave[:Sick] = leave_details.available_leave[:Casual] = calculate_remaining_leave(6) 
-    leave_details.available_leave[:Paid] = calculate_remaining_leave(PAID_LEAVE) 
-    leave_details.available_leave[:Paid] = leave_details.available_leave[:Paid] + 1 if self.private_profile.date_of_joining.month == 6
+    leave_details.available_leave[:Sick] = leave_details.available_leave[:Casual] = calculate_remaining_leave(SICK_LEAVE) 
     leave_details.save
   end   
  
@@ -84,7 +82,9 @@ class User
     available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.available_leave
     current_leave_details = self.leave_details.build(year: Date.today.year) 
     current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = SICK_LEAVE
-    current_leave_details.available_leave[:Paid] = available_leave[:Paid] > CAN_CARRY_FORWARD ? CAN_CARRY_FORWARD : available_leave[:Paid]
+    no_carry_over_leave = available_leave[:CurrentPaid] - CAN_CARRY_FORWARD 
+    total_paid_leave = current_leave_details.available_leave[:TotalPaid]   
+    current_leave_details.available_leave[:TotalPaid] = no_carry_over_leave > 0 ? (total_paid_leave -no_carry_over_leave) : total_paid_leave
     current_leave_details.save 
   end
   

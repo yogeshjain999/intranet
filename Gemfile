@@ -58,11 +58,10 @@ gem 'simplecov', :require => false, :group => :test
 #BackGround Job processing instead of delayed_job
 gem 'sidekiq'
 gem 'whenever'
-
 #gem for deploying to remote server
 gem 'mina', github: 'nadarei/mina'
 gem 'mina_extensions', github: 'marcosbeirigo/mina_extensions'
-
+#gem 'rescue'
 
 
 # Use ActiveModel has_secure_password

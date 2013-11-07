@@ -6,17 +6,18 @@ Intranet::Application.routes.draw do
     match :invite_user, to: 'users#invite_user', via: [:get, :post]
     match '/admin', to: 'devise/sessions#new', via: [:get]
   end
-
+  
+  resources :leave_applications, only: [:index] 
   resources :users, except: [:new, :create, :destroy] do
-   resources :leave_applications, except: [:view_leave_status] 
+    resources :leave_applications, except: [:view_leave_status, :index] 
     member do
       match :public_profile, via: [:get, :put]
       match :private_profile, via: [:get, :put]
       get :download_document
     end
-
   end
   
+  put 'available_leave/:type/:id' => 'leave_details#update_available_leave', as: :update_available_leave 
   get 'view/leave_applications' => 'leave_applications#view_leave_status', as: :view_leaves 
   get 'cancel_leave_application' => 'leave_applications#cancel_leave' 
   get 'approve_leave_application' => 'leave_applications#approve_leave' 

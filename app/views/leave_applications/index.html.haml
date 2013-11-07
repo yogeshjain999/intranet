@@ -1,0 +1,68 @@
+%table.table.table-hover.table-striped
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Sick Leave
+      %th
+        Casual Leave
+      %th
+        Paid Leave
+      %th
+        Upload CSV
+  %tbody
+    - @all_available_leave.each do|leave_detail|
+      %tr
+        %td
+          = leave_detail.user.name
+        %td
+          = link_to leave_detail.available_leave["Sick"], '#', {class: 'leave_type_sick', data:{url: update_available_leave_path(id: leave_detail.id, type: 'Sick')}}
+        %td
+          = link_to leave_detail.available_leave["Casual"], '#', {class: 'leave_type_casual', data:{url: update_available_leave_path(id: leave_detail.id, type: 'Casual')}}
+        %td
+          = link_to leave_detail.available_leave["TotalPaid"],  "#", {class: 'leave_type_casual', data:{url: update_available_leave_path(id: leave_detail.id, type: 'TotalPaid')}}
+        %td
+:javascript
+  $('.leave_type_sick').editable({
+    url: '/post',
+    validate: function(value){
+      if(value == '')
+      {
+        return 'Can not be blank'
+      }
+      if(isNaN(value)){
+        return 'Enter only Number'
+      }
+      
+      
+    }
+  });
+  $('.leave_type_casual').editable({
+    url: '/post',
+    validate: function(value){
+      if(value == '')
+      {
+        return 'Can not be blank'
+      }
+      if(isNaN(value)){
+        return 'Enter only Number'
+      }
+      
+      
+    }
+  });
+  $('.leave_type_paid').editable({
+    url: '/post',
+    validate: function(value){
+      if(value == '')
+      {
+        return 'Can not be blank'
+      }
+      if(isNaN(value)){
+        return 'Enter only Number'
+      }
+      
+      
+    }
+  });
