@@ -17,6 +17,7 @@ gem 'kaminari'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 gem 'nested_form'
 gem "omniauth-google-oauth2"
+gem 'rnotifier'
 gem 'bootstrap-datepicker-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

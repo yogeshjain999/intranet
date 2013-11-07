@@ -4,7 +4,7 @@
       %td
         = pub.input :first_name
         = pub.input :last_name
-        = pub.input :gender, collection: GENDER
+        = pub.input :gender, collection: GENDER, prompt: 'Select'
         = pub.input :mobile_number
       %td.photo
         = image_tag(pub.object.image.medium.url, class: 'controls')
@@ -12,9 +12,11 @@
         %br
         = pub.input :image, label: 'Photo'
 
-  = pub.input :blood_group, collection: BLOOD_GROUPS 
+  = pub.input :blood_group, collection: BLOOD_GROUPS, prompt: 'Select'
   = pub.input :date_of_birth, input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @public_profile.date_of_birth.try(:strftime, "%d-%m-%Y")}
   = pub.input :skills, as: :text
+  = pub.input :skype_id, label: "Skype Id"
+  = pub.input :pivotal_tracker_id, label: "Pivotal Tracker Id"
   = pub.input :github_handle
   = pub.input :twitter_handle
   = pub.input :blog_url

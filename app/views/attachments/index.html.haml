@@ -1,0 +1,18 @@
+%h2
+  Documents
+.documents
+  - unless @company_docs.empty?
+    %table.table.table-hover
+      %tbody
+        - @company_docs.each do |doc|
+          %tr
+            = render partial: 'document_row', locals: {doc: doc}
+  - else
+    %h4
+      = "No Documents to Download"
+- if can? :manage, Attachment
+  .doc-form#doc
+    = render partial: 'form', locals: { title: "New document" }
+
+:css 
+  .table td{ border-top: 1px solid white; padding: 0px;}
