@@ -4,7 +4,8 @@ class LeaveApplicationsController < ApplicationController
 
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)
-    @leave_types = LeaveType.all.to_a 
+    @leave_types = LeaveType.all.to_a
+    @leave_detail = current_user.leave_details.where(year: Date.today.year).first 
   end
   
   def index

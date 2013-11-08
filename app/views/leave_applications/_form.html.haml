@@ -7,7 +7,10 @@
 = f.input :reason, as: :text, label: 'Reason', input_html: {required: true, :'data-validation-required-message' => 'You have to specify valid reason for leave'}
 %center
   = f.submit 'Save', class: 'btn'
-
+  %a{class: 'btn btn-warning', id: 'available_leave', name: 'leave_details', href: '#'}
+    Leave Availability
 :javascript
   $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
-  
+  $('#available_leave').on('click', function(){
+    $('#remaining_leave').modal('show');
+  });  
