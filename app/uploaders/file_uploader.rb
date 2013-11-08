@@ -3,7 +3,6 @@
 class FileUploader < CarrierWave::Uploader::Base
   #include CarrierWave::MimeTypes
 
-
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   #include CarrierWave::MiniMagick
@@ -36,11 +35,11 @@ class FileUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  version :thumb do
+  version :thumb, :if => :image? do
     process :resize_to_fit  => [100, 100]
   end
 
-  version :medium do
+  version :medium, :if => :image? do
     process :resize_to_fit  => [150, 130]
   end
 
@@ -49,6 +48,10 @@ class FileUploader < CarrierWave::Uploader::Base
   def extension_white_list
     %w(pdf jpg jpeg gif png doc xls)  
   #   %w(jpg jpeg gif png)
+  end
+  
+  def image?(new_file)
+    new_file.content_type.start_with? 'image'
   end
 
   # Override the filename of the uploaded files:
