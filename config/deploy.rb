@@ -13,13 +13,13 @@ require 'mina_extensions/sidekiq'
 
 env = ENV['on'] || 'staging'
 nocron = ENV['nocron'] || false
-branch = ENV['branch'] || 'develop'
+branch = ENV['branch'] || 'leave_application'
 #bkp = ENV['bkp'] || false #Backup will be used for actual production 
 index = ENV['index'] || false
 
 if env == 'production'
   ip = '74.207.241.229'
-  branch = 'develop' # Always production!!
+  #branch = 'develop' # Always production!!
 else
   #staging
   ip = '74.207.241.229'
