@@ -8,9 +8,9 @@
       %th
         Casual Leave
       %th
-        Paid Leave
+        Current Year Leave
       %th
-        Upload CSV
+        Total Leave
   %tbody
     - @all_available_leave.each do|leave_detail|
       %tr
@@ -21,8 +21,9 @@
         %td
           = link_to leave_detail.available_leave["Casual"], '#', {class: 'leave_type_casual', id: "casual_#{leave_detail.id}", data:{pk: leave_detail.id.to_s, url: update_available_leave_path(id: leave_detail.id, type: 'Casual'), name: 'Casual'}}
         %td
-          = link_to leave_detail.available_leave["TotalPaid"],  "#", {class: 'leave_type_casual', id: "paid_#{leave_detail.id}", data:{pk: leave_detail.id.to_s, url: update_available_leave_path(id: leave_detail.id, type: 'TotalPaid'), name: 'TotalPaid'}}
+          = link_to leave_detail.available_leave["CurrentPaid"],  "#", {class: 'leave_type_current', id: "current_paid_#{leave_detail.id}", data:{pk: leave_detail.id.to_s, url: update_available_leave_path(id: leave_detail.id, type: 'CurrentPaid'), name: 'CurrentPaid'}}
         %td
+          = link_to leave_detail.available_leave["TotalPaid"],  "#", {class: 'leave_type_paid', id: "paid_#{leave_detail.id}", data:{pk: leave_detail.id.to_s, url: update_available_leave_path(id: leave_detail.id, type: 'TotalPaid'), name: 'TotalPaid'}}
 :javascript
   $.fn.editable.defaults.ajaxOptions = {type: "PUT"}; 
   $('.leave_type_sick').editable({
@@ -54,6 +55,19 @@
     }
   });
   $('.leave_type_paid').editable({
+    url: $(this).data('url'),
+    validate: function(value){
+      if(value == '')
+      {
+        return 'Can not be blank'
+      }
+      if(isNaN(value)){
+        return 'Enter only Number'
+      }
+    }
+  });
+
+  $('.leave_type_current').editable({
     url: $(this).data('url'),
     validate: function(value){
       if(value == '')

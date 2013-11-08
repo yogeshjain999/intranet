@@ -10,7 +10,7 @@ class LeaveDetailsController < ApplicationController
 
   private
     def leave_type
-      if ["Sick", "Casual", "TotalPaid"].include?(params[:type])
+      if ["Sick", "Casual", "TotalPaid", "CurrentPaid"].include?(params[:type])
         return params[:type]
       else
         raise

@@ -1,0 +1,26 @@
+namespace :leave do
+  desc "Monthly Paid Leave Update"
+  
+  task :increment_paid => :environment do
+    MonthlyPaidLeaveWorker.perform_async()
+  end
+
+   task :reset_leave_yearly => :environment do
+    ResetLeaveYearlyWorker.perform_async()
+  end
+
+  task :initial_seed => :environment do
+    require 'csv'
+    CSV.foreach("#{Rails.root}/doc/leave_initial_seed.csv", :headers => true) do|csv| 
+      user = User.where(email: csv["email id"]).first
+      if user
+        leave_detail = user.leave_details.find_or_initialize_by(year: Date.today.year) 
+        leave_detail.available_leave["Sick"] = csv["Sick Leave"].to_i
+        leave_detail.available_leave["Casual"] = csv["Casual Leave"].to_i
+        leave_detail.available_leave["TotalPaid"] = csv["Paid Leave"].to_i
+        leave_detail.available_leave["CurrentPaid"] = 0
+        leave_detail.save
+      end
+    end
+  end
+end
