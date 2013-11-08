@@ -4,12 +4,16 @@
       %th
         Name
       %th
+        = image_tag(asset_url("sick_leave.jpg"), class: "leave-icon")
         Sick Leave
       %th
+        = image_tag(asset_url("casual_leave.jpg"), class: "leave-icon")
         Casual Leave
       %th
+        = image_tag(asset_url("paid_leave.jpg"), class: "leave-icon")
         Current Year Leave
       %th
+        = image_tag(asset_url("paid_leave.jpg"), class: "leave-icon")
         Total Leave
   %tbody
     - @all_available_leave.each do|leave_detail|

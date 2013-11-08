@@ -1,7 +1,5 @@
 %div#remaining_leave.modal.hide.fade{tabindex: "-1", role: 'dialog'}
   .modal-header
-    %button{type: 'button', class: 'close', data:{dismisss: 'modal'}}
-      x
     %h3
       Available Leave
   .modal-body
@@ -9,19 +7,22 @@
       %tbody
         %tr
           %td{width: "45%"}
+            = image_tag(asset_url("sick_leave.jpg"), class: "leave-icon")
             Sick Leave
           %td{width: "55%"}
             = available_leave["Sick"]
         %tr
           %td{width: "45%"}
+            = image_tag(asset_url("casual_leave.jpg"), class: "leave-icon")
             Casual Leave
           %td{width: "55%"}
             = available_leave["Casual"]   
         %tr
           %td{width: "45%"}
+            = image_tag(asset_url("paid_leave.jpg"), class: "leave-icon")
             Paid Leave
           %td{width: "55%"}
             = available_leave["TotalPaid"]
   .modal-footer
-    %button{class: 'btn', data:{dismiss: "modal"}} 
+    %a{class: 'btn', data:{dismiss: "modal"}} 
       Close 
