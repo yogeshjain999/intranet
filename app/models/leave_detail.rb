@@ -31,8 +31,7 @@ class LeaveDetail
     if name == "Privilege"
       name = "TotalPrivilege"
     end
-
-    ((self.available_leave[name] - number_of_day) > 0).blank? ? true: false          
+    ((self.available_leave[name] - number_of_day) >= 0).blank? ? true: false          
   end
   
   def add_rejected_leave(leave_type: "Sick", no_of_leave: 1)

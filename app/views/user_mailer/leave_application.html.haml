@@ -7,9 +7,9 @@
   %body
     %p
       %i
-        Hello #{@receiver}
+        Hello #{@user.name}
       %br/
       %br/
-       #{@user.public_profile.name} has apply for leave from date #{@from_date} to #{@to_date}.
-       You can either approve or cancel leave after login.
+      #{@user.name} has apply for leave from date #{@from_date} to #{@to_date}.
+      You can either approve or cancel leave after login.
 

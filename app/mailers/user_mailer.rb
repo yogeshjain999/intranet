@@ -15,13 +15,13 @@ class UserMailer < ActionMailer::Base
     mail(to: receiver_emails , subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
   
-  def leave_application(sender_email, receivers: ['hr@joshsoftware.com'], from_date: Date.today , to_date: Date.today)
-    @user = sender_email
+  def leave_application(sender_email, receivers, from_date, to_date)
+    @user = User.find_by(email: sender_email)
     @receivers = receivers
     @from_date = from_date
     @to_date = to_date    
       
-    mail(from: sender_email, to: receivers, subject: "#{@updated_user.public_profile.name} Profile has been updated")
+    mail(from: @user.email, to: receivers, subject: "Leave Application Submitted to Admin")
   end
 
   def reject_leave(from_date: Date.today, to_date: Date.today, user: nil)
@@ -36,7 +36,6 @@ class UserMailer < ActionMailer::Base
     @from_date = from_date
     @to_date = to_date
     @user = user
-
     
     mail(from: "admin@joshsofware.com", to: user.email, subject: "Congrats! Leave Request got accepted")
   end

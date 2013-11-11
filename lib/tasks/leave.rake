@@ -17,10 +17,18 @@ namespace :leave do
         leave_detail = user.leave_details.find_or_initialize_by(year: Date.today.year) 
         leave_detail.available_leave["Sick"] = csv["Sick Leave"].to_i
         leave_detail.available_leave["Casual"] = csv["Casual Leave"].to_i
-        leave_detail.available_leave["TotalPaid"] = csv["Paid Leave"].to_i
+        leave_detail.available_leave["TotalPrivilege"] = csv["Paid Leave"].to_i
         leave_detail.available_leave["CurrentPaid"] = 0
         leave_detail.save
       end
+    end
+  end
+  
+  task :change_available_leave_column => :environment do
+    LeaveDetail.all.each do|leave_detail|
+      leave_detail.available_leave["CurrentPrivilege"] = leave_detail.available_leave["CurrentPaid"]
+      leave_detail.available_leave["TotalPrivilege"] = leave_detail.available_leave["TotalPaid"]
+      leave_detail.save
     end
   end
 end
