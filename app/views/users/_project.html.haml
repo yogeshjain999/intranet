@@ -1,6 +1,6 @@
 %tr
   %td.project-name
-    = project.name
+    = link_to project.name, project_path(id: project.id)
   %td= raw project.code_climate_snippet
 
 :css

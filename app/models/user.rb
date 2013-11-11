@@ -41,6 +41,7 @@ class User
 
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}
   validates :role, :email, presence: true
+  validates_associated :employee_detail
 
   scope :employees, all.asc("public_profile.first_name")
   scope :approved, where(status: 'approved')  
@@ -82,9 +83,9 @@ class User
     available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.available_leave
     current_leave_details = self.leave_details.build(year: Date.today.year) 
     current_leave_details.available_leave[:Sick] = current_leave_details.available_leave[:Casual] = SICK_LEAVE
-    no_carry_over_leave = available_leave[:CurrentPaid] - CAN_CARRY_FORWARD 
-    total_paid_leave = current_leave_details.available_leave[:TotalPaid]   
-    current_leave_details.available_leave[:TotalPaid] = no_carry_over_leave > 0 ? (total_paid_leave -no_carry_over_leave) : total_paid_leave
+    no_carry_over_leave = available_leave[:CurrentPrivilege] - CAN_CARRY_FORWARD 
+    total_paid_leave = current_leave_details.available_leave[:TotalPrivilege]   
+    current_leave_details.available_leave[:TotalPrivilege] = no_carry_over_leave > 0 ? (total_paid_leave -no_carry_over_leave) : total_paid_leave
     current_leave_details.save 
   end
   
@@ -96,7 +97,7 @@ class User
   def sent_mail_for_approval(from_date: Date.today, to_date: Date.today)
     
     notified_users = [
-                      User.find_by(role: 'HR').email, User.find_by(role: 'Super Admin').email,
+                      User.find_by(role: 'HR').email, User.find_by(role: 'Admin').email,
                       self.employee_detail.try(:notification_emails).try(:split, ',')
                      ].flatten.compact.uniq
     

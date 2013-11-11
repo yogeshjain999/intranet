@@ -10,5 +10,5 @@ class LeaveType
   #paid leave , it can change in future 
   field :number_of_carry_forward_p_y, type: Float, default: 14 
   
-  LEAVE_TYPE = ['Sick', 'Casual', 'Paid']
+  LEAVE_TYPE = ['Sick', 'Casual', 'Privilege']
 end

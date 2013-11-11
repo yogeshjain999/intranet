@@ -5,11 +5,12 @@
 .alert-message
 %ul.leave_applicationTab.nav.nav-tabs
   %li.active
+    %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
+      Pending (#{@pending_leave.count})
+  %li
     %a{data:{toggle: "tab"}, href: '#approved_leave'}
       Leave History
-  %li
-    %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
-      Pending (#{@pending_leave.count}) 
+   
 .leave_application_tab_content.tab-content
   #approved_leave.tab-pane.fade.in.active
     = render 'leave_applications/leave_view', leave_data: @approved_leave
