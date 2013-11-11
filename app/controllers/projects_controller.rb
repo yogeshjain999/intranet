@@ -39,8 +39,6 @@ class ProjectsController < ApplicationController
   def destroy
     if @project.destroy
      flash[:notice] = "Project deleted Succesfully" 
-    else
-     flash[:notice] = "Error in deleting project"
     end
      redirect_to projects_path
   end

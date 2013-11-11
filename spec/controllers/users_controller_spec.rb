@@ -2,6 +2,20 @@ require 'spec_helper'
 
 describe UsersController do
   
+  context "GET index" do
+    it 'should get all employess' do
+      user = FactoryGirl.create(:user, role: 'Admin')
+      sign_in user
+      u1 = FactoryGirl.create(:user, email: "u1@joshsoftware.com", role: "Employee")
+      u2 = FactoryGirl.create(:user, email: "u2@joshsoftware.com", role: "Employee")
+      employees = User.employees
+      get :index
+      expect(assigns[:users]).to eq(employees)
+      should respond_with(:success)
+      should render_template(:index)
+    end
+  end
+
   context "Inviting user" do
     before(:each) do
       @admin = FactoryGirl.create(:user, role: 'Admin', email: "admin@joshsoftware.com")
@@ -73,6 +87,15 @@ describe UsersController do
 
       put :private_profile, params
       @user.errors.full_messages.should eq([])
+    end
+
+    context "GET show" do
+      it "should have valid record" do
+        u = FactoryGirl.create(:user, role: 'Employee', email: "u1@joshsoftware.com")
+        get :show, id: u.id
+        expect(u).should_not be(nil)
+        should render_template(:show)
+      end
     end
   end
 end

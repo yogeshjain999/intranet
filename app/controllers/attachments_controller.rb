@@ -11,8 +11,6 @@ class AttachmentsController < ApplicationController
   def create
     @attachment = Attachment.new(attachment_params)
     flash[:notice] = @attachment.save ? "Document saved successfully" : "Failed to save document"
-    p '========================='
-    p request.referer
     redirect_to attachments_path
   end
 

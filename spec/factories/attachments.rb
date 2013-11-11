@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :attachment do
     name "Photo"
     document "test.pdf"
+    document_type "user"
   end
 end
