@@ -12,9 +12,9 @@
       Leave History
    
 .leave_application_tab_content.tab-content
-  #approved_leave.tab-pane.fade.in.active
+  #approved_leave.tab-pane.fade
     = render 'leave_applications/leave_view', leave_data: @approved_leave
-  #unapproved_leave.tab-pane.fade
+  #unapproved_leave.tab-pane.fade.in.active
     = render 'leave_applications/leave_view', leave_data: @pending_leave
 :javascript
   $('.leave_application_tab_content').on('click', '.cancel_leave, .approve_leave', function(){
