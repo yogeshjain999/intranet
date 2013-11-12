@@ -29,6 +29,8 @@ class LeaveApplication
   end
   
   def process_reject_application
+    p 'aaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    p caller
     user = self.user
     user.get_leave_detail(Date.today.year).add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
     UserMailer.delay.reject_leave(self.id)
@@ -42,7 +44,6 @@ class LeaveApplication
     leave_application = LeaveApplication.where(id: id).first
     leave_application.leave_status = leave_status 
     leave_application.save
-    leave_application.send(call_function) 
     if leave_application.errors.blank?
       return {type: :notice, text: "#{leave_status} Successfully"}
       leave_application.send(call_function) 
