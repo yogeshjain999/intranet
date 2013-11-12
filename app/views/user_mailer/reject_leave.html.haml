@@ -3,24 +3,15 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
   %body
-    - if @user.public_profile.nil?
-      %p
-        %i
-          Hello #{@user.email},
-    - else
-      %p
-        %i
-          Hello  #{@user.name},
-    - if @user.public_profile.nil?
-      %p
-        The leave you applied from #{@from_date} to
-        = @to_date
-        has been rejected by your admin. 
-    - else
-      %p
-        The leave you applied from #{@from_date} to
-        = @to_date
-        has been rejected by your admin
+    %p
+      %i
+        Hello  #{@user.name},
+    %p
+      Leave has been rejected from #{@leave_application.start_at.to_s} to #{@leave_application.end_at.to_s}  
+      - if @leave_application.reject_reason
+        Reason:
+        = @leave_application.reject_reason
     Regards,
     %p
       Josh Software
+

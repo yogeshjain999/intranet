@@ -43,7 +43,7 @@
         Hello #{@receiver}
       %br/
       %br/
-      #{@user.public_profile.name} has apply for leave from #{@leave_application.start_at} to #{@leave_application.end_at}.
+      #{@user.public_profile.name} has apply for leave from #{@leave_application.start_at.to_s} to #{@leave_application.end_at.to_s}.
       You can either approve or cancel leave after login. 
       = link_to "Approve", approve_leave_url(id: @leave_application.id), class: 'btn btn-success'
       |

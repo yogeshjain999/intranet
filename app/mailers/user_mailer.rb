@@ -19,23 +19,23 @@ class UserMailer < ActionMailer::Base
     @user = User.find_by(email: sender_email)
     @receivers = receivers
     @leave_application = LeaveApplication.where(id: leave_application_id).first
-      
     mail(from: @user.email, to: receivers, subject: "Leave Application Submitted to Admin")
   end
 
-  def reject_leave(from_date: Date.today, to_date: Date.today, user: nil)
-    @from_date = from_date
-    @to_date = to_date
-    @user = user
-    
-    mail(from: "admin@joshsofware.com", to: user.email, subject: "Leave Request got rejected")
+  def reject_leave(leave_application_id)
+    get_leave(leave_application_id)
+    mail(from: "admin@joshsofware.com", to: @user.email, subject: "Leave Request got rejected")
   end
 
-  def accept_leave(from_date: Date.today, to_date: Date.today, user: nil)
-    @from_date = from_date
-    @to_date = to_date
-    @user = user
-    
-    mail(from: "admin@joshsofware.com", to: user.email, subject: "Congrats! Leave Request got accepted")
+  def accept_leave(leave_application_id)
+    get_leave(leave_application_id)
+    mail(from: "admin@joshsofware.com", to: @user.email, subject: "Congrats! Leave Request got accepted")
   end
+
+  private
+
+    def get_leave(id)
+      @leave_application = LeaveApplication.where(id: id).first
+      @user = @leave_application.user
+    end
 end

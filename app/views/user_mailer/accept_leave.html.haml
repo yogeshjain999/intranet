@@ -7,8 +7,8 @@
       %i
         Hello #{@user.name},
     %p
-      Your leave has been approved from #{@from_date} to
-      = @to_date
+      Your leave has been approved from #{@leave_application.start_at.to_s} to
+      = @leave_application.end_at.to_s
     Regards,
     %p
       Josh Software

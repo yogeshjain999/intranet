@@ -1,7 +1,8 @@
 class LeaveApplicationsController < ApplicationController
   
   before_action :authenticate_user!
-
+  before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
+ 
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)
     @leave_types = LeaveType.all.to_a
@@ -64,6 +65,15 @@ class LeaveApplicationsController < ApplicationController
           redirect_to root_path 
         end
         format.js{ render :nothing => true}
+      end
+    end
+  
+    def authorization_for_admin
+      if !current_user.role?("Admin")
+        flash[:error] = 'Unauthorize access'
+        redirect_to root_path 
+      else
+        return true
       end
     end 
 end
