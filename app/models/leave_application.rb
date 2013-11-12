@@ -29,8 +29,6 @@ class LeaveApplication
   end
   
   def process_reject_application
-    p 'aaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    p caller
     user = self.user
     user.get_leave_detail(Date.today.year).add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
     UserMailer.delay.reject_leave(self.id)
