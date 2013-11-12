@@ -1,5 +1,0 @@
-apikey: "YmqUHDWz5oSvrrSpY7hbLJsaztZcvFQk"
-capture_code: true
-environments: production
-#ignore_exceptions: ActiveRecord::RecordNotFound,ActionController::RoutingError,AbstractController::ActionNotFound
-ignore_bots: Googlebot

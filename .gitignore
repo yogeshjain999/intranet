@@ -13,8 +13,10 @@
 
 /config/initializers/smtp_gmail.rb
 
+
 #ignore google auth keys
 /config/initializers/constants.rb
+/config/rnotifier.yaml
 # Ignore bundler config
 /.bundle
 
