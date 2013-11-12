@@ -19,9 +19,11 @@ class LeaveApplication
   validates :contact_number, numericality: {only_integer: true}, length: {is: 10}
 
   validate :validate_leave_details, on: :create
-
+    
+  validate :validate_leave_status, on: :update
+ 
   after_create :deduct_available_leave_send_mail
-
+  
   def process_after_update(status)
     send("process_#{status}") 
   end
@@ -36,6 +38,18 @@ class LeaveApplication
     UserMailer.delay.accept_leave(self.id)
   end
 
+  def self.process_leave(id, leave_status, call_function)
+    leave_application = LeaveApplication.where(id: id).first
+    leave_application.leave_status = leave_status 
+    leave_application.save
+    leave_application.send(call_function) 
+    if leave_application.errors.blank?
+      return {type: :notice, text: "#{leave_status} Successfully"}
+      leave_application.send(call_function) 
+    else
+      return {type: :error, text: leave_application.errors.full_messages.join(" ")}
+    end
+  end
 
   private
     
@@ -50,5 +64,11 @@ class LeaveApplication
       if user.leave_details.where(year: Date.today.year).first.validate_leave(self.leave_type.name, self.number_of_days) 
         errors.add(:base, 'Not Sufficient Leave !Contact Administrator ') 
       end
+    end
+
+    def validate_leave_status
+      if ["Rejected", "Approved"].include?(self.leave_status_was) && ["Rejected", "Approved"].include?(self.leave_status)
+        errors.add(:base, 'Leave is already processed')
+      end  
     end
 end

@@ -55,19 +55,19 @@ class LeaveApplicationsController < ApplicationController
 
   private
     def process_leave(id, leave_status, call_function)
-      leave_application = LeaveApplication.where(id: id).first
-      leave_application.leave_status = leave_status 
-      leave_application.save!
-      leave_application.send(call_function)
+      message = LeaveApplication.process_leave(id, leave_status, call_function)
+      
       respond_to do|format|
         format.html do
-          flash[:notice] = "#{leave_status} Successfully"
+          flash[message[:type]] = message[:text]
           redirect_to root_path 
         end
         format.js{ render :nothing => true}
       end
     end
-  
+    
+     
+ 
     def authorization_for_admin
       if !current_user.role?("Admin")
         flash[:error] = 'Unauthorize access'
