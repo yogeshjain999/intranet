@@ -13,3 +13,4 @@ STATUS = ['created', 'pending', 'approved']
 GOOGLE_API_CLIENT_ID = "663367146304.apps.googleusercontent.com"
 GOOGLE_API_CLIENT_SECRET="X9ZqbLESrv5ogPQznxZpnhTX"
 GOOGLE_APT_REDIRECT_URL="http://intranet.joshsoftware.com/google/auth_api"
+BONUSLY_TOKEN = '06377121edd7d8867e7d8998968d7f6e'

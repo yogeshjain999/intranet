@@ -1,4 +1,3 @@
-require 'data_api/bonusly'
 class HomeController < ApplicationController
   def index
     @projects = Project.all_active
