@@ -3,22 +3,12 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
   %body
-    - if @user.public_profile.nil?
-      %p
-        %i
-          Hello #{@user.email},
-    - else
-      %p
-        %i
-          Hello #{@user.name},
-    - if @user.public_profile.nil?
-      %p
-        Admin has approved your leave that you had applied from #{@from_date.strftime("%d %B %Y")} to
-        = @to_date.strftime("%d %B %Y")
-    - else
-      %p
-        Admin has approved your leave that you had applied from #{@from_date} to
-        = @to_date
+    %p
+      %i
+        Hello #{@user.name},
+    %p
+      Your leave has been approved from #{@from_date} to
+      = @to_date
     Regards,
     %p
       Josh Software

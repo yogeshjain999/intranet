@@ -15,11 +15,10 @@ class UserMailer < ActionMailer::Base
     mail(to: receiver_emails , subject: "#{@updated_user.public_profile.name} Profile has been updated")
   end
   
-  def leave_application(sender_email, receivers, from_date, to_date)
+  def leave_application(sender_email, receivers, leave_application_id)
     @user = User.find_by(email: sender_email)
     @receivers = receivers
-    @from_date = from_date
-    @to_date = to_date    
+    @leave_application = LeaveApplication.where(id: leave_application_id).first
       
     mail(from: @user.email, to: receivers, subject: "Leave Application Submitted to Admin")
   end

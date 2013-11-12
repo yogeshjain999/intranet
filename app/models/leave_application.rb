@@ -22,14 +22,13 @@ class LeaveApplication
 
   after_create :deduct_available_leave_send_mail
 
-
   def process_after_update(status)
     send("process_#{status}") 
   end
   
   def process_reject_application
     user = self.user
-    user.leave_details.where(year: Date.today.year).first.add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
+    user.get_leave_detail(Date.today.year).add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
     UserMailer.reject_leave(from_date: self.start_at, to_date: self.end_at, user: user) 
   end
 
@@ -37,11 +36,13 @@ class LeaveApplication
     UserMailer.accept_leave(from_date: self.start_at, to_date: self.end_at, user: user)
   end
 
+
   private
+    
     def deduct_available_leave_send_mail
       user = self.user
-      user.leave_details.where(year: Date.today.year).first.deduct_available_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
-      user.sent_mail_for_approval(from_date: self.start_at, to_date: self.end_at) 
+      user.get_leave_detail(Date.today.year).deduct_available_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
+      user.sent_mail_for_approval(self.id) 
     end
 
     def validate_leave_details

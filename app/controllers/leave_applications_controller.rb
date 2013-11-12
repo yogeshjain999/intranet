@@ -45,18 +45,25 @@ class LeaveApplicationsController < ApplicationController
   end
 
   def cancel_leave
-    leave_application = LeaveApplication.where(id: params[:id]).first
-    leave_application.leave_status = 'Rejected' 
-    leave_application.save
-    leave_application.process_reject_application 
-    render :nothing => true
+    process_leave(params[:id], 'Rejected', :process_reject_application)
   end
 
   def approve_leave
-    leave_application = LeaveApplication.where(id: params[:id]).first
-    leave_application.leave_status = 'Approved' 
-    leave_application.save!
-    leave_application.process_accept_application 
-    render :nothing => true
-  end  
+    process_leave(params[:id], 'Approved', :process_accept_application)
+  end 
+
+  private
+    def process_leave(id, leave_status, call_function)
+      leave_application = LeaveApplication.where(id: id).first
+      leave_application.leave_status = leave_status 
+      leave_application.save!
+      leave_application.send(call_function)
+      respond_to do|format|
+        format.html do
+          flash[:notice] = "#{leave_status} Successfully"
+          redirect_to root_path 
+        end
+        format.js{ render :nothing => true}
+      end
+    end 
 end

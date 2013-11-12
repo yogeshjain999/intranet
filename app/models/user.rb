@@ -94,20 +94,25 @@ class User
     available_leave.save 
   end 
  
-  def sent_mail_for_approval(from_date: Date.today, to_date: Date.today)
+  def sent_mail_for_approval(leave_application_id)
     
     notified_users = [
                       User.find_by(role: 'HR').email, User.find_by(role: 'Admin').try(:email),
                       self.employee_detail.try(:notification_emails).try(:split, ',')
                      ].flatten.compact.uniq
     
-    UserMailer.delay.leave_application(self.email, notified_users, from_date, to_date)
+    UserMailer.delay.leave_application(self.email, notified_users, leave_application_id)
   end
 
   def role?(role)
     self.role == role
   end
   
+  def get_leave_detail(year)
+    leave_details.where(year: year).first   
+  end
+ 
+ 
   def eligible_for_leave?
     !! self.private_profile.date_of_joining.present?
   end 
