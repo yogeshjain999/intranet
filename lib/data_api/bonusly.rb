@@ -8,7 +8,7 @@ module Api
       }.merge(options)
       @no_of_users = options[:size]
       @uri = URI.parse('https://bonus.ly/api/v1/bonuses/month')
-      @token = "06377121edd7d8867e7d8998968d7f6e"
+      @token = BONUSLY_TOKEN
       get_request
       initialize_data_size
     end
