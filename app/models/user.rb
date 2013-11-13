@@ -75,7 +75,7 @@ class User
   def assign_leave
     leave_details = self.leave_details.find_or_initialize_by(year: Date.today.year)
     #Logic is that casual and sick leave are 6 per years and paid leave calculated per month
-    leave_details.available_leave[:Sick] = leave_details.available_leave[:Casual] = calculate_remaining_leave(SICK_LEAVE) if self.private_profile.date_of_joining.year == Date.today.year 
+    leave_details.available_leave["Sick"] = leave_details.available_leave["Casual"] = calculate_remaining_leave(SICK_LEAVE) if self.private_profile.date_of_joining.year == Date.today.year 
     leave_details.save
   end   
  

@@ -42,7 +42,7 @@ class LeaveDetail
   
   def add_rejected_leave(leave_type: "Sick", no_of_leave: 1)
     if leave_type != "Privilege"
-      self.available_leave[leave_type] = self.available_leave[leave_type] + no_of_leave.to_i if leave_type != "Privilege"
+      self.available_leave[leave_type] = self.available_leave[leave_type] + no_of_leave.to_i 
     else
       self.available_leave["CurrentPrivilege"] =  (self.available_leave["CurrentPrivilege"].to_d +  no_of_leave.to_d).to_s
       self.available_leave["TotalPrivilege"] = (self.available_leave["TotalPrivilege"].to_d + no_of_leave.to_d).to_s

@@ -1,7 +1,7 @@
 class LeaveApplicationsController < ApplicationController
   
   before_action :authenticate_user!
-  before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
+  before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave, :index, :view_leave_status]   
  
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)
@@ -29,11 +29,6 @@ class LeaveApplicationsController < ApplicationController
   def view_leave_status
     @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
     @approved_leave = LeaveApplication.where(:leave_status.ne => 'Pending') 
-  end
-  
-  def update_leave_details
-    
-    render nothing: true  
   end
 
   def strong_params
