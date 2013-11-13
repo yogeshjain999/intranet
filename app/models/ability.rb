@@ -16,12 +16,12 @@ class Ability
       can [:public_profile, :private_profile, :apply_leave], User 
     elsif user.role? 'Employee'
       can [:public_profile, :private_profile, :apply_leave], User
-      can [:index, :download_document], Attachment
-      cannot :manage, Project
+      can [:index, :download_document], Attachment 
+      can :read, Project
     elsif user.role? 'Intern'
       can [:public_profile, :private_profile, :apply_leave], User
       can :read, :all
-      cannot :manage, Project
+      can :read, Project
     end
   end
 
@@ -31,6 +31,7 @@ class Ability
     can [:public_profile, :private_profile], User
     can :manage, Project
     can :manage, Attachment
+    can :manage, Vendor
   end
 
   def hr_abilities
@@ -39,5 +40,6 @@ class Ability
     can [:public_profile, :private_profile, :edit, :apply_leave], User
     can [:new, :create, :edit, :destroy], LeaveApplication
     can :manage, Attachment
+    can :manage, Vendor
   end
 end

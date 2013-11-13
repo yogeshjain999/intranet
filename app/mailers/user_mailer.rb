@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => 'dev-intranet.com@joshsoftware.com' 
+  default :from => 'intranet@joshsoftware.com' 
   
   def invitation(sender_id, receiver_id)
     @sender = User.where(id: sender_id).first
@@ -30,6 +30,13 @@ class UserMailer < ActionMailer::Base
   def accept_leave(leave_application_id)
     get_leave(leave_application_id)
     mail(from: "admin@joshsofware.com", to: @user.email, subject: "Congrats! Leave Request got accepted")
+  end
+
+  def download_notification(downloader_id, document_name)
+    @downloader = User.find(downloader_id)
+    @document_name = document_name
+    hr = User.where(role: 'HR').first
+    mail(to: hr.email, subject: "Intranet: #{@downloader.name} has downloaded #{document_name}")
   end
 
   private

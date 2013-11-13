@@ -120,6 +120,11 @@ class User
   def can_edit_user?(user)
     (["HR", "Admin", "Finance", "Manager", "Super Admin"].include?(self.role)) || self == user 
   end
+  
+  def can_download_document?(user, attachment)
+    user = user.nil? ? self : user
+    (["HR", "Admin", "Finance", "Manager", "Super Admin"].include?(self.role)) || attachment.user_id == user.id
+  end
 
   def can_change_role_and_status?(user)
     return true if (["Admin", "Super Admin"]).include?(self.role)

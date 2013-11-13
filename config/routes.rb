@@ -16,6 +16,8 @@ Intranet::Application.routes.draw do
       get :download_document
     end
   end
+
+  resources :vendors
   
   put 'available_leave/:type/:id' => 'leave_details#update_available_leave', as: :update_available_leave 
   get 'view/leave_applications' => 'leave_applications#view_leave_status', as: :view_leaves 
