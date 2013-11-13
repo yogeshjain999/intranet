@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_action :load_profiles, only: [:public_profile, :private_profile, :update, :edit]
   before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
   before_action :authorize, only: [:public_profile, :edit]
+  before_action :authorize_document_download, only: :download_document
+  after_action :notify_document_download, only: :download_document
 
   def index
     @users = User.employees
@@ -69,9 +71,8 @@ class UsersController < ApplicationController
   end
 
   def download_document
-    document = Attachment.where(id: params[:id]).first.document
-    document_type = MIME::Types.type_for(document.url).first.content_type
-    send_file document.path, filename: document.model.name, type: "#{document_type}"
+    document_type = MIME::Types.type_for(@document.url).first.content_type
+    send_file @document.path, filename: @document.model.name, type: "#{document_type}"
   end
 
   private
@@ -115,5 +116,16 @@ class UsersController < ApplicationController
   def authorize
     message = "You are not authorize to perform this action"
     (current_user.can_edit_user?(@user)) || (flash[:error] = message; redirect_to root_url)
+  end
+
+  def authorize_document_download
+    @attachment = Attachment.where(id: params[:id]).first
+    @document = @attachment.document
+    message = "You are not authorize to perform this action"
+    (current_user.can_download_document?(@user, @attachment)) || (flash[:error] = message; redirect_to root_url)
+  end
+
+  def notify_document_download
+    UserMailer.delay.download_notification(current_user.id, @attachment.name)
   end
 end

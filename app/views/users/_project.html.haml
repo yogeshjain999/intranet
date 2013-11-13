@@ -1,6 +1,9 @@
 %tr
   %td.project-name
-    = link_to project.name, project_path(id: project.id)
+    - if user_signed_in?
+      = link_to project.name, project_path(id: project.id)
+    - else
+      = project.name
   %td= raw project.code_climate_snippet
 
 :css

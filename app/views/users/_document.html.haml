@@ -5,9 +5,8 @@
     - if a.object.persisted?
       .document
         %h4
-          = link_to '', download_document_user_path(id: a.object.id), class: "icon-download"
+          = link_to '', download_document_user_path(id: a.object.id), class: "icon-download", data: {'no-turbolink' =>  true}
           |
           = a.link_to_remove '', class: "icon-trash"
   = f.link_to_add 'Add new document', :attachments, class: 'btn controls'
   = f.submit :save, class: "btn"
-:css

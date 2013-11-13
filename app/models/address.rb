@@ -10,5 +10,5 @@ class Address
 
   belongs_to :private_profile
   belongs_to :leave_application
-  
+  belongs_to :vendor
 end

@@ -35,7 +35,11 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.omniauth :google_oauth2, GOOGLE_APP_ID, GOOGLE_APP_SECRET
+  if Rails.env.test?
+    config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_APP_SECRET']
+  else
+    config.omniauth :google_oauth2, GOOGLE_APP_ID, GOOGLE_APP_SECRET
+  end
   config.case_insensitive_keys = [ :email ]
 
   # Configure which authentication keys should have whitespace stripped.

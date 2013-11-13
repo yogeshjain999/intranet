@@ -1,0 +1,8 @@
+- if can? :manage, Vendor
+  = link_to "Vendors", '#', "data-toggle" => "dropdown", class: "dropdown-toggle"
+%ul.dropdown-menu.drop
+  %li
+    =link_to 'Add vendor', new_vendor_path, data: {'no-turbolink' =>  true}
+  %li.divider
+  %li
+    =link_to 'Vendors', vendors_path
