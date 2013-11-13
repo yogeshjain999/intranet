@@ -90,7 +90,7 @@ class User
   end
   
   def assign_monthly_leave
-    available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.monthly_paid_leave()
+    available_leave = self.leave_details.where(year: Date.today.year).first.monthly_paid_leave()
     available_leave.save 
   end 
  
