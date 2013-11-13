@@ -60,7 +60,7 @@ class LeaveDetail
       self.available_leave[leave_type] = self.available_leave[leave_type] - no_of_leave
     else
       self.available_leave["CurrentPrivilege"] = (self.available_leave["CurrentPrivilege"].to_d - no_of_leave.to_d).to_s if self.available_leave["CurrentPrivilege"] == 0 
-      self.available_leave["TotalPrivilege"] -=  (self.available_leave["TotalPrivilege"].to_d - no_of_leave.to_d).to_s
+      self.available_leave["TotalPrivilege"] =  (self.available_leave["TotalPrivilege"].to_d - no_of_leave.to_d).to_s
     end 
     self.save 
   end 

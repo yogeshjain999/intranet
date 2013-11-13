@@ -31,6 +31,24 @@ describe LeaveApplicationsController do
       post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id)}
       LeaveApplication.count.should == 1 
     end
+    it "should be able to apply leave" do
+      leave_type = FactoryGirl.create(:leave_type, name: 'Privilege')
+      
+      @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+      @user.public_profile = FactoryGirl.build(:public_profile)
+      @user.save
+      @user.leave_details.should_not be([])
+      leave_detail = @user.leave_details.last
+      leave_detail.available_leave["TotalPrivilege"] = 19
+      leave_detail.available_leave["CurrentPrivilege"] = 19
+      leave_detail.save
+      @leave_application.attributes.delete("_id")
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 7)}
+      LeaveApplication.count.should == 1 
+      @user.reload 
+      leave_detail = @user.leave_details.last
+      leave_detail.available_leave["TotalPrivilege"].to_f.should be(12.0)  
+    end
   end
 
  context "While accepting leaves" do
