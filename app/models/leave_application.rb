@@ -1,6 +1,8 @@
 class LeaveApplication
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::History::Trackable  
+
   belongs_to :user
   belongs_to :leave_type
   #has_one :address
@@ -13,6 +15,7 @@ class LeaveApplication
   field :reason,          type: String
   field :reject_reason,   type: String
   field :leave_status,    type: String, default: "Pending"
+  track_history
 
   LEAVE_STATUS = ['Pending', 'Approved', 'Rejected']
 

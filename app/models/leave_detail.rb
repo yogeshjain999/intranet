@@ -1,25 +1,21 @@
 class LeaveDetail
   include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::History::Trackable
+
   belongs_to :user
   
   field :year,            type: Integer
   
   field :available_leave,     type: Hash, default: {"Sick" => 0, "Casual" => 0, "CurrentPrivilege" => 0, "TotalPrivilege" => 0}
-  
+  track_history  
+ 
   before_save do
     self.available_leave["Sick"] = self.available_leave["Sick"].to_i
     self.available_leave["Casual"] = self.available_leave["Casual"].to_i
     self.available_leave["CurrentPrivilege"] = self.available_leave["CurrentPrivilege"].to_d.to_s
     self.available_leave["TotalPrivilege"] = self.available_leave["TotalPrivilege"].to_d.to_s
   end
-
-  def convert_to_decimal
-        
-  end 
- 
-  def self.details
-    
-  end 
   
   def validate_doj_month
     (self.user.private_profile.date_of_joining.month != (Date.today.month-1))

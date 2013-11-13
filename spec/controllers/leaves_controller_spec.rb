@@ -21,7 +21,7 @@ describe LeaveApplicationsController do
       expect{ post :create, {user_id: @user.id, leave_application: @leave_application.attributes}}.to raise_error(NoMethodError) 
     end
 
-    it "should be able to apply leave" do
+    it "should be able to apply sick leave" do
       leave_type = FactoryGirl.create(:leave_type)
       @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
       @user.public_profile = FactoryGirl.build(:public_profile)
@@ -34,7 +34,7 @@ describe LeaveApplicationsController do
       remaining_leave = SICK_LEAVE - @leave_application.number_of_days
       leave_detail.available_leave["Sick"].should be(remaining_leave)
     end
-    it "should be able to apply leave" do
+    it "should be able to apply privilege leave" do
       leave_type = FactoryGirl.create(:leave_type, name: 'Privilege')
       
       @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
@@ -63,7 +63,7 @@ describe LeaveApplicationsController do
   end
   
   it "Admin as a role should accept leaves for an HR, manager and employee" do
-
+     
   end
   it "An HR as a role should accept leaves for manager and employee"
   it "Manager as a role should accept leaves for employee"
