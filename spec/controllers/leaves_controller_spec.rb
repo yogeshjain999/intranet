@@ -48,6 +48,7 @@ describe LeaveApplicationsController do
       @user.reload 
       leave_detail = @user.leave_details.last
       leave_detail.available_leave["TotalPrivilege"].to_f.should be(12.0)  
+      leave_detail.available_leave["CurrentPrivilege"].to_f.should be(12.0)  
     end
   end
 
