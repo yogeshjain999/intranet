@@ -10,7 +10,7 @@ class LeaveApplicationsController < ApplicationController
   end
   
   def index
-    @all_available_leave = LeaveDetail.details 
+    @users = User.employees.not_in(role: ["Admin", "SuperAdmin"])
   end  
   
   def create
@@ -27,7 +27,7 @@ class LeaveApplicationsController < ApplicationController
   end 
   
   def view_leave_status
-    @pending_leave = LeaveApplication.where(leave_status: 'Pending')
+    @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
     @approved_leave = LeaveApplication.where(:leave_status.ne => 'Pending') 
   end
   

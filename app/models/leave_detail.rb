@@ -18,8 +18,7 @@ class LeaveDetail
   end 
  
   def self.details
-    user_ids = User.not_in(role: ["Admin", "SuperAdmin"]).pluck(:id)
-    self.includes(:user).where(:user_id.in => user_ids).to_a 
+    
   end 
   
   def validate_doj_month

@@ -1,5 +1,6 @@
 class LeaveApplication
   include Mongoid::Document
+  include Mongoid::Timestamps
   belongs_to :user
   belongs_to :leave_type
   #has_one :address
@@ -43,8 +44,8 @@ class LeaveApplication
     leave_application.leave_status = leave_status 
     leave_application.save
     if leave_application.errors.blank?
-      return {type: :notice, text: "#{leave_status} Successfully"}
       leave_application.send(call_function) 
+      return {type: :notice, text: "#{leave_status} Successfully"}
     else
       return {type: :error, text: leave_application.errors.full_messages.join(" ")}
     end

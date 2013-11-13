@@ -4,8 +4,7 @@ describe LeaveApplicationsController do
   context "Employee, manager and HR" do
     before(:each) do
        
-      hr = FactoryGirl.create(:user, email: 'administrator@joshsoftware.com', role: 'Super Admin') 
-      hr = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
+      admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
       hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, role: 'Employee')
       sign_in @user
@@ -28,8 +27,12 @@ describe LeaveApplicationsController do
       @user.public_profile = FactoryGirl.build(:public_profile)
       @user.save
       @user.leave_details.should_not be([])
-      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id)}
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
       LeaveApplication.count.should == 1 
+      @user.reload 
+      leave_detail = @user.leave_details.last
+      remaining_leave = SICK_LEAVE - @leave_application.number_of_days
+      leave_detail.available_leave["Sick"].should be(remaining_leave)
     end
     it "should be able to apply leave" do
       leave_type = FactoryGirl.create(:leave_type, name: 'Privilege')
@@ -53,6 +56,12 @@ describe LeaveApplicationsController do
   end
 
  context "While accepting leaves" do
+  before(:each) do
+    @admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
+    hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
+    @user = FactoryGirl.create(:user, role: 'Employee')
+  end
+  
   it "Admin as a role should accept leaves for an HR, manager and employee" do
 
   end

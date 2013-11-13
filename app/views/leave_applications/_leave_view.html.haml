@@ -5,11 +5,15 @@
     %th
       Start Date
     %th
-      Last Date 
+      Last Date
+    %th
+      Days 
     %th 
       Leave Type
     %th 
       Reason
+    %th
+      Applied On
     %th
       Action  
   %tbody
@@ -18,20 +22,16 @@
         %td= appr_leave.user.try(:name)
         %td= appr_leave.start_at
         %td= appr_leave.end_at
+        %td= appr_leave.number_of_days
         %td= appr_leave.leave_type.name
         %td= appr_leave.reason
+        %td= appr_leave.created_at.try(:strftime, "%Y-%m-%d")
         %td
           - if appr_leave.leave_status == "Pending"
-            .btn-group
-              %a.btn.dropdown-toggle.btn-primary{data:{toggle: "dropdown"}, href: '#'}
-                Action
-                %span.caret
-              %ul.dropdown-menu 
-                %li
-                  %a{href: '#', class: 'approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
-                    Approved Leave
-                  %a{href: '#', class: 'cancel_leave', data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel'}}
-                    Cancel Leave
+            %a{href: '#', class: 'btn btn-success approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
+              Approve 
+            %a{href: '#', class: 'btn btn-danger cancel_leave', data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel'}}
+              Reject
           - else
             = appr_leave.leave_status
  

@@ -5,10 +5,10 @@
 .alert-message
 %ul.leave_applicationTab.nav.nav-tabs
   %li.active
-    %a{data:{toggle: 'tab'}, href: '#unapproved_leave'}
+    %a#pending_link{data:{toggle: 'tab', leave_count: @pending_leave.count}, href: '#unapproved_leave'}
       Pending (#{@pending_leave.count})
   %li
-    %a{data:{toggle: "tab"}, href: '#approved_leave'}
+    %a#leave_history_link{data:{toggle: "tab"}, href: '#approved_leave'}
       Leave History
    
 .leave_application_tab_content.tab-content
@@ -37,6 +37,9 @@
           message = 'Leave Cancelled';  
         }
         $('.alert-message').alert({txt: message, type: 'success'});  
+        leave_count = $('#pending_link').data('leave-count') - 1
+        ls = "Pending (" + leave_count + ")";
+        $('#pending_link').text(ls);
       },
       error: function(){
         $('.alert-message').alert({txt: 'Internal Server Error! Please contact web sysadmin', type: 'error'});  
