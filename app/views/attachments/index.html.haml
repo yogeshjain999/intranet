@@ -6,7 +6,8 @@
       %tbody
         - @company_docs.each do |doc|
           %tr
-            = render partial: 'document_row', locals: {doc: doc}
+            - if doc.is_visible_to_all or (can? :manage, Attachment) 
+              = render partial: 'document_row', locals: {doc: doc}
   - else
     %h4
       = "No Documents to Download"

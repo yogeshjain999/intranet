@@ -1,6 +1,7 @@
 class ContactPerson
   include Mongoid::Document
   field :relation
+  field :role
   field :name
   field :phone_no
   field :email

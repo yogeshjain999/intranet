@@ -42,6 +42,6 @@ class AttachmentsController < ApplicationController
   end
 
   def attachment_params
-    params.require(:attachment).permit(:name, :document, :document_type)
+    params.require(:attachment).permit(:name, :document, :document_type, :is_visible_to_all)
   end
 end

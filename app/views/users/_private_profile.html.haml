@@ -13,7 +13,8 @@
         = pri.input :qualification
     %tr
       %td
-        = pri.input :date_of_joining, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker', value: @private_profile.date_of_joining.try(:strftime, '%d-%m-%Y')}
+        - disable = ( can? :edit, User ) ? false : true
+        = pri.input :date_of_joining, disabled: disable, input_html: { class: 'datepicker',  'data-behaviour' => 'datepicker', value: @private_profile.date_of_joining.try(:strftime, '%d-%m-%Y')}
       %td
         = pri.input :work_experience, placeholder: 'No of years'
     %tr
