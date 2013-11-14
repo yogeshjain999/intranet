@@ -20,7 +20,7 @@ describe User do
   end 
   
   it "should increment user privilege leave monthly" do
-    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(2013, 10, 01)))
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 1, 01)))
     user.save!
     user.assign_monthly_leave
     user = User.last 
@@ -36,4 +36,64 @@ describe User do
     user.leave_details.first.available_leave["CurrentPrivilege"].to_f.should be(0.0)
     user.leave_details.first.available_leave["TotalPrivilege"].to_f.should be(0.0)
   end
+
+  it "should reset yearly leave with previous year leave < 15" do
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year - 1, Date.today.month - 1, 19)))
+    user.save
+    user.reload
+    leave_detail = user.leave_details.last
+    leave_detail.year = Date.today.year - 1
+    leave_detail.available_leave["CurrentPrivilege"] = 13
+    leave_detail.available_leave["TotalPrivilege"] = 34 
+    leave_detail.save
+    user = User.last
+    user.set_leave_details_per_year
+    user.reload
+      
+    leave_detail = user.leave_details.last
+    leave_detail.available_leave["TotalPrivilege"].to_f.should be(34.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
+    leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
+  end
+
+  it "should reset yearly leave with previous year leave > 15" do
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year - 1, Date.today.month - 1, 19)))
+    user.save
+    user.reload
+    leave_detail = user.leave_details.last
+    leave_detail.year = Date.today.year - 1
+    leave_detail.available_leave["CurrentPrivilege"] = 16
+    leave_detail.available_leave["TotalPrivilege"] = 34 
+    leave_detail.save
+    user = User.last
+    user.set_leave_details_per_year
+    user.reload
+      
+    leave_detail = user.leave_details.last
+    leave_detail.available_leave["TotalPrivilege"].to_f.should be(33.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
+    leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
+  end
+
+  it "should reset yearly leave with previous year leave == 15" do
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year - 1, Date.today.month - 1, 19)))
+    user.save
+    user.reload
+    leave_detail = user.leave_details.last
+    leave_detail.year = Date.today.year - 1
+    leave_detail.available_leave["CurrentPrivilege"] = 15
+    leave_detail.available_leave["TotalPrivilege"] = 34 
+    leave_detail.save
+    user = User.last
+    user.set_leave_details_per_year
+    user.reload
+      
+    leave_detail = user.leave_details.last
+    leave_detail.available_leave["TotalPrivilege"].to_f.should be(34.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
+    leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
+  end 
 end

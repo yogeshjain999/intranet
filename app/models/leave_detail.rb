@@ -1,26 +1,21 @@
 class LeaveDetail
   include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::History::Trackable
+
   belongs_to :user
   
   field :year,            type: Integer
   
   field :available_leave,     type: Hash, default: {"Sick" => 0, "Casual" => 0, "CurrentPrivilege" => 0, "TotalPrivilege" => 0}
-  
+  track_history  
+ 
   before_save do
     self.available_leave["Sick"] = self.available_leave["Sick"].to_i
     self.available_leave["Casual"] = self.available_leave["Casual"].to_i
     self.available_leave["CurrentPrivilege"] = self.available_leave["CurrentPrivilege"].to_d.to_s
     self.available_leave["TotalPrivilege"] = self.available_leave["TotalPrivilege"].to_d.to_s
   end
-
-  def convert_to_decimal
-        
-  end 
- 
-  def self.details
-    user_ids = User.not_in(role: ["Admin", "SuperAdmin"]).pluck(:id)
-    self.includes(:user).where(:user_id.in => user_ids).to_a 
-  end 
   
   def validate_doj_month
     (self.user.private_profile.date_of_joining.month != (Date.today.month-1))
@@ -47,7 +42,7 @@ class LeaveDetail
   
   def add_rejected_leave(leave_type: "Sick", no_of_leave: 1)
     if leave_type != "Privilege"
-      self.available_leave[leave_type] = self.available_leave[leave_type] + no_of_leave.to_i if leave_type != "Privilege"
+      self.available_leave[leave_type] = self.available_leave[leave_type] + no_of_leave.to_i 
     else
       self.available_leave["CurrentPrivilege"] =  (self.available_leave["CurrentPrivilege"].to_d +  no_of_leave.to_d).to_s
       self.available_leave["TotalPrivilege"] = (self.available_leave["TotalPrivilege"].to_d + no_of_leave.to_d).to_s
@@ -59,8 +54,8 @@ class LeaveDetail
     if leave_type != "Privilege"
       self.available_leave[leave_type] = self.available_leave[leave_type] - no_of_leave
     else
-      self.available_leave["CurrentPrivilege"] = (self.available_leave["CurrentPrivilege"].to_d - no_of_leave.to_d).to_s if self.available_leave["CurrentPrivilege"] == 0 
-      self.available_leave["TotalPrivilege"] -=  (self.available_leave["TotalPrivilege"].to_d - no_of_leave.to_d).to_s
+      self.available_leave["CurrentPrivilege"] = (self.available_leave["CurrentPrivilege"].to_d - no_of_leave.to_d).to_s if self.available_leave["CurrentPrivilege"] != 0 
+      self.available_leave["TotalPrivilege"] =  (self.available_leave["TotalPrivilege"].to_d - no_of_leave.to_d).to_s
     end 
     self.save 
   end 

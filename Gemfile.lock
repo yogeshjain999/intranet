@@ -7,6 +7,15 @@ GIT
       mongoid (>= 3.0, < 5.0)
 
 GIT
+  remote: git://github.com/aq1018/mongoid-history.git
+  revision: 2b0ea7de2440afa3f712bcd2ab7fffbf1d1f4918
+  specs:
+    mongoid-history (0.4.1)
+      activesupport
+      easy_diff
+      mongoid (>= 3.0)
+
+GIT
   remote: git://github.com/marcosbeirigo/mina_extensions.git
   revision: a363bb053bacc07d572da2b023bd3f04a0831934
   specs:
@@ -128,6 +137,7 @@ GEM
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
+    easy_diff (0.0.2)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.1)
@@ -363,6 +373,7 @@ DEPENDENCIES
   mina_extensions!
   mongoid!
   mongoid-grid_fs!
+  mongoid-history!
   mongoid-rspec
   mongoid_slug
   nested_form
