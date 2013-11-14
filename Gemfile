@@ -56,7 +56,7 @@ group :development, :test do
   gem 'brakeman', :require => false
 end
 
-gem :production do
+group :production do
   gem 'therubyracer'
 end
 
