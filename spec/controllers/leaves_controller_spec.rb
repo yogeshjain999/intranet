@@ -72,6 +72,32 @@ describe LeaveApplicationsController do
       leave_detail.available_leave["CurrentPrivilege"].to_f.should be(12.0)  
     end
   end
+  
+  context "AS HR" do
+    before(:each) do
+      admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
+      @user = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR', private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, 01, 01))) 
+      #user = FactoryGirl.create(:user, role: 'Employee')
+      sign_in @user
+      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id) 
+    end
+    
+    it "should be able to apply leave" do
+      get :new, {user_id: @user.id}
+      should respond_with(:success)
+      should render_template(:new)
+    end
+
+    it "should be able to view all leave" do
+      leave_type = FactoryGirl.create(:leave_type, name: 'Sick')
+      @leave_application.leave_type_id = leave_type.id
+      @leave_application.save
+      get :index
+      should respond_with(:success)
+      should render_template(:index)
+    end
+    
+  end
 
   context "While accepting leaves" do
     before(:each) do
@@ -120,7 +146,21 @@ describe LeaveApplicationsController do
       get :cancel_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Approved" 
-    end  
+    end 
+
+    it "should be able to apply leave" do
+      get :new, {user_id: @admin.id}
+      should respond_with(:success)
+      should render_template(:new)
+    end
+
+    it "should be able to view all leave" do
+      leave_type = FactoryGirl.create(:leave_type, name: 'Sick')
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      get :index
+      should respond_with(:success)
+      should render_template(:index)
+    end 
   end
 
   context "Canceling leaves" do
