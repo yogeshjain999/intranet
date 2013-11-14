@@ -30,7 +30,7 @@
             %li
               = link_to "Employees", users_path
             %li
-              = link_to "Documents", attachments_path
+              = link_to "Documents", attachments_path, data: {'no-turbolink' =>  true}
             %li
               = render 'layouts/project_menu'
             %li
