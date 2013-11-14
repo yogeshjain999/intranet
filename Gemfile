@@ -55,6 +55,11 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'brakeman', :require => false
 end
+
+gem :production do
+  gem 'therubyracer'
+end
+
 gem 'simplecov', :require => false, :group => :test
 
 #BackGround Job processing instead of delayed_job
