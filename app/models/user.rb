@@ -78,14 +78,18 @@ class User
     leave_details.available_leave["Sick"] = leave_details.available_leave["Casual"] = calculate_remaining_leave(SICK_LEAVE) if self.private_profile.date_of_joining.year == Date.today.year 
     leave_details.save
   end   
+  
+  def privilege_leave_yearly(available_leave, current_leave_details) 
+    no_carry_over_leave = available_leave["CurrentPrivilege"].to_d - CAN_CARRY_FORWARD 
+    total_paid_leave = available_leave["TotalPrivilege"]  
+    current_leave_details.available_leave["TotalPrivilege"] = no_carry_over_leave >= 0 ? (total_paid_leave.to_d - no_carry_over_leave).to_s : total_paid_leave.to_s
+  end
  
   def set_leave_details_per_year
     available_leave = self.leave_details.where(year: Date.today.year - 1 ).first.available_leave
     current_leave_details = self.leave_details.build(year: Date.today.year) 
     current_leave_details.available_leave["Sick"] = current_leave_details.available_leave["Casual"] = SICK_LEAVE
-    no_carry_over_leave = available_leave["CurrentPrivilege"].to_d - CAN_CARRY_FORWARD 
-    total_paid_leave = available_leave["TotalPrivilege"]  
-    current_leave_details.available_leave["TotalPrivilege"] = no_carry_over_leave >= 0 ? (total_paid_leave.to_d - no_carry_over_leave).to_s : total_paid_leave.to_s
+    privilege_leave_yearly(available_leave, current_leave_details)
     current_leave_details.save 
   end
   
@@ -95,7 +99,6 @@ class User
   end 
  
   def sent_mail_for_approval(leave_application_id)
-    
     notified_users = [
                       User.find_by(role: 'HR').email, User.find_by(role: 'Admin').try(:email),
                       self.employee_detail.try(:notification_emails).try(:split, ',')
