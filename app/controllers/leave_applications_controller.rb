@@ -1,7 +1,8 @@
 class LeaveApplicationsController < ApplicationController
-  
+   
+  load_and_authorize_resource except: [:create]
   before_action :authenticate_user!
-  before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave, :index, :view_leave_status]   
+  before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
  
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)

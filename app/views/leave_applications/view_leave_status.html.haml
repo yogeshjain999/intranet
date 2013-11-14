@@ -29,12 +29,13 @@
       success: function(){
         tr_id = "#leave_application_" + leave_application_id;
         b = $(tr_id).detach();
-        b.children().last().text(action);
+        b.children().last().text('Approved');
         $('#approved_leave table tbody').append(b);
         message = 'Leave Approved';
         if(action == 'cancel')
         {
-          message = 'Leave Cancelled';  
+          message = 'Leave Cancelled'; 
+          b.children().last().text('Rejected');
         }
         $('.alert-message').alert({txt: message, type: 'success'});  
         leave_count = $('#pending_link').data('leave-count') - 1

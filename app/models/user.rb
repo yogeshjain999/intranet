@@ -79,8 +79,17 @@ class User
     leave_details.save
   end   
   
+  def total_leave_carry_forward
+    doj = self.private_profile.date_of_joining
+    if doj.month == (Date.today.year - 1)
+      ((CAN_CARRY_FORWARD/12.to_d).to_d * (12 - (doj.month - 1))).to_s
+    else
+      CAN_CARRY_FORWARD
+    end
+  end 
+ 
   def privilege_leave_yearly(available_leave, current_leave_details) 
-    no_carry_over_leave = available_leave["CurrentPrivilege"].to_d - CAN_CARRY_FORWARD 
+    no_carry_over_leave = available_leave["CurrentPrivilege"].to_d - total_leave_carry_forward
     total_paid_leave = available_leave["TotalPrivilege"]  
     current_leave_details.available_leave["TotalPrivilege"] = no_carry_over_leave >= 0 ? (total_paid_leave.to_d - no_carry_over_leave).to_s : total_paid_leave.to_s
   end

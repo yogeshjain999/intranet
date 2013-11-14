@@ -20,7 +20,7 @@ describe User do
   end 
   
   it "should increment user privilege leave monthly" do
-    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(2013, 10, 01)))
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 1, 01)))
     user.save!
     user.assign_monthly_leave
     user = User.last 
