@@ -4,6 +4,8 @@ class VendorsController < ApplicationController
   skip_load_and_authorize_resource :only => :create
   before_action :load_vendor, except: [:index, :new, :create, :import_vendors]
   before_action :build_vendor_resource, only: :new
+    
+  include RestfulAction
 
   def index
     @vendors = Vendor.all
@@ -23,13 +25,7 @@ class VendorsController < ApplicationController
   end
 
   def update
-    if @vendor.update_attributes(safe_params)
-     flash[:notice] = "Vendor updated Succesfully" 
-     redirect_to vendors_path
-    else
-      flash[:alert] = "Vendor: #{@vendor.errors.full_messages.join(',')}" 
-      render 'edit'
-    end
+    update_obj(@vendor, safe_params, vendors_path)
   end
 
   def destroy
