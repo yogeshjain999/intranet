@@ -16,6 +16,9 @@ class User
   field :uid,                 :type => String
   field :provider,            :type => String        
   field :status,              :type => String, :default => STATUS[0]
+  
+  ## Rememberable
+  field :remember_created_at, :type => Time
 
   ## Trackable
   field :sign_in_count,      :type => Integer, :default => 0
