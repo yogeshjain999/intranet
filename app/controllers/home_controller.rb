@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   end
 
   def get_bonusly_updates
-    bonus = Api::Bonusly.new(size: 10)
+    bonus = Api::Bonusly.new
     messages = bonus.all_bonusly_messages
     messages
   end
