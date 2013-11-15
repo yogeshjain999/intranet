@@ -17,9 +17,7 @@ class Ability
     elsif user.role? 'Employee'
       employee_abilities    
     elsif user.role? 'Intern'
-      can [:public_profile, :private_profile, :apply_leave], User
-      can :read, :all
-      can :read, Project
+      intern_abilities   
     end
   end
   
@@ -29,6 +27,12 @@ class Ability
     can :manage, Attachment
     can :manage, Vendor
     can :manage, LeaveApplication
+  end
+  
+  def intern_abilities 
+    can [:public_profile, :private_profile, :apply_leave], User
+    can :read, :all
+    can :read, Project 
   end
   
   def employee_abilities
