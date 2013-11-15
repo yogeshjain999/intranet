@@ -11,6 +11,10 @@ class Vendor
   
   accepts_nested_attributes_for :contact_persons, :address
   validates :company, :category, presence: true
+  
+  def build_contact_person(row)
+    self.contact_persons.build(name: row[1], role: row[4], phone_no: row[5], email: row[6])
+  end
 
   def self.process_vendors_csv_file(row)
     vendor = Vendor.where(company: row[2], category: row[3]).first
@@ -18,7 +22,7 @@ class Vendor
       check_contact_and_update(vendor, row)
     else
       vendor = Vendor.new(company: row[2], category: row[3])
-      vendor.contact_persons.build(name: row[1], role: row[4], phone_no: row[5], email: row[6]) 
+      vendor.build_contact_person(row) 
     end
     vendor.save
   end
@@ -34,7 +38,7 @@ class Vendor
 
   def self.update_contact_person(contact, vendor, row)
     unless contact
-      vendor.contact_persons.build(name: row[1], role: row[4], phone_no: row[5], email: row[6]) 
+      vendor.build_contact_person(row) 
     else
       contact_person = vendor.contact_persons.find(contact.id)
       contact_person.update_attributes(name: row[1], role: row[4], phone_no: row[5], email: row[6])
