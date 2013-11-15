@@ -24,12 +24,8 @@ class Vendor
   end
 
   def self.check_contact_and_update(vendor, row)
-    contact = get_contact(vendor, row) if record_exists(vendor, row)
-    update_contact_person(contact || nil, vendor, row) 
-  end
-
-  def self.record_exists(vendor, row)
-    return vendor.contact_persons.any_of({name: row[1], role: row[4]}, {phone_no: row[5]}).present?
+    contact = get_contact(vendor, row) 
+    update_contact_person(contact, vendor, row) 
   end
 
   def self.get_contact(vendor, row)

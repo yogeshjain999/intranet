@@ -10,4 +10,8 @@ class HomeController < ApplicationController
     messages = bonus.all_bonusly_messages
     messages
   end
+
+  def calendar
+    
+  end
 end

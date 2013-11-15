@@ -14,6 +14,8 @@
   - if ! ["Admin", "Super Admin"].include?(current_user.role)
     %li
       = link_to "Apply Leave", new_user_leave_application_path(current_user)
+  %li
+    = link_to "Calendar", calendar_path
   %li.divider
   %li
     = link_to 'Sign out', destroy_user_session_path, method: :delete

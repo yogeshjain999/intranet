@@ -17,13 +17,6 @@ class User
   field :provider,            :type => String        
   field :status,              :type => String, :default => STATUS[0]
 
-  ## Recoverable
-  field :reset_password_token,   :type => String
-  field :reset_password_sent_at, :type => Time
-
-  ## Rememberable
-  field :remember_created_at, :type => Time
-
   ## Trackable
   field :sign_in_count,      :type => Integer, :default => 0
   field :current_sign_in_at, :type => Time
@@ -34,7 +27,6 @@ class User
   has_many :leave_applications
   has_many :attachments
   has_and_belongs_to_many :projects
-  
   
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, :allow_destroy => true
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}

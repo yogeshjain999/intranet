@@ -20,14 +20,14 @@ class GoogleClient
 # # Request a token for our service account
     
     @event = {
-    'summary' => 'Check',
-    'location' => 'this is where the location goes',
+    'summary' => 'Pramod BirthDay',
+    'location' => 'Pune DanceBar',
      'description' => 'desc',
     'start' => {
       'dateTime' => DateTime.now # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
     },
     'end' => {
-      'dateTime' => '2013-02-08T10:25:00.000-07:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
+      'dateTime' => DateTime.now + 2.hour # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
     }
   }    
 
@@ -37,7 +37,6 @@ class GoogleClient
                    parameters: {'calendarId' => 'primary'},
                    body: JSON.dump(@event),
                    :headers => {'Content-Type' => 'application/json'})
-    p result
   end 
 end 
 GoogleClient.connect
