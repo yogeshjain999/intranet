@@ -2,17 +2,16 @@ class AttachmentsController < ApplicationController
   load_and_authorize_resource 
   skip_load_and_authorize_resource :only => :create
   before_action :load_attachment, except: [:index, :create]
+  before_action :authenticate_user!
  
   def index
     @company_docs = Attachment.company_documents  
     @attachment = Attachment.new
   end
-
+  
   def create
     @attachment = Attachment.new(attachment_params)
     flash[:notice] = @attachment.save ? "Document saved successfully" : @attachment.errors.full_messages
-    p '========================='
-    p request.referer
     redirect_to attachments_path
   end
 
