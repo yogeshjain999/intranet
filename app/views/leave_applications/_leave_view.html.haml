@@ -27,7 +27,7 @@
         %td= appr_leave.reason
         %td= appr_leave.created_at.try(:strftime, "%Y-%m-%d")
         %td
-          - if appr_leave.leave_status == "Pending"
+          - if appr_leave.leave_status == "Pending" && current_user.role?("Admin")
             %a{href: '#', class: 'btn btn-success approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
               Approve 
             %a{href: '#', class: 'btn btn-danger cancel_leave', data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel'}}

@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
     @user = User.find_by(email: sender_email)
     @receivers = receivers
     @leave_application = LeaveApplication.where(id: leave_application_id).first
-    mail(from: @user.email, to: receivers, subject: "Leave Application Submitted to Admin")
+    mail(from: @user.email, to: receivers, subject: "#{@user.name} has applied for leave")
   end
 
   def reject_leave(leave_application_id)
