@@ -48,3 +48,11 @@ end
 every :year, :at => '12:30am' do
   rake "leave:reset_leave_yearly"
 end
+
+every :day, :at => '10:00am' do
+  rake "user:birthday_wishes"
+end
+
+every :day, :at => '10:00am' do
+  rake ""
+end

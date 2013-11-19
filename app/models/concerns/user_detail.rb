@@ -2,10 +2,15 @@ module UserDetail
   extend ActiveSupport::Concern
   
   included do
-    embeds_one :public_profile
+    field :dob_day, type: Integer
+    field :dob_month, type: Integer   
+    field :doj_day, type: Integer
+    field :doj_month, type: Integer
+
+    embeds_one :public_profile, cascade_callbacks: true
     embeds_one :private_profile, cascade_callbacks: true
     embeds_one :employee_detail, cascade_callbacks: true
-    
+     
     accepts_nested_attributes_for :private_profile, reject_if: :all_blank, allow_destroy: true 
     accepts_nested_attributes_for :public_profile, reject_if: :all_blank, allow_destroy: true
     accepts_nested_attributes_for :employee_detail, reject_if: :all_blank, :allow_destroy => true
@@ -28,6 +33,12 @@ module UserDetail
         user.update_attributes(provider: auth.provider, uid: auth.uid)
       end
     end
-  end
 
+    def send_birthdays_wish
+      user_ids = User.where(dob_month: Date.today.month, dob_day: Date.today.day).map(&:id)
+      UserMailer.birthday_wish(user_ids).deliver if user_ids.present?
+    end
+    
+    
+  end
 end 

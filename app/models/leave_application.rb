@@ -55,7 +55,6 @@ class LeaveApplication
   end
 
   private
-    
     def deduct_available_leave_send_mail
       user = self.user
       user.get_leave_detail(Date.today.year).deduct_available_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    

@@ -38,6 +38,12 @@ class UserMailer < ActionMailer::Base
     hr = User.where(role: 'HR').first
     mail(to: hr.email, subject: "Intranet: #{@downloader.name} has downloaded #{document_name}")
   end
+  
+  def birthday_wish(user_ids)
+    users = User.find(user_ids)
+    @names = users.map(&:name).join(', ')  
+    mail(to: "all@joshsoftware.com", subject: "Happy Birthdays to #{users.map(&:email).join(" ")}") 
+  end
 
   private
 

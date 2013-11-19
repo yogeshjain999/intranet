@@ -21,6 +21,7 @@ class PrivateProfile
     if self.date_of_joining_changed?
       user = self.user
       user.assign_leave
+      user.set_details("doj", self.date_of_joining)
     end
   end
   

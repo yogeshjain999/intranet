@@ -76,4 +76,9 @@ class User
     return true if self.status == 'approved'
     return false
   end
+
+  def set_details(dobj, value)
+    self["#{dobj}_day"] = value.day
+    self["#{dobj}_month"] = value.month
+  end
 end
