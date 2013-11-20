@@ -24,12 +24,12 @@ class UserMailer < ActionMailer::Base
 
   def reject_leave(leave_application_id)
     get_leave(leave_application_id)
-    mail(from: "admin@joshsofware.com", to: @user.email, subject: "Leave Request got rejected")
+    mail(to: @user.email, subject: "Leave Request got rejected")
   end
 
   def accept_leave(leave_application_id)
     get_leave(leave_application_id)
-    mail(from: "admin@joshsofware.com", to: @user.email, subject: "Congrats! Leave Request got accepted")
+    mail(to: @user.email, subject: "Congrats! Leave Request got accepted")
   end
 
   def download_notification(downloader_id, document_name)
@@ -41,10 +41,16 @@ class UserMailer < ActionMailer::Base
   
   def birthday_wish(user_ids)
     users = User.find(user_ids)
-    @names = users.map(&:name).join(', ')  
-    mail(to: "all@joshsoftware.com", subject: "Happy Birthdays to #{users.map(&:email).join(" ")}") 
+    @names = users.map(&:name).join(' & ')  
+    mail(to: "all@joshsoftware.com", subject: "Happy Birthday #{@names}") 
   end
 
+  def year_of_completion_wish(user_ids, year)
+    users = User.find(user_ids)
+    @names = users.map(&:name).join(' & ')
+    @year
+    mail(to: "all@joshsoftware.com", subject: "Congratulations #{@names}") 
+  end
   private
 
     def get_leave(id)

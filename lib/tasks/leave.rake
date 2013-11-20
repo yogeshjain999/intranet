@@ -31,4 +31,11 @@ namespace :leave do
       leave_detail.save
     end
   end
+
+  task :split_date => :environment do
+    User.all.each do |user|
+      user.set_details("doj", user.date_of_joining)
+      user.set_details("dob", user.date_of_birth)
+    end
+  end
 end

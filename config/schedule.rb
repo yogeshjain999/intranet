@@ -50,9 +50,9 @@ every :year, :at => '12:30am' do
 end
 
 every :day, :at => '10:00am' do
-  rake "user:birthday_wishes"
+  rake "notification:birthday"
 end
 
 every :day, :at => '10:00am' do
-  rake ""
+  rake "notification:year_of_completion"
 end
