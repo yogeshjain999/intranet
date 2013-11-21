@@ -78,7 +78,9 @@ class User
   end
 
   def set_details(dobj, value)
-    self["#{dobj}_day"] = value.day
-    self["#{dobj}_month"] = value.month
+    unless value.nil?
+      set("#{dobj}_day" => value.day)
+      set("#{dobj}_month" => value.month)
+    end
   end
 end

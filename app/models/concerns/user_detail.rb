@@ -39,16 +39,10 @@ module UserDetail
       UserMailer.birthday_wish(user_ids).deliver if user_ids.present?
     end
 
-    def year_of_completion
+    def send_year_of_completion
       users = User.approved.where(doj_month: Date.today.month, doj_day: Date.today.day)
       user_ids = users.map(&:id)
-      if user_ids.presnet?
-        year = Date.today.year - users.first.date_of_joining.year
-        years = "#{year} year"
-        years = "#{year}s" if year > 1
-        UserMailer.year_of_completion_wish(user_ids, years).deliver if year > 0
-      end
+      UserMailer.year_of_completion_wish(user_ids).deliver unless user_ids.blank?
     end
-    
   end
 end 

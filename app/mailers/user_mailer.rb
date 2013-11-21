@@ -41,17 +41,27 @@ class UserMailer < ActionMailer::Base
   
   def birthday_wish(user_ids)
     users = User.find(user_ids)
-    @names = users.map(&:name).join(' & ')  
+    @names = users.map(&:name).join(', ')  
     mail(to: "all@joshsoftware.com", subject: "Happy Birthday #{@names}") 
   end
 
-  def year_of_completion_wish(user_ids, year)
+  def year_of_completion_wish(user_ids)
     users = User.find(user_ids)
-    @names = users.map(&:name).join(' & ')
-    @year
-    mail(to: "all@joshsoftware.com", subject: "Congratulations #{@names}") 
+    get_user_years(users)
+    mail(to: "all@joshsoftware.com", subject: "Congratulations #{@user_hash.collect{|k, v| v }.flatten.join(", ")}") 
   end
   private
+    
+    def get_user_years(users)
+      current_year = Date.today.year
+      @user_hash = {}
+      users.each do |user|
+        completion_year = current_year - user.private_profile.date_of_joining.year
+        if completion_year > 0
+          @user_hash[completion_year].nil? ? @user_hash[completion_year] = [user.name] : @user_hash[completion_year] << user.name 
+        end
+      end
+    end
 
     def get_leave(id)
       @leave_application = LeaveApplication.where(id: id).first

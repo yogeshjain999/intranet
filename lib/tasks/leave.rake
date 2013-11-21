@@ -34,8 +34,8 @@ namespace :leave do
 
   task :split_date => :environment do
     User.all.each do |user|
-      user.set_details("doj", user.date_of_joining)
-      user.set_details("dob", user.date_of_birth)
+      user.set_details("doj", user.private_profile.date_of_joining)
+      user.set_details("dob", user.public_profile.date_of_birth)
     end
   end
 end

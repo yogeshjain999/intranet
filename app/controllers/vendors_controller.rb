@@ -8,7 +8,7 @@ class VendorsController < ApplicationController
   include RestfulAction
 
   def index
-    @vendors = Vendor.all
+    @vendors = Vendor.vendors_sorted
   end
 
   def create
