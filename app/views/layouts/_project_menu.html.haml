@@ -1,8 +1,5 @@
 - if can? :manage, Project
-  = link_to "Projects", '#', "data-toggle" => "dropdown", class: "dropdown-toggle"
-%ul.dropdown-menu.drop
-  %li
-    =link_to 'Add Project', new_project_path, data: {'no-turbolink' =>  true}
-  %li.divider
-  %li
-    =link_to 'All Projects', projects_path
+  .row
+    %div.offset8
+      =link_to 'Add Project', new_project_path, data: {'no-turbolink' =>  true} unless params[:action] == "new"
+      =link_to 'All Projects', projects_path unless params[:action] == "index"
