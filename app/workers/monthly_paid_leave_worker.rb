@@ -3,7 +3,7 @@ class MonthlyPaidLeaveWorker
   sidekiq_options :backtrace => true
 
   def perform
-    User.all.each do|u|
+    User.approved.each do|u|
       if u.eligible_for_leave?  
         u.assign_monthly_leave 
       end

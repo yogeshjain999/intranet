@@ -3,7 +3,7 @@ class ResetLeaveYearlyWorker
   sidekiq_options :backtrace => true
 
   def perform
-    User.all.each do|u|
+    User.approved.each do|u|
       if u.eligible_for_leave?  
         u.set_leave_details_per_year 
       end

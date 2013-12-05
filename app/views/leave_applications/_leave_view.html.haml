@@ -15,7 +15,9 @@
     %th
       Applied On
     %th
-      Action  
+      Action 
+    %th
+      Remaining leaves
   %tbody
     - leave_data.each do|appr_leave|
       %tr{id: "leave_application_#{appr_leave.id}"}
@@ -34,4 +36,4 @@
               Reject
           - else
             = appr_leave.leave_status
- 
+        %td=appr_leave.user.leave_details.last.available_leave[appr_leave.leave_type.name]

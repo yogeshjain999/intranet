@@ -48,8 +48,8 @@ describe LeaveApplicationsController do
       LeaveApplication.count.should == 0 
       @user.reload
       leave_detail = @user.leave_details.last
-      leave_detail.available_leave["TotalPrivilege"].to_f.should be(7.0)
-      leave_detail.available_leave["CurrentPrivilege"].to_f.should be(7.0)
+      leave_detail.available_leave["TotalPrivilege"].to_f.should eq(7.0)
+      leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(7.0)
     end
     
     it "should be able to apply privilege leave" do
@@ -68,8 +68,8 @@ describe LeaveApplicationsController do
       LeaveApplication.count.should == 1 
       @user.reload 
       leave_detail = @user.leave_details.last
-      leave_detail.available_leave["TotalPrivilege"].to_f.should be(12.0)  
-      leave_detail.available_leave["CurrentPrivilege"].to_f.should be(12.0)  
+      leave_detail.available_leave["TotalPrivilege"].to_f.should eq(12.0)  
+      leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(12.0)  
     end
   end
   

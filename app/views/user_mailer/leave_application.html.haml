@@ -44,8 +44,12 @@
       %br/
       %br/
       #{@user.public_profile.name} has apply for leave from #{@leave_application.start_at.to_s} to #{@leave_application.end_at.to_s}.
-      %br/ 
+      %br
+      For reason #{@leave_application.reason}.
+      %br
       = link_to "Approve", approve_leave_url(id: @leave_application.id), class: 'btn btn-success'
       |
       = link_to "Reject", cancel_leave_url(id: @leave_application.id), class: 'btn btn-danger'
+      |
+      = link_to "View Details", view_leaves_url
 

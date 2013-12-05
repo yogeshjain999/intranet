@@ -6,7 +6,7 @@ FactoryGirl.define do
   	personal_email "test@test.com"
   	passport_number "J8369854"
   	qualification  "B.E"
-  	date_of_joining Date.new(2013, 01, 01)
+  	date_of_joining Date.new(Date.today.year, 01, 01)
   	work_experience "2"
   end
 end

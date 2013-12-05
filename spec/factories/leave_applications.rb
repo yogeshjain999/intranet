@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :leave_application do |l|
+    association :leave_type
     start_at Date.today + 2
     end_at Date.today + 3
     number_of_days 2

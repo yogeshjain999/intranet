@@ -29,7 +29,7 @@ class LeaveApplicationsController < ApplicationController
   
   def view_leave_status
     @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
-    @approved_leave = LeaveApplication.where(:leave_status.ne => 'Pending') 
+    @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending') 
   end
 
   def strong_params
