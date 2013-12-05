@@ -24,8 +24,8 @@ describe User do
     user.save!
     user.assign_monthly_leave
     user = User.last 
-    user.leave_details.first.available_leave["CurrentPrivilege"].to_f.should be(1.5)
-    user.leave_details.first.available_leave["TotalPrivilege"].to_f.should be(1.5)
+    user.leave_details.first.available_leave["CurrentPrivilege"].to_f.should eq(1.5)
+    user.leave_details.first.available_leave["TotalPrivilege"].to_f.should eq(1.5)
   end
 
   it "should not increment user privilege leave monthly if previous month days > 15" do
@@ -33,8 +33,8 @@ describe User do
     user.save!
     user.assign_monthly_leave
     user = User.last 
-    user.leave_details.first.available_leave["CurrentPrivilege"].to_f.should be(0.0)
-    user.leave_details.first.available_leave["TotalPrivilege"].to_f.should be(0.0)
+    user.leave_details.first.available_leave["CurrentPrivilege"].to_f.should eq(0.0)
+    user.leave_details.first.available_leave["TotalPrivilege"].to_f.should eq(0.0)
   end
 
   it "should reset yearly leave with previous year leave < 15" do
@@ -51,8 +51,8 @@ describe User do
     user.reload
       
     leave_detail = user.leave_details.last
-    leave_detail.available_leave["TotalPrivilege"].to_f.should be(34.0)
-    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["TotalPrivilege"].to_f.should eq(34.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(0.0)
     leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
     leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
   end
@@ -71,8 +71,8 @@ describe User do
     user.reload
       
     leave_detail = user.leave_details.last
-    leave_detail.available_leave["TotalPrivilege"].to_f.should be(33.0)
-    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["TotalPrivilege"].to_f.should eq(33.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(0.0)
     leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
     leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
   end
@@ -91,9 +91,46 @@ describe User do
     user.reload
       
     leave_detail = user.leave_details.last
-    leave_detail.available_leave["TotalPrivilege"].to_f.should be(34.0)
-    leave_detail.available_leave["CurrentPrivilege"].to_f.should be(0.0)
+    leave_detail.available_leave["TotalPrivilege"].to_f.should eq(34.0)
+    leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(0.0)
     leave_detail.available_leave["Sick"].should be(SICK_LEAVE)
     leave_detail.available_leave["Casual"].should be(CASUAL_LEAVE)
   end 
+
+  context "sent mail for approval" do
+
+    ##### check date of joining in case of specs fail
+    before (:each) do
+      @user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 10, 19)))
+      @user.save
+    end
+
+    it "should send email if HR and admin roles are present" do
+      hr_user = FactoryGirl.create(:user, role: "HR", email: "hr@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 10, 19)))
+      admin_user = FactoryGirl.create(:user, role: "Admin", email: "admin@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 10, 19)))
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
+      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+    end
+
+    it "should send email if HR role is absent" do
+      admin_user = FactoryGirl.create(:user, role: "Admin", email: "admin@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 10, 19)))
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
+      User.where(role: 'HR').should eq([])
+      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+    end
+    
+    it "should send email if admin role is absent" do
+      hr_user = FactoryGirl.create(:user, role: "HR", email: "hr@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 10, 19)))
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
+      User.where(role: 'Admin').should eq([])
+      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+    end
+
+    it "should send email if hr and admin roles are absent" do
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
+      User.where(role: 'Admin').should eq([])
+      User.where(role: 'HR').should eq([])
+      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+    end
+  end
 end
