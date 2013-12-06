@@ -1,8 +1,11 @@
-= render partial: "/layouts/vendor_menu"
-%h2
-  Vendors
+.form-heading.row
+  %h2 
+    .span4
+      Vendors
+    .offset6{style: "float: right;"}
+      = render partial: "/layouts/vendor_menu"
 .form-horizontal
-  %table.table.table-hover
+  %table.table.table-hover#vendor_stream_table
     %thead
       %tr
         %th Company

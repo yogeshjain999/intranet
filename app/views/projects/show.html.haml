@@ -1,6 +1,9 @@
-= render partial: "layouts/project_menu"
-.form-horizontal
-  %h2= @project.name
+.form-horizontal.row
+  %h2
+    .span4
+      = @project.name
+    .offset4{style: "float: right;"}
+      = render partial: "layouts/project_menu"
   =raw @project.code_climate_snippet
   - if !@users.blank?
     %table.table.table-hover
