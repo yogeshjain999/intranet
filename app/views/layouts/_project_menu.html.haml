@@ -1,6 +1,9 @@
 - if can? :manage, Project
-  .row
-    %div.offset8
-      =link_to 'Add Project', new_project_path, data: {'no-turbolink' =>  true} unless params[:action] == "new"
-      =params[:action] == "show" ? "|" : ''
-      =link_to 'All Projects', projects_path unless params[:action] == "index"
+  .remove_underline
+    =link_to '', new_project_path, data: {'no-turbolink' =>  true}, "data-toggle" => "tooltip", title: "Add Project",  
+                 class: "icon-plus" unless params[:action] == "new"
+    =params[:action] == "show" || params[:action] == "edit" ? "|" : ''
+    =link_to '', projects_path, "data-toggle" => "tooltip", title: "All Projects", 
+                 class: " icon-th-list" unless params[:action] == "index"
+
+

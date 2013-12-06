@@ -1,6 +1,9 @@
-= render partial: "layouts/project_menu"
-.form-heading
-  %h2 Projects
+.form-heading.row
+  %h2 
+    .span3
+      Projects
+    .offset8{style: "float: right;"}
+      = render partial: "layouts/project_menu"
 .form-horizontal
   %table.table.table-hover
     %thead

@@ -1,13 +1,15 @@
 - if can? :manage, Vendor
-  .row
-    %div.offset8
-      -unless params[:action] == "new"
-        =link_to 'Add vendor', new_vendor_path, data: {'no-turbolink' =>  true}
-        |
-      =link_to 'Import vendors', '#', onclick: "$('#csv_file').click()", data: {'no-turbolink' =>  true}
-      -unless params[:action] == "index"
-        |
-        =link_to 'Vendors', vendors_path, data: {'no-turbolink' =>  true}
-
-= form_tag(import_vendors_vendors_path, id: 'import_csv_file', enctype: "multipart/form-data") do
-  = file_field_tag "csv_file", hidden: true
+  .remove_underline
+    -unless params[:action] == "new"
+      =link_to '',  new_vendor_path, data: {'no-turbolink' =>  true}, "data-toggle" => "tooltip", title: "Add Vendor", 
+                    class: "icon-plus"
+      |
+    =link_to '', '#', onclick: "$('#csv_file').click()", data: {'no-turbolink' =>  true}, "data-toggle" => "tooltip", 
+                 title: "Import vendors", class: " icon-file"
+    -unless params[:action] == "index"
+      |
+      =link_to '', vendors_path, data: {'no-turbolink' =>  true}, "data-toggle" => "tooltip", title: "All Vendors", 
+                  class: "icon-th-list"
+.hide
+  = form_tag(import_vendors_vendors_path, id: 'import_csv_file', enctype: "multipart/form-data") do
+    = file_field_tag "csv_file", hidden: true
