@@ -45,6 +45,6 @@ module LeaveAvailable
   end
  
   def eligible_for_leave?
-    !! self.private_profile.date_of_joining.present?
+    !!(self.private_profile.date_of_joining.present? && self.role != 'Admin')
   end  
 end 
