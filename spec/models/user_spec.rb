@@ -19,6 +19,25 @@ describe User do
     user.role?("Employee").should eq(true)
   end 
   
+  it "intern should not eligible for leave" do
+    user = FactoryGirl.build(:user, role: 'Intern', email: 'intern@company.com')
+    user.save
+    user.eligible_for_leave?.should be(false) 
+  end
+
+  it "nil date of joining employee should not eligible for leave" do
+    user = FactoryGirl.build(:user, email: 'employee@company.com')
+    user.save
+    user.eligible_for_leave?.should be(false) 
+  end 
+  
+  it "valid employee should be eligible for leave" do
+    user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 1, 01)))
+    user.save!
+     
+    user.eligible_for_leave?.should be(true) 
+  end 
+  
   it "should increment user privilege leave monthly" do
     user = FactoryGirl.build(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month - 1, 01)))
     user.save!
