@@ -36,4 +36,4 @@
               Reject
           - else
             = appr_leave.leave_status
-        %td=appr_leave.user.leave_details.last.available_leave[appr_leave.leave_type.name]
+        %td=appr_leave.user.leave_details.last.available_leave[ appr_leave.leave_type.name == "Privilege" ? "TotalPrivilege" : appr_leave.leave_type.name]

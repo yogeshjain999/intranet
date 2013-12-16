@@ -43,11 +43,13 @@
         Hello #{@receiver}
       %br/
       %br/
-      #{@user.public_profile.name} has apply for leave from #{@leave_application.start_at.to_s} to #{@leave_application.end_at.to_s}.
+      #{@user.public_profile.name} has applied for leave from #{@leave_application.start_at.to_s} to #{@leave_application.end_at.to_s}.
       %br
       For reason #{@leave_application.reason}.
       %br
       Of type : #{@leave_application.leave_type.name}
+      %br
+      Remaining leaves: #{User.find(@leave_application.user_id).leave_details.last.available_leave[@leave_application.leave_type.name == "Privilege" ? "TotalPrivilege" : @leave_application.leave_type.name]}
       %br
       = link_to "Approve", approve_leave_url(id: @leave_application.id), class: 'btn btn-success'
       |

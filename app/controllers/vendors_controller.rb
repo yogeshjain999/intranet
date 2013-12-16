@@ -8,7 +8,12 @@ class VendorsController < ApplicationController
   include RestfulAction
 
   def index
-    @vendors = Vendor.vendors_sorted
+    @offset = params[:offset] || 0
+    @vendors = Vendor.vendors_sorted.skip(@offset).limit(20)
+    respond_to do |format|
+      format.json{ render json: @vendors.to_json}
+      format.html{}
+    end
   end
 
   def create
@@ -49,7 +54,6 @@ class VendorsController < ApplicationController
   def parse_csv_file(csv)
     CSV.foreach(csv.tempfile) do |row|
       next if $. == 1
-      p row
       check_csv_row(row)
     end
   end

@@ -5,7 +5,7 @@
     .offset6{style: "float: right;"}
       = render partial: "/layouts/vendor_menu"
 .form-horizontal
-  %table.table.table-hover#vendor_stream_table
+  %table#vendor_stream_table.table.table-hover
     %thead
       %tr
         %th Company
@@ -15,30 +15,37 @@
         %th Phone No
         %th Email
     %tbody
-      - @vendors.each do |v|
+      %script#template{type: "text/html"}
         %tr
+          {{#record}}
           %td.company_name
-            = link_to v.company, "#"
-            .actions.hide
-              = link_to '', edit_vendor_path(v), class: "icon-edit", data: {'no-turbolink' =>  true} 
-              = link_to '', vendor_path(v), method: :delete, "data-confirm" => "Are you sure?", class: "icon-trash"
-          %td= v.category
-          - address = "#{v.address.try(:address)}"
-          //%td= address
-          - v.contact_persons.each_with_index do |c, i|
-            - if i > 0
-              %tr
-                %td{colspan: 2}
-                %td= c.role
-                %td= c.name
-                %td= c.phone_no
-                %td= c.email
-            - else
-              %td= c.role
-              %td= c.name
-              %td= c.phone_no
-              %td= c.email
-              %td
+            {{company}}
+            .actions
+              %a{href: "/vendors/{{record._id.$oid}}/edit", class: "icon-edit", data: {'no-turbolink' =>  true}}
+              %a{href: "/vendors/{{record._id.$oid}}", method: :delete, "data-confirm" => "Are you sure?", class: "icon-trash"}
+          %td {{category}}
+          {{#first_contact}}
+          %td {{role}}
+          %td {{name}}
+          %td {{phone_no}}
+          %td {{email}}
+          {{/first_contact}}
+        {{#remaining}}
+        %tr
+          %td
+          %td
+          %td {{role}}
+          %td {{name}}
+          %td {{phone_no}}
+          %td {{email}}
+        {{/remaining}}
+        {{/record}}
+
 :css
   .contact {border-top: 1px white;}
-      
+  .st_per_page {float: right;}
+  .st_search {float: right;}
+
+:coffeescript
+  @data = #{@vendors.to_json}
+
