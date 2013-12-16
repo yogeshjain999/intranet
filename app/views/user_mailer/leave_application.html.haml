@@ -49,6 +49,8 @@
       %br
       Of type : #{@leave_application.leave_type.name}
       %br
+      Remaining leaves: #{User.find(@leave_application.user_id).leave_details.last.available_leave[@leave_application.leave_type.name == "Privilege" ? "TotalPrivilege" : @leave_application.leave_type.name]}
+      %br
       = link_to "Approve", approve_leave_url(id: @leave_application.id), class: 'btn btn-success'
       |
       = link_to "Reject", cancel_leave_url(id: @leave_application.id), class: 'btn btn-danger'
