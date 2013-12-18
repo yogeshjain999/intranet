@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
   load_and_authorize_resource 
-  skip_load_and_authorize_resource :only => :create
+  skip_load_and_authorize_resource :only => [:create, :show]
   before_action :load_attachment, except: [:index, :create]
   before_action :authenticate_user!
  
