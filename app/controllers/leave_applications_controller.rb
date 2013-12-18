@@ -1,6 +1,6 @@
 class LeaveApplicationsController < ApplicationController
    
-  load_and_authorize_resource except: [:create]
+  load_and_authorize_resource except: [:create, :view_leave_status]
   before_action :authenticate_user!
   before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
  
@@ -28,8 +28,13 @@ class LeaveApplicationsController < ApplicationController
   end 
   
   def view_leave_status
-    @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
-    @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending') 
+    if ["Admin", "HR", "Manager"].include? current_user.role
+      @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
+      @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending') 
+    else
+      @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending', user_id: current_user.id)
+      @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending', user_id: current_user.id)
+    end
   end
 
   def strong_params

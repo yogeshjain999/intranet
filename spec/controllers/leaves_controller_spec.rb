@@ -3,7 +3,6 @@ require 'spec_helper'
 describe LeaveApplicationsController do
   context "Employee, manager and HR" do
     before(:each) do
-       
       admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
       hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, role: 'Employee')
@@ -19,6 +18,25 @@ describe LeaveApplicationsController do
     
     it "should raise exception when submitting leave without entering user date of joining." do
       expect{ post :create, {user_id: @user.id, leave_application: @leave_application.attributes}}.to raise_error(NoMethodError) 
+    end
+
+    it "should show only his leaves if user is not admin" do
+      leave_type = FactoryGirl.create(:leave_type)
+      @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+      @user.public_profile = FactoryGirl.build(:public_profile)
+      @user.save
+      @user.leave_details.should_not be([])
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+      user2 = FactoryGirl.create(:user, email: 'user2@joshsoftware.com', role: 'Employee')  
+      user2.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+      user2.public_profile = FactoryGirl.build(:public_profile)
+      user2.save
+      user2.leave_details.should_not be([])
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+      post :create, {user_id: user2.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+      sign_in user2
+      get :view_leave_status
+      assigns(:pending_leave).count.should eq(3)
     end
 
     it "should be able to apply sick leave" do
@@ -242,6 +260,7 @@ describe LeaveApplicationsController do
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected" 
     end 
+
   end
 end
 
