@@ -38,6 +38,7 @@ class User
 
   scope :employees, all.asc("public_profile.first_name")
   scope :approved, where(status: 'approved')  
+  scope :interviewers, where(:role.ne => 'Intern')
   #Public profile will be nil when admin invite user for sign in with only email address 
   delegate :name, to: :public_profile, :allow_nil => true
   slug :name do|u|

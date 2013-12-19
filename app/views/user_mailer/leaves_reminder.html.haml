@@ -1,0 +1,57 @@
+
+!!!
+%html
+  %head
+    :css
+      .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+      }
+
+      .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+      } 
+      .btn-danger{
+        color: #fff;
+        background-color: #d2322d;
+        border-color: #ac2925;
+      }
+    %h1
+      %title
+        Employees on leave from tomorrow.
+  %body
+    %p
+      %i
+        Hello,
+      %br/
+      %br/
+      Following employees will be on leave from tomorrow.
+      %br
+      %table{class: "six columns center panel"}
+        %tr
+          %th Name
+          %th Number of days
+          %th Reason
+        -@leaves.each do |leave|
+          %tr
+            %td #{User.find(leave.user_id).name} 
+            %td{ class: "center panel", style: "margin-left:10px;"} #{leave.number_of_days}
+            %td #{leave.reason}

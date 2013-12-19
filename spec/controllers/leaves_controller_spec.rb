@@ -1,5 +1,6 @@
 require 'spec_helper'
-
+require 'rake'
+load File.expand_path("../../../lib/tasks/leave_reminder.rake", __FILE__)
 describe LeaveApplicationsController do
   context "Employee, manager and HR" do
     before(:each) do
@@ -275,5 +276,6 @@ describe LeaveApplicationsController do
     end 
 
   end
+
 end
 
