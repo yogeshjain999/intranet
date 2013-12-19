@@ -3,10 +3,11 @@ require 'spec_helper'
 describe LeaveApplicationsController do
   context "Employee, manager and HR" do
     before(:each) do
-      admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
+      @admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
       hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, role: 'Employee')
       sign_in @user
+      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
     end
 
     it "should able to view new leave apply page" do
@@ -18,25 +19,37 @@ describe LeaveApplicationsController do
     it "should raise exception when submitting leave without entering user date of joining." do
       expect{ post :create, {user_id: @user.id, leave_application: @leave_application.attributes}}.to raise_error(NoMethodError) 
     end
+    
+    context "leaves view" do
+      before (:each) do
+        leave_type = FactoryGirl.create(:leave_type)
+        @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+        @user.public_profile = FactoryGirl.build(:public_profile)
+        @user.save
+        @user.leave_details.should_not be([])
+        @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
+        post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+        user2 = FactoryGirl.create(:user, id: "52b28303dd1b36927d000009", email: 'user2@joshsoftware.com', role: 'Employee')  
+        user2.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+        user2.public_profile = FactoryGirl.build(:public_profile)
+        user2.save
+        user2.leave_details.should_not be([])
+        @leave_application = FactoryGirl.build(:leave_application, user_id: user2.id)
+        post :create, {user_id: user2.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+      end
+      
+      it "should show only his leaves if user is not admin" do
+        get :view_leave_status
+        assigns(:pending_leave).count.should eq(1)
+      end
 
-    it "should show only his leaves if user is not admin" do
-      leave_type = FactoryGirl.create(:leave_type)
-      @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
-      @user.public_profile = FactoryGirl.build(:public_profile)
-      @user.save
-      @user.leave_details.should_not be([])
-      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
-      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
-      user2 = FactoryGirl.create(:user, id: "52b28303dd1b36927d000009", email: 'user2@joshsoftware.com', role: 'Employee')  
-      user2.build_private_profile(FactoryGirl.build(:private_profile).attributes)
-      user2.public_profile = FactoryGirl.build(:public_profile)
-      user2.save
-      user2.leave_details.should_not be([])
-      @leave_application = FactoryGirl.build(:leave_application, user_id: user2.id)
-      post :create, {user_id: user2.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
-      sign_in @user
-      get :view_leave_status
-      assigns(:pending_leave).count.should eq(1)
+      it "user is admin he could see all leaves" do
+        sign_out @user
+        sign_in @admin
+        p LeaveApplication.all.count, LeaveApplication.all.collect(&:user_id), LeaveApplication.all.to_a
+        get :view_leave_status
+        assigns(:pending_leave).count.should eq(2) 
+      end
     end
 
     it "should be able to apply sick leave" do
