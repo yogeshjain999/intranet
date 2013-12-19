@@ -7,7 +7,6 @@ describe LeaveApplicationsController do
       hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, role: 'Employee')
       sign_in @user
-      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
     end
 
     it "should able to view new leave apply page" do
@@ -26,17 +25,18 @@ describe LeaveApplicationsController do
       @user.public_profile = FactoryGirl.build(:public_profile)
       @user.save
       @user.leave_details.should_not be([])
+      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
       post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
-      user2 = FactoryGirl.create(:user, email: 'user2@joshsoftware.com', role: 'Employee')  
+      user2 = FactoryGirl.create(:user, id: "52b28303dd1b36927d000009", email: 'user2@joshsoftware.com', role: 'Employee')  
       user2.build_private_profile(FactoryGirl.build(:private_profile).attributes)
       user2.public_profile = FactoryGirl.build(:public_profile)
       user2.save
       user2.leave_details.should_not be([])
-      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
+      @leave_application = FactoryGirl.build(:leave_application, user_id: user2.id)
       post :create, {user_id: user2.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 2)}
-      sign_in user2
+      sign_in @user
       get :view_leave_status
-      assigns(:pending_leave).count.should eq(3)
+      assigns(:pending_leave).count.should eq(1)
     end
 
     it "should be able to apply sick leave" do
