@@ -17,12 +17,18 @@ $(document).ready ->
     record.remaining = record.contact_persons.slice(1) if record.contact_persons.length > 1
     return template({record: record, index: index});
 
-
   options = {
     view: view                  
     data_url: '/vendors.json'
     stream_after: 2           
-    fetch_data_limit: 500 
+    fetch_data_limit: 500
+    fields: (record) -> 
+                return [ 
+                            record.category,
+                            record.company,
+                            $.map record.contact_persons, (c) -> c.name
+                        ].join(' ')  
+                    
   }
   
   $("#vendor_stream_table").stream_table(options, data) if typeof data isnt "undefined"
