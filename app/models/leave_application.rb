@@ -42,10 +42,9 @@ class LeaveApplication
     UserMailer.delay.accept_leave(self.id)
   end
 
-  def self.process_leave(id, leave_status, call_function)
+  def self.process_leave(id, leave_status, call_function, reject_reason = '')
     leave_application = LeaveApplication.where(id: id).first
-    leave_application.leave_status = leave_status 
-    leave_application.save
+    leave_application.update_attributes({leave_status: leave_status, reject_reason: reject_reason})
     if leave_application.errors.blank?
       leave_application.send(call_function) 
       return {type: :notice, text: "#{leave_status} Successfully"}
