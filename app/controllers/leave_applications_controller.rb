@@ -47,7 +47,8 @@ class LeaveApplicationsController < ApplicationController
   end
 
   def cancel_leave
-    process_leave(params[:id], 'Rejected', :process_reject_application)
+    reject_reason = params[:reject_reason] || ''
+    process_leave(params[:id], 'Rejected', :process_reject_application, reject_reason)
   end
 
   def approve_leave
@@ -55,8 +56,8 @@ class LeaveApplicationsController < ApplicationController
   end 
 
   private
-    def process_leave(id, leave_status, call_function)
-      message = LeaveApplication.process_leave(id, leave_status, call_function)
+    def process_leave(id, leave_status, call_function, reject_reason = '')
+      message = LeaveApplication.process_leave(id, leave_status, call_function, reject_reason)
       
       respond_to do|format|
         format.html do

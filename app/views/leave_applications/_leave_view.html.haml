@@ -17,6 +17,8 @@
     %th
       Action 
     %th
+      Reason for rejecting
+    %th
       Remaining leaves
   %tbody
     - leave_data.each do|appr_leave|
@@ -28,12 +30,16 @@
         %td= appr_leave.leave_type.name
         %td= appr_leave.reason
         %td= appr_leave.created_at.try(:strftime, "%Y-%m-%d")
-        %td
-          - if appr_leave.leave_status == "Pending" && current_user.role?("Admin")
+        - if appr_leave.leave_status == "Pending" && current_user.role?("Admin")
+          %td.spinner.hide= image_tag('select2-spinner.gif', :class => 'spinner') 
+          %td.action
             %a{href: '#', class: 'btn btn-success approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
               Approve 
-            %a{href: '#', class: 'btn btn-danger cancel_leave', data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel'}}
+            %div{class: 'btn btn-danger cancel_leave'}
               Reject
-          - else
-            = appr_leave.leave_status
+          %td.leave_status 
+            %a.reject_reason{data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel', value: '', type: :textarea}}
+        - else
+          %td= appr_leave.leave_status
+          %td= appr_leave.reject_reason
         %td=appr_leave.user.leave_details.last.available_leave[ appr_leave.leave_type.name == "Privilege" ? "TotalPrivilege" : appr_leave.leave_type.name]

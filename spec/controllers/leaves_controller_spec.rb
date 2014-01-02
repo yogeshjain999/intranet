@@ -204,14 +204,51 @@ describe LeaveApplicationsController do
     it "Admin cancel leaves then employee should be notified"
   end
 
+  context 'If user is not Admin should not able to ' do
+
+    before do 
+      @user = FactoryGirl.create(:user, email: 'employee1@joshsoftware.com', private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, 01, 01))) 
+      user = FactoryGirl.create(:user, email: 'employee2@joshsoftware.com')
+      sign_in @user
+    end
+
+    after do
+      flash.alert.should eq("You are not authorized to access this page.")
+    end
+
+    it ' Approve leave' do
+      leave_type = FactoryGirl.create(:leave_type)
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      get :approve_leave, {id: leave_application.id}
+    end
+
+    it ' Reject leave' do
+      leave_type = FactoryGirl.create(:leave_type)
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      get :cancel_leave, {id: leave_application.id}
+    end
+
+  end
+
   context "Rejecting leaves" do
+
     before(:each) do
       @admin = FactoryGirl.create(:user, email: 'admin@joshsoftware.com', role: 'Admin') 
       @hr = FactoryGirl.create(:user, email: 'hr@joshsoftware.com', role: 'HR') 
       @user = FactoryGirl.create(:user, private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, 01, 01))) 
       sign_in @admin
     end
-  
+
+    it "Reason should get updated on rejection " do
+      leave_type = FactoryGirl.create(:leave_type)
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      reason = 'Invalid Reason'
+      get :cancel_leave, {id: leave_application.id, reject_reason: reason}
+      leave_application = LeaveApplication.last
+      leave_application.leave_status.should == "Rejected"
+      leave_application.reject_reason.should == reason
+    end
+
     it "Admin as a role should Reject sick leaves " do
       leave_type = FactoryGirl.create(:leave_type)
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
@@ -221,11 +258,11 @@ describe LeaveApplicationsController do
       get :cancel_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected"
-         
+
       leave_detail = @user.reload.leave_details.last
       leave_detail.available_leave["Sick"].should eq(SICK_LEAVE)
     end
-    
+
     it "Admin as a role should Reject Casual leaves " do
       leave_type = FactoryGirl.create(:leave_type, name: 'Casual')
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
@@ -235,12 +272,12 @@ describe LeaveApplicationsController do
       get :cancel_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected"
-         
+
       leave_detail = @user.reload.leave_details.last
       leave_detail.available_leave["Casual"].should eq(CASUAL_LEAVE)
     end
-   
- 
+
+
     it "Admin as a role should reject privilege leaves " do
       leave_detail = @user.leave_details.last
       leave_detail.available_leave["TotalPrivilege"] = leave_detail.available_leave["CurrentPrivilege"] = 9
@@ -248,13 +285,13 @@ describe LeaveApplicationsController do
 
       leave_type = FactoryGirl.create(:leave_type, name: 'Privilege')
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
-      
+
       leave_detail.available_leave["TotalPrivilege"] = leave_detail.available_leave["CurrentPrivilege"] = 9 - leave_application.number_of_days
       leave_detail.save
       get :cancel_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected"
-       
+
       leave_detail = @user.reload.leave_details.last
       leave_detail.available_leave["TotalPrivilege"].to_f.should eq(9.0)
       leave_detail.available_leave["CurrentPrivilege"].to_f.should eq(9.0)
@@ -269,12 +306,11 @@ describe LeaveApplicationsController do
       get :cancel_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected" 
-      
+
       get :approve_leave, {id: leave_application.id}
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected" 
     end 
-
   end
 
 end
