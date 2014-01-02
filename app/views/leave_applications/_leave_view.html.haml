@@ -31,6 +31,7 @@
         %td= appr_leave.reason
         %td= appr_leave.created_at.try(:strftime, "%Y-%m-%d")
         - if appr_leave.leave_status == "Pending" && current_user.role?("Admin")
+          %td.spinner.hide= image_tag('select2-spinner.gif', :class => 'spinner') 
           %td.action
             %a{href: '#', class: 'btn btn-success approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
               Approve 
