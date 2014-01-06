@@ -1,6 +1,6 @@
 class LeaveApplicationsController < ApplicationController
    
-  load_and_authorize_resource except: [:create, :view_leave_status]
+  load_and_authorize_resource except: [:create, :view_leave_status, :approve_leave, :cancel_leave]
   before_action :authenticate_user!
   before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
  
@@ -73,7 +73,7 @@ class LeaveApplicationsController < ApplicationController
     def authorization_for_admin
       if !current_user.role?("Admin")
         flash[:error] = 'Unauthorize access'
-        redirect_to root_path 
+        redirect_to root_path
       else
         return true
       end
