@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :store_location
 
   def store_location
-    session[:previous_url] = request.fullpath if (INVALID_REDIRECTIONS.include?(request.fullpath && !request.xhr?) # don't store ajax calls
+    session[:previous_url] = request.fullpath if !INVALID_REDIRECTIONS.include?(request.fullpath) && !request.xhr? # don't store ajax calls
   end
 
   def after_sign_in_path_for(resource)
