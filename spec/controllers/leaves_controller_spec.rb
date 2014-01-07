@@ -213,7 +213,7 @@ describe LeaveApplicationsController do
     end
 
     after do
-      flash.alert.should eq("You are not authorized to access this page.")
+      flash[:error].should eq("Unauthorize access")
     end
 
     it ' Approve leave' do
