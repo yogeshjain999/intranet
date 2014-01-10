@@ -1,13 +1,14 @@
 class LeaveApplicationsController < ApplicationController
    
-  load_and_authorize_resource except: [:create, :view_leave_status, :approve_leave, :cancel_leave]
   before_action :authenticate_user!
+  load_and_authorize_resource except: [:create, :view_leave_status, :approve_leave, :cancel_leave]
+  after_action :sick_leave_notification, only: [:create, :update]
   before_action :authorization_for_admin, only: [:approve_leave, :cancel_leave]   
  
   def new
     @leave_application = LeaveApplication.new(user_id: current_user.id)
     @leave_types = LeaveType.all.to_a
-    @leave_detail = current_user.leave_details.where(year: Date.today.year).first 
+    @leave_detail = current_user.leave_details.this_year.first 
   end
   
   def index
@@ -26,14 +27,31 @@ class LeaveApplicationsController < ApplicationController
     end
     redirect_to public_profile_user_path(current_user) and return 
   end 
-  
+
+  def edit
+    @leave_types = LeaveType.all.to_a
+    @leave_detail = current_user.leave_details.this_year.first 
+  end
+
+  def update
+    if @leave_application.update_attributes(strong_params)
+      flash[:error] = "Leave Has Been Updated Successfully. !Wait till approved"
+      current_user.sent_mail_for_approval(from_date: @leave_application.start_at, to_date: @leave_application.end_at) 
+    else
+      @leave_types = LeaveType.all.to_a 
+      flash[:error] = @leave_application.errors.full_messages.join("\n")
+      render 'edit' and return
+    end 
+    redirect_to ((can? :manage, LeaveApplication) ? leave_applications_path : view_leaves_path) and return 
+  end
+
   def view_leave_status
     if ["Admin", "HR", "Manager"].include? current_user.role
-      @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending')
-      @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending') 
+      @pending_leave = LeaveApplication.order_by(:created_at.desc).pending
+      @approved_leave = LeaveApplication.order_by(:created_at.desc).processed 
     else
-      @pending_leave = LeaveApplication.order_by(:created_at.desc).where(leave_status: 'Pending', user_id: current_user.id)
-      @approved_leave = LeaveApplication.order_by(:created_at.desc).where(:leave_status.ne => 'Pending', user_id: current_user.id)
+      @pending_leave = current_user.leave_applications.order_by(:created_at.desc).pending
+      @approved_leave = current_user.leave_applications.order_by(:created_at.desc).processed
     end
   end
 
@@ -56,6 +74,11 @@ class LeaveApplicationsController < ApplicationController
   end 
 
   private
+
+    def sick_leave_notification
+      flash[:error] = 'You have to submit medical certificate.' if @leave_application.require_medical_certificate?
+    end
+    
     def process_leave(id, leave_status, call_function, reject_reason = '')
       message = LeaveApplication.process_leave(id, leave_status, call_function, reject_reason)
       

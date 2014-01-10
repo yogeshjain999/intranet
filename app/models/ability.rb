@@ -15,7 +15,7 @@ class Ability
       can :manage, Project
       can [:public_profile, :private_profile, :apply_leave], User 
     elsif user.role? 'Employee'
-      employee_abilities    
+      employee_abilities(user.id) 
     elsif user.role? 'Intern'
       intern_abilities   
     end
@@ -35,12 +35,13 @@ class Ability
     can :read, Project 
   end
   
-  def employee_abilities
-    can [:public_profile, :private_profile, :apply_leave], User
+  def employee_abilities(user_id)
+    can [:public_profile, :private_profile, :apply_leave], User, id: user_id
     can [:index, :download_document], Attachment
     can :read, Project
     cannot :manage, LeaveApplication
-    can [:new, :create], LeaveApplication
+    can [:new, :create], LeaveApplication, user_id: user_id
+    can [:edit, :update], LeaveApplication, leave_status: 'Pending', user_id: user_id
   end
 
   def admin_abilities

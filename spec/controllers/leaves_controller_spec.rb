@@ -18,6 +18,8 @@ describe LeaveApplicationsController do
     end
     
     it "should raise exception when submitting leave without entering user date of joining." do
+      @user.private_profile.date_of_joining = nil
+      @user.save(validate: false)
       expect{ post :create, {user_id: @user.id, leave_application: @leave_application.attributes}}.to raise_error(NoMethodError) 
     end
     
@@ -311,6 +313,91 @@ describe LeaveApplicationsController do
       leave_application = LeaveApplication.last
       leave_application.leave_status.should == "Rejected" 
     end 
+  end
+
+  context 'If leave type is ' do
+    
+    it "'Sick' and number of days are >= 3 should give notification for medical certificate" do
+
+    end
+
+  end
+
+  context 'Update', update_leave: true do
+    let(:employee) { FactoryGirl.create(:user) }
+    let(:leave_app) { FactoryGirl.create(:leave_application, user_id: employee.id) }
+
+    it 'Admin should be able to update leave' do
+      sign_in FactoryGirl.create(:admin)
+      end_at, days = leave_app.end_at.to_date + 1.day, leave_app.number_of_days + 1
+      post :update, id: leave_app.id, leave_application: { "end_at"=> end_at, "number_of_days"=> days }
+      l_app = assigns(:leave_application)
+      l_app.number_of_days.should eq(days)
+      l_app.end_at.should eq(end_at)
+    end
+
+    it 'Employee should be able to update his own leave' do
+      sign_in employee
+      end_at, days = leave_app.end_at.to_date + 1.day, leave_app.number_of_days + 1
+      post :update, id: leave_app.id, leave_application: { "end_at"=> end_at, "number_of_days"=> days }
+      l_app = assigns(:leave_application)
+      l_app.number_of_days.should eq(days)
+      l_app.end_at.should eq(end_at)
+    end
+
+    it 'Employee should not be able to update leave of other employee' do
+      sign_in FactoryGirl.create(:user)
+      end_at, days = leave_app.end_at.to_date + 1.day, leave_app.number_of_days + 1
+      post :update, id: leave_app.id, leave_application: { "end_at"=> end_at, "number_of_days"=> days }
+      flash[:alert].should eq("You are not authorized to access this page.")
+      l_app = assigns(:leave_application)
+      l_app.number_of_days.should eq(leave_app.number_of_days)
+      l_app.end_at.should eq(leave_app.end_at)
+    end
+
+    it 'number of days should get updated if updated' do
+      sign_in employee
+      end_at, days = leave_app.end_at.to_date + 1.day, leave_app.number_of_days + 1
+      l_type = leave_app.leave_type.name
+      leave_details = employee.get_leave_detail(Date.today.year)
+      leave_details.available_leave[l_type] = 10
+      leave_details.save
+      post :update, id: leave_app.id, leave_application: { "end_at"=> end_at, "number_of_days"=> days }
+      l_app = assigns(:leave_application)
+      l_app.number_of_days.should eq(days)
+      l_app.end_at.should eq(end_at)
+      leave_details.reload.available_leave[l_type].should eq(9)
+    end
+
+  end
+
+  context 'Update', update_leave: true do
+    let(:employee) { FactoryGirl.create(:user) }
+    let(:leave_app) { FactoryGirl.create(:leave_application, user_id: employee.id) }
+
+    it 'should update available leaves if leave type and number of days changed' do
+      sign_in employee
+      leave_type2 = FactoryGirl.create(:casual_type)
+
+      end_at, days = leave_app.end_at.to_date + 1.day, leave_app.number_of_days - 1
+      l_type_name = leave_app.leave_type.name
+      leave_details = employee.get_leave_detail(Date.today.year)
+      available_l_type = leave_details.available_leave[l_type_name]
+      leave_details.available_leave[leave_type2.name] = 10
+      leave_details.save
+      available_leaves = leave_details.available_leave[l_type_name]
+
+      days.should <= 2
+
+      post :update, id: leave_app.id, leave_application: { "end_at"=> end_at, "number_of_days"=> days, leave_type_id: leave_type2.id}
+
+      l_app = assigns(:leave_application)
+      l_app.leave_type_id.should eq(leave_type2.id)
+      leave_details.reload.available_leave[l_type_name].should eq(available_l_type + leave_app.number_of_days)
+      leave_details.reload.available_leave[leave_type2.name].should eq(10 - days)
+
+    end
+
   end
 
 end

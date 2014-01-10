@@ -1,25 +1,18 @@
 %table.table.table-hover
   %thead
-    %th
-      From
-    %th
-      Start Date
-    %th
-      Last Date
-    %th
-      Days 
-    %th 
-      Leave Type
-    %th 
-      Reason
-    %th
-      Applied On
-    %th
-      Action 
-    %th
-      Reason for rejecting
-    %th
-      Remaining leaves
+    %th From
+    %th Start Date
+    %th Last Date
+    %th Days 
+    %th Leave Type
+    %th Reason
+    %th Applied On
+    %th Status 
+    - if (leave_data.present? and !leave_data.first.pending?) or can? :manage, LeaveApplication
+      %th Reason for rejecting
+    %th Remaining leaves
+    - if (leave_data.present? and leave_data.first.pending?) or can? :manage, LeaveApplication
+      %th Action
   %tbody
     - leave_data.each do|appr_leave|
       %tr{id: "leave_application_#{appr_leave.id}"}
@@ -30,7 +23,7 @@
         %td= appr_leave.leave_type.name
         %td= appr_leave.reason
         %td= appr_leave.created_at.try(:strftime, "%Y-%m-%d")
-        - if appr_leave.leave_status == "Pending" && current_user.role?("Admin")
+        - if appr_leave.pending? && (can? :manage, appr_leave)
           %td.spinner.hide= image_tag('select2-spinner.gif', :class => 'spinner') 
           %td.action
             %a{href: '#', class: 'btn btn-success approve_leave', data:{id: appr_leave.id.to_s, url: 'approve_leave_application', action: 'approve'}}
@@ -41,5 +34,8 @@
             %a.reject_reason{data:{id: appr_leave.id.to_s, url: 'cancel_leave_application', action: 'cancel', value: '', type: :textarea}}
         - else
           %td= appr_leave.leave_status
-          %td= appr_leave.reject_reason
-        %td=appr_leave.user.leave_details.last.available_leave[ appr_leave.leave_type.name == "Privilege" ? "TotalPrivilege" : appr_leave.leave_type.name]
+          - if !appr_leave.pending?
+            %td= appr_leave.reject_reason
+        %td= appr_leave.user.leave_details.last.available_leave[ appr_leave.leave_type.name == "Privilege" ? "TotalPrivilege" : appr_leave.leave_type.name]
+        - if can? :edit, appr_leave
+          %td= link_to 'Edit', edit_leave_application_path(appr_leave)
