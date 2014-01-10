@@ -10,6 +10,8 @@ require "sprockets/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
+Date::DATE_FORMATS[:default] = '%d/%m/%Y'
+Time::DATE_FORMATS[:default] = '%d/%m/%Y - %H:%M %p'
 
 module Intranet
   class Application < Rails::Application

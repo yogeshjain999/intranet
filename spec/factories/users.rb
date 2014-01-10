@@ -1,7 +1,23 @@
 FactoryGirl.define do
   factory :user do |u|
-    u.role 'Employee'
-    u.email "test@joshsoftware.com"
-    u.password "test123"
+    role 'Employee'
+    sequence(:email) {|n| "emp#{n}@joshsoftware.com" }
+    password "test123"
+    before(:create) { |user| 
+      user.public_profile = FactoryGirl.create(:public_profile, user: user)
+      user.private_profile = FactoryGirl.create(:private_profile, user: user)
+  }
+  end
+
+  factory :super_admin, class: User, parent: :user do |u|
+    role 'Super Admin'
+    sequence(:email) {|n| "superadmin#{n}@joshsoftware.com" }
+    password "test123"
+  end
+
+  factory :admin, class: User, parent: :user do |u|
+    role 'Admin'
+    sequence(:email) {|n| "admin#{n}@joshsoftware.com" }
+    password "test123"
   end
 end

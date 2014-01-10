@@ -14,3 +14,11 @@
   $('#available_leave').on('click', function(){
     $('#remaining_leave').modal('show');
   });  
+
+  $(document).ready(function(){
+    $('[data-behaviour="datepicker"]').datepicker({
+      format: "dd-mm-yyyy",
+      autoclose: true
+    });
+  });
+   
