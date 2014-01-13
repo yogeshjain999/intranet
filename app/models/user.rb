@@ -8,7 +8,7 @@ class User
 
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauth_providers => [:google_oauth2]
-  ROLES = ['Admin', 'Manager', 'HR', 'Employee', 'Intern', 'Finance']
+  ROLES = ['Super Admin', 'Admin', 'Manager', 'HR', 'Employee', 'Intern', 'Finance']
   ## Database authenticatable
   field :email,               :type => String, :default => ""
   field :encrypted_password,  :type => String, :default => ""

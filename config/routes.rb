@@ -7,9 +7,9 @@ Intranet::Application.routes.draw do
     match '/admin', to: 'devise/sessions#new', via: [:get]
   end
   get 'calendar' => 'home#calendar', as: :calendar  
-  resources :leave_applications, only: [:index] 
+  resources :leave_applications, only: [:index, :edit, :update] 
   resources :users, except: [:new, :create, :destroy] do
-    resources :leave_applications, except: [:view_leave_status, :index] 
+    resources :leave_applications, except: [:view_leave_status, :index, :edit, :update] 
     member do
       match :public_profile, via: [:get, :put]
       match :private_profile, via: [:get, :put]

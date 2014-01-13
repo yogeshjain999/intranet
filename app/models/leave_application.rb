@@ -21,17 +21,29 @@ class LeaveApplication
 
   validates :start_at, :end_at, :contact_number, :reason, :number_of_days, :user_id, :leave_type_id, presence: true 
   validates :contact_number, numericality: {only_integer: true}, length: {is: 10}
-
   validate :validate_leave_details, on: :create
-    
   validate :validate_leave_status, on: :update
- 
+  validates :number_of_days, inclusion: {in: 1..2, message: 'should be less than 3'}, if: Proc.new{|obj| obj.leave_type.name == 'Casual'}
+  validate :validate_leave_details_on_update, on: :update
+
   after_create :deduct_available_leave_send_mail
-  
+  after_update :update_available_leave_send_mail
+
+  scope :pending, where(leave_status: 'Pending')
+  scope :processed, where(:leave_status.ne => 'Pending')
+ 
+  def require_medical_certificate?
+    leave_type.name == 'Sick' and number_of_days >= 3
+  end
+
   def process_after_update(status)
     send("process_#{status}") 
   end
-  
+ 
+  def pending?
+    leave_status == 'Pending'
+  end
+
   def process_reject_application
     user = self.user
     user.get_leave_detail(Date.today.year).add_rejected_leave(leave_type: self.leave_type.name, no_of_leave: self.number_of_days)    
@@ -60,9 +72,35 @@ class LeaveApplication
       user.sent_mail_for_approval(self.id) 
     end
 
-    def validate_leave_details
+    def update_available_leave_send_mail
       user = self.user
-      if user.leave_details.where(year: Date.today.year).first.validate_leave(self.leave_type.name, self.number_of_days) 
+      prev_days, changed_days = number_of_days_change ? number_of_days_change : number_of_days
+      prev_type, changed_type = changed_leave_type
+      user.get_leave_detail(Date.today.year).add_rejected_leave(leave_type: prev_type.name, no_of_leave: prev_days)
+      user.get_leave_detail(Date.today.year).deduct_available_leave(leave_type: changed_type.name, no_of_leave: changed_days||prev_days)
+      user.sent_mail_for_approval(self.id) 
+    end
+
+    def changed_leave_type
+      prev_type_id, changed_type_id = leave_type_id_change ? leave_type_id_change : leave_type_id
+      [LeaveType.find(prev_type_id), LeaveType.find(changed_type_id || leave_type_id)]
+    end
+
+    def validate_leave_details_on_update
+      if number_of_days_change or leave_type_id_change
+      prev_days, changed_days = number_of_days_change ? number_of_days_change : number_of_days
+      prev_type, changed_type = changed_leave_type
+      if leave_type_id_change
+        validate_leave_details(changed_type.name, changed_days || number_of_days)
+      else
+        validate_leave_details(changed_type.name, (changed_days || number_of_days) - prev_days)
+      end
+      end
+    end
+
+    def validate_leave_details(name = leave_type.name, days = number_of_days)
+      user = self.user
+      if user.leave_details.where(year: Date.today.year).first.validate_leave(name, days) 
         errors.add(:base, 'Not Sufficient Leave !Contact Administrator ') 
       end
     end
