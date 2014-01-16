@@ -27,7 +27,7 @@ end
 set :term_mode, nil
 set :domain, ip
 set :user, 'deploy'
-set :identity_file, '~/.ssh/id_intranet_rsa'
+set :identity_file, 'doc/id_intranet_rsa'
 set :deploy_to, "/home/deploy/projects/intranet/#{env}"
 set :repository, 'git@github.com:joshsoftware/intranet.git'
 set :branch, branch
@@ -108,27 +108,10 @@ task :deploy => :environment do
         queue "cd #{deploy_to}/current && bundle exec rake db:mongoid:create_indexes RAILS_ENV=#{env}"
       end
 
-      # unicorn restart
-      #queue 'touch tmp/restart.txt'
-      #queue 'cd #{deploy_to}/current && bundle exec unicorn'
-
-      # THIN restart
-      #queue "cd #{deploy_to}/current && if [ -f tmp/pids/thin.pid ]; then bundle exec thin stop; fi"
-      #queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
-    
-      #unicorn restart
-      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh stop -e #{env}"
-      queue "cd #{deploy_to}/current && /etc/init.d/unicorn_init.sh start -e #{env}"
-      #queue "cd #{deploy_to}/current && bundle exec thin start -d -e staging -p#{8080}"
-
+            
 
       # SIDEKIQ restart
-      #Ideally there is a need to reload the sidekiq server.But since there is no way to reload/restart the sidekiq server
-      #we need to stop & start the sidekiq server again
-      invoke :'sidekiq:quiet' 
-      invoke :'sidekiq:stop' 
-      invoke :'sidekiq:start'
-      #queue "cd #{deploy_to}/current && nohup sidekiq -e RAILS_ENV=#{env} &"
+            #queue "cd #{deploy_to}/current && nohup sidekiq -e RAILS_ENV=#{env} &"
       #queue "sudo monit restart sidekiq"
 
       # Update whenever 
@@ -140,8 +123,57 @@ task :deploy => :environment do
       #if bkp
       #  queue "export LC_ALL=C; /opt/mongo/bin/mongodump -d qwikcom_staging -o /data/bkp/#{Date.today.strftime("%Y%m%d")}.dump"
       #end
-
+      
+      invoke 'application:restart'
     end
+    
+       
+  end
+end
+namespace :passenger do
+  task :restart_passenger do
+    queue "touch #{deploy_to}/current/tmp/restart.txt"
+  end
+end
+
+namespace :nginx do
+  desc 'stop'
+  task :stop do
+    queue "sudo service nginx stop"
+  end
+
+  desc 'start'
+  task :start do
+    queue "sudo service nginx start"
+  end
+
+  desc 'restart'
+  task :restart do
+    invoke 'nginx:stop'
+    invoke 'nginx:start'
+  end
+end
+
+namespace :application do
+  desc 'Start the application'
+  task :start => :environment do
+    invoke 'passenger:restart_passenger'
+    #we need to stop & start the sidekiq server again
+    invoke :'sidekiq:quiet' 
+    invoke :'sidekiq:stop' 
+    invoke :'sidekiq:start'
+  end
+
+  desc 'Stop the application'
+  task :stop => :environment do
+    invoke :'sidekiq:quiet' 
+    invoke :'sidekiq:stop'
+  end
+
+  desc 'Restart the application'
+  task :restart => :environment do
+    invoke 'application:stop'
+    invoke 'application:start'
   end
 end
 
