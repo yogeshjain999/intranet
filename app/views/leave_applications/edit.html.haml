@@ -1,0 +1,6 @@
+.form-heading
+  %h2
+    Edit Leave
+= render "leave_details/show", available_leave: @leave_detail.try(:available_leave) || {}
+= simple_form_for @leave_application, url: leave_application_path(@leave_application.id) , html:{class: 'form-horizontal'} do|f|
+  = render 'form', f: f, leave_types: @leave_types
