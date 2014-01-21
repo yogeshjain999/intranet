@@ -6,7 +6,7 @@
 = f.input :contact_number, as: :decimal, label: 'Emergency Contact No.', input_html: {required: true, :'data-validation-required-message' => 'You need to enter your emergency number', type: 'text'}
 = f.input :reason, as: :text, label: 'Reason', input_html: {required: true, :'data-validation-required-message' => 'You have to specify valid reason for leave'}
 %center
-  = f.submit 'Apply', class: 'btn'
+  = f.submit (params[:action] == "new" ? 'Apply' : 'Save Changes'), class: 'btn'
   %a{class: 'btn btn-warning', id: 'available_leave', name: 'leave_details', href: '#leave_app'}
     Leave Availability
 :javascript
