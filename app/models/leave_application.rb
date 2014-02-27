@@ -27,7 +27,7 @@ class LeaveApplication
   validate :validate_leave_details_on_update, on: :update
 
   after_create :deduct_available_leave_send_mail
-  after_update :update_available_leave_send_mail
+  after_update :update_available_leave_send_mail, if: "pending?"
 
   scope :pending, where(leave_status: 'Pending')
   scope :processed, where(:leave_status.ne => 'Pending')
