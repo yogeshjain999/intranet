@@ -17,12 +17,6 @@ describe LeaveApplicationsController do
       should render_template(:new) 
     end
     
-    it "should raise exception when submitting leave without entering user date of joining." do
-      @user.private_profile.date_of_joining = nil
-      @user.save(validate: false)
-      expect{ post :create, {user_id: @user.id, leave_application: @leave_application.attributes}}.to raise_error(NoMethodError) 
-    end
-    
     context "leaves view" do
       before (:each) do
         leave_type = FactoryGirl.create(:leave_type)
@@ -152,11 +146,18 @@ describe LeaveApplicationsController do
       leave_application.leave_status.should == "Approved" 
     end
     
+    it "Only single mail to employee should get sent on leave appproval" do
+      leave_type = FactoryGirl.create(:leave_type)
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      Sidekiq::Extensions::DelayedMailer.jobs.clear
+      get :approve_leave, {id: leave_application.id}
+      Sidekiq::Extensions::DelayedMailer.jobs.size.should eq(1)
+    end
+    
     it "Admin as a role should accept privilege leaves " do
       leave_detail = @user.leave_details.last
       leave_detail.available_leave["TotalPrivilege"] = leave_detail.available_leave["CurrentPrivilege"] = 9
       leave_detail.save 
-      
       leave_type = FactoryGirl.create(:leave_type, name: 'Privilege')
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
       leave_detail = @user.reload.leave_details.last
@@ -279,6 +280,13 @@ describe LeaveApplicationsController do
       leave_detail.available_leave["Casual"].should eq(CASUAL_LEAVE)
     end
 
+    it "Only single mail to employee should get sent on leave rejection" do
+      leave_type = FactoryGirl.create(:leave_type, name: 'Casual')
+      leave_application = FactoryGirl.create(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: leave_type.id)
+      Sidekiq::Extensions::DelayedMailer.jobs.clear
+      get :cancel_leave, {id: leave_application.id}
+      Sidekiq::Extensions::DelayedMailer.jobs.size.should eq(1)
+    end
 
     it "Admin as a role should reject privilege leaves " do
       leave_detail = @user.leave_details.last
@@ -318,7 +326,16 @@ describe LeaveApplicationsController do
   context 'If leave type is ' do
     
     it "'Sick' and number of days are >= 3 should give notification for medical certificate" do
-
+      @user = FactoryGirl.create(:user, role: 'Employee')
+      sign_in @user
+      @leave_application = FactoryGirl.build(:leave_application, user_id: @user.id)
+      leave_type = FactoryGirl.create(:leave_type)
+      @user.build_private_profile(FactoryGirl.build(:private_profile).attributes)
+      @user.public_profile = FactoryGirl.build(:public_profile)
+      @user.save
+      @user.leave_details.should_not be([])
+      post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 3)}
+      flash[:error].should eq('You have to submit medical certificate.')
     end
 
   end
