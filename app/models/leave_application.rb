@@ -25,6 +25,7 @@ class LeaveApplication
   validate :validate_leave_status, on: :update
   validates :number_of_days, inclusion: {in: 1..2, message: 'should be less than 3'}, if: Proc.new{|obj| obj.leave_type.name == 'Casual'}
   validate :validate_leave_details_on_update, on: :update
+  validate :end_date_less_than_start_date, if: 'start_at.present?'
 
   after_create :deduct_available_leave_send_mail
   after_update :update_available_leave_send_mail, if: "pending?"
@@ -109,5 +110,11 @@ class LeaveApplication
       if ["Rejected", "Approved"].include?(self.leave_status_was) && ["Rejected", "Approved"].include?(self.leave_status)
         errors.add(:base, 'Leave is already processed')
       end  
+    end
+
+    def end_date_less_than_start_date
+      if end_at < start_at
+        errors.add(:end_at, 'should not be less than start date.')
+      end
     end
 end
