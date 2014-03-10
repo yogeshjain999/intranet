@@ -10,6 +10,10 @@
   %a{class: 'btn btn-warning', id: 'available_leave', name: 'leave_details', href: '#leave_app'}
     Leave Availability
 :javascript
+  DPGlobal = $.fn.datepicker.DPGlobal;
+  date_format = 'dd-mm-yyyy';
+
+
   $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
   $('#available_leave').on('click', function(){
     $('#remaining_leave').modal('show');
@@ -20,5 +24,21 @@
       format: "dd-mm-yyyy",
       autoclose: true
     });
+
+    $('form').submit(function(){
+      start_date_div = $('#leave_application_start_at')
+      end_date_div = $('#leave_application_end_at')
+      start_at = DPGlobal.parseDate(start_date_div.val(), date_format)
+      end_at = DPGlobal.parseDate(end_date_div.val(), date_format)
+      if(start_date_div.val() && start_at > end_at){
+        $("<div class='help-block end_date_error'><ul role='alert'><li>End date can not be less than start date</li></ul></div>").insertAfter(end_date_div)
+        end_date_div.parents('.control-group').addClass('error')
+        return false
+      }else if($('.end_date_error').length){
+        end_date_div.parents('.control-group').removeClass('error')
+        $('.end_date_error').remove()
+      }
+    });
+
   });
    
