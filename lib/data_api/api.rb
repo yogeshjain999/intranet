@@ -16,7 +16,11 @@ module Api
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       response = http.get(@uri.path+"?access_token=#{@token}")
-      @data = JSON.parse(JSON.parse(response.body)['result'])
+      begin 
+        @data = JSON.parse(JSON.parse(response.body)['result'])
+      rescue
+        @data = []
+      end
     end
 
     def all_bonusly_messages
