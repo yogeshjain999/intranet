@@ -43,3 +43,16 @@
 .remove_underline{
     a{text-decoration: none !important}
 }
+
+.contact_message{
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact_message:hover{
+  overflow: visible; 
+  white-space: normal; 
+
+}

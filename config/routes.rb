@@ -6,6 +6,9 @@ Intranet::Application.routes.draw do
     match :invite_user, to: 'users#invite_user', via: [:get, :post]
     match '/admin', to: 'devise/sessions#new', via: [:get]
   end
+
+  get 'contacts' => 'admins#contacts_from_site', as: 'site_contacts'
+
   get 'calendar' => 'home#calendar', as: :calendar  
   resources :leave_applications, only: [:index, :edit, :update] 
   resources :users, except: [:new, :create, :destroy] do

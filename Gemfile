@@ -20,6 +20,7 @@ gem "omniauth-google-oauth2"
 gem 'rnotifier'
 gem 'bootstrap-datepicker-rails'
 gem 'colorbox-rails'
+gem 'google_drive'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
