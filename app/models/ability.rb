@@ -48,6 +48,7 @@ class Ability
     common_admin_hr
     can :edit, User
     can [:public_profile, :private_profile], User
+    can :manage, :admin
   end
 
   def hr_abilities

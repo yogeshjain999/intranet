@@ -15,6 +15,9 @@
       = link_to "Manage Leave", leave_applications_path
   %li
     = link_to "Leave Applications", view_leaves_path 
+  - if ["Admin", "Super Admin"].include?(current_user.role)
+    %li
+      = link_to "Contacts", site_contacts_path, data: { 'no-turbolink' => true }
   %li.hide
     = link_to "Calendar", calendar_path
   %li.divider

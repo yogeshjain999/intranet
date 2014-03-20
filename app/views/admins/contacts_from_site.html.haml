@@ -1,0 +1,38 @@
+.form-heading.row
+  %h2 
+    .span3
+      Contacts From Site
+.form-horizontal
+  %table.table.table-hover#site_contacts
+    %thead
+      %th Name
+      %th Email
+      %th Phone Number
+      %th Date
+      %th.span4 Message
+    %tbody
+<script id="template" type="text/html">
+<tr>
+<td>{{record.name}}</td>
+<td>{{record.email}}</td>
+<td>{{record.phone_number}}</td>
+<td>{{record.date}}</td>
+<td>
+<div class='contact_message'>{{record.message}}</div>
+</td>
+</tr>
+</script>
+
+:javascript
+  var template = Mustache.compile($.trim($("#template").html()));
+
+  var view = function(record, index){
+    return template({record: record, index: index});
+    };
+
+  var options = {
+    view: view,                  //View function to render table rows.
+    per_page: 10,
+    pagination: {span: 5, next_text: 'Next &rarr;', prev_text: '&larr; Previous'} 
+    } 
+  $('#site_contacts').stream_table(options, #{@contact_list.to_json});
