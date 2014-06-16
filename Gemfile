@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
-ruby "2.1.0"
+ruby "2.1.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.1.0'
 gem 'devise'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'mongoid_slug'
@@ -28,6 +28,9 @@ gem 'coffee-rails', '~> 4.0.0'
 
 #mongoid-history
 gem 'mongoid-history', github: 'aq1018/mongoid-history'
+
+#sinatra 
+gem 'sinatra'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -62,13 +65,13 @@ group :development do
 end
 
 group :production do
-  gem 'therubyracer'
+  #gem 'therubyracer'
 end
 
 gem 'simplecov', :require => false, :group => :test
 
 #BackGround Job processing instead of delayed_job
-gem 'sidekiq'
+gem 'sidekiq', '3.1.3'
 gem 'whenever'
 #gem for deploying to remote server
 gem 'mina', github: 'nadarei/mina'

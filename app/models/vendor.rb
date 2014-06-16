@@ -12,7 +12,7 @@ class Vendor
   accepts_nested_attributes_for :contact_persons, :address
   validates :company, :category, presence: true
 
-  scope :vendors_sorted, all.asc(:category)
+  scope :vendors_sorted, ->{all.asc(:category)}
 
   def build_contact_person(row)
     self.contact_persons.build(name: row[1], role: row[4], phone_no: row[5], email: row[6])

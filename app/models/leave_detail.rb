@@ -9,7 +9,7 @@ class LeaveDetail
 
   field :available_leave,     type: Hash, default: {"Sick" => 0, "Casual" => 0, "CurrentPrivilege" => 0, "TotalPrivilege" => 0}
 
-  scope :this_year, where(year: Date.today.year)
+  scope :this_year, ->{where(year: Date.today.year)}
 
   track_history  
 
