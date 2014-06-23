@@ -11,7 +11,7 @@ require 'mina_extensions/sidekiq'
 #repository   - Git repo to clone from. (needed by mina/git)
 #branch       - Branch name to deploy. (needed by mina/git)
 
-env = ENV['on'] || 'staging'
+env = ENV['on'] || 'production'
 nocron = ENV['nocron'] || false
 branch = ENV['branch'] || 'leave_application'
 #bkp = ENV['bkp'] || false #Backup will be used for actual production 

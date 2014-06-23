@@ -30,8 +30,8 @@ class LeaveApplication
   after_create :deduct_available_leave_send_mail
   after_update :update_available_leave_send_mail, if: "pending?"
 
-  scope :pending, where(leave_status: 'Pending')
-  scope :processed, where(:leave_status.ne => 'Pending')
+  scope :pending, ->{where(leave_status: 'Pending')}
+  scope :processed, ->{where(:leave_status.ne => 'Pending')}
  
   def require_medical_certificate?
     leave_type.name == 'Sick' and number_of_days >= 3

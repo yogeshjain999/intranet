@@ -14,8 +14,8 @@ class Attachment
   
   belongs_to :user
 
-  scope :user_documents, where(document_type: "user")
-  scope :company_documents, where(document_type: "company").asc(:name)
+  scope :user_documents, ->{where(document_type: "user")}
+  scope :company_documents, ->{where(document_type: "company").asc(:name)}
   
   def check_visible_to_all
     self.is_visible_to_all = (self.is_visible_to_all == 'true' ? true : false)

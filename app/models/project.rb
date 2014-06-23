@@ -12,7 +12,7 @@ class Project
   validates_presence_of :name
   before_save :check_active
   
-  scope :all_active, where(is_active: true).asc(:name)
+  scope :all_active, ->{where(is_active: true).asc(:name)}
 
   def self.get_all_sorted_by_name
     Project.all.asc(:name)
