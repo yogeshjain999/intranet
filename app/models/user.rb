@@ -30,6 +30,7 @@ class User
   has_many :leave_applications
   has_many :attachments
   has_and_belongs_to_many :projects
+  has_and_belongs_to_many :schedules
   
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, :allow_destroy => true
   validates :email, format: {with: /\A.+@joshsoftware.com/, message: "Only Josh email-id is allowed."}

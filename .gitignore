@@ -16,6 +16,7 @@
 
 #ignore google auth keys
 /config/initializers/constants.rb
+/config/initializers/constants_dev.rb
 /config/rnotifier.yaml
 # Ignore bundler config
 /.bundle

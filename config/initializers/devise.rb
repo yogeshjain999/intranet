@@ -14,7 +14,6 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/mongoid'
-
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -36,9 +35,9 @@ Devise.setup do |config|
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
   if Rails.env.test?
-    config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_APP_SECRET']
+    #config.omniauth :google_oauth2, GOOGLE_APP_ID,GOOGLE_APP_SECRET
   else
-    config.omniauth :google_oauth2, GOOGLE_API_CLIENT_ID, GOOGLE_API_CLIENT_SECRET
+    config.omniauth :google_oauth2, GOOGLE_APP_ID,GOOGLE_APP_SECRET
   end
   config.case_insensitive_keys = [ :email ]
 
