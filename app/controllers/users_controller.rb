@@ -1,3 +1,4 @@
+load 'calendar_api.rb'
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
@@ -30,7 +31,28 @@ class UsersController < ApplicationController
     profile = params.has_key?("private_profile") ? "private_profile" : "public_profile"
     update_profile(profile)
     load_emails_and_projects
-    @user.attachments.first || @user.attachments.build  
+    @user.attachments.first || @user.attachments.build
+
+      event = {
+  'description' => 'Ammu Birthday',
+  'summary' => 'Appointment',
+  'location' => 'Somewhere',
+  'start' => {
+     'dateTime' => '2014-06-30T10:00:00.000-07:00'
+  },
+  'end' => {
+     'dateTime' => '2014-06-30T10:25:00.000-07:00'
+  }
+}
+      #CalendarApi.create_event(current_user, event)
+      id= CalendarApi.fetch_event(current_user, 'Appointment')
+      #CalendarApi.delete_event(current_user,id):body_object => event,
+              #          :headers => {'Content-Type' => 'application/json'})
+      CalendarApi.update_event(current_user, id, event)
+
+      @calendars = CalendarApi.calendar_list(current_user).data 
+      @events = CalendarApi.list_events(current_user).data
+       
   end
 
   def private_profile

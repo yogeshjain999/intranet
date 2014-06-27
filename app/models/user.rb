@@ -26,7 +26,10 @@ class User
   field :last_sign_in_at,    :type => Time
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
-    
+  field :access_token,       :type => String
+  field :expires_at,         :type => Integer
+  field :refresh_token,      :type => String
+
   has_many :leave_applications
   has_many :attachments
   has_and_belongs_to_many :projects

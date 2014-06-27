@@ -1,6 +1,9 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     user = User.from_omniauth(request.env["omniauth.auth"])
+    p "=sssssssssssssssssssssssssssss"
+    p request.env["omniauth.auth"]
+  
     if user
       if user.persisted?
         flash.notice = "Signed in Successfully!"
