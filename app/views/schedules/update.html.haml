@@ -1,0 +1,34 @@
+= simple_nested_form_for @schedule,  :html => { method: :put, class: "form-horizontal", multipart: true} do |schedule|
+  %h2 Interview Details
+  = schedule.input :summary
+  = schedule.input :description,as: :text
+  = schedule.input :interview_date,input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @schedule.interview_date.try(:strftime, "%d-%m-%Y")},label:"Date"
+  = schedule.input :interview_time,input_html: {class: 'timepicker'},label: "Time"
+  = schedule.input :interview_type, :collection => ['Skype','Telephonic','Face-to-Face'] , selected: "Skype" , :id => 'collect',label:"Type"
+  %h2 Candidate Details
+  = schedule.fields_for :candidate_details do |c_d|
+    = c_d.input :email,:required => false
+    = c_d.input :telephone,:required => false
+    = c_d.input :skype_id,:required => false
+  = schedule.fields_for :public_profile do |f|
+    = f.input :git, :required => false
+    = f.input :linkedin, :required => false
+  %h2 Interviewer Details
+  = schedule.fields_for :users do |u|
+    = u.input :email, input_html: {class: "typeahead", multiple: true},:required => false
+    = u.input :_id, as: 'hidden', input_html: {class: "hid"}
+  = schedule.link_to_add "Add Interviewer", :users , id:"id1",class: 'btn controls'
+  = schedule.submit :save, class: "btn"
+
+:javascript
+  $(document).ready(function(){
+    $("#id1").click(function(){
+      $('.tt-hint').hide();
+    });
+    $('.timepicker').timepicker();
+
+  });
+  $("[data-behaviour~=datepicker]").datepicker({
+    format: "dd-mm-yyyy",
+    autoclose: true
+  });

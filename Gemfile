@@ -25,9 +25,11 @@ gem 'google_drive'
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
+gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
 
 #mongoid-history
 gem 'mongoid-history', github: 'aq1018/mongoid-history'
+gem 'jquery-timepicker-rails'
 
 #sinatra 
 gem 'sinatra'

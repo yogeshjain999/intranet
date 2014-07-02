@@ -20,4 +20,7 @@
 //= require jqBootstrapValidation
 //= require select2.min
 //= require colorbox-rails
+//= require jquery.timepicker.js
+//= require twitter/typeahead
 //= require_tree .
+
