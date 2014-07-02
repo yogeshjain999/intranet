@@ -23,7 +23,7 @@ FactoryGirl.define do
 
   factory :hr, class: User, parent: :user do |u|
     role 'HR'
-    sequence(:email) {|n| "hr#{n}@joshsoftware.com" }
+    sequence(:email) {|n| "hrr#{n}@joshsoftware.com" }
     password "test123"
   end
 end

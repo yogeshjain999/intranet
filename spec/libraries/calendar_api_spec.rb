@@ -2,49 +2,69 @@ require 'spec_helper'
 
 describe CalendarApi do
 	context "It should create events" do
-		it "creates events if user is valid" do
+
+		it "returns nil if user is invalid" do
+			event= {'summary' => 'E1', 
+							'start' => {'date' => '2000/1/1'}}
+			hr1 = FactoryGirl.create(:user)
+	    op = CalendarApi.create_event(hr1, event)
+	    (op).should eq(nil)
 		end
 
-		it "redirects if user is invalid" do
+		it "returns nil if event does not have a summary" do
+			event = {'location' => 'l1', 
+							'start' => {'date' => '2000/1/1'}}
+			hr1 = FactoryGirl.create(:user)
+	    op = CalendarApi.create_event(hr1, event)
+	    (op).should eq(nil)
+		end
+
+		it "returns nil if event is outdated" do
+			event = {'summary' => 'E1',
+							'start' => {'date' => '2000/1/1'}}
+  		hr1 = FactoryGirl.create(:hr)
+  		id = ""
+  		op = CalendarApi.create_event(hr1, event)
+	    (op).should eq(nil)
 		end
 	end
 
 	context "It should delete event" do
-		it "deletes event if user is valid" do
-		end
 
-		it "redirects if user is not invalid" do
+		it "returns nil user is invalid" do
+			id= ""
+			event= {'summary' => 'E1'}
+			hr1 = FactoryGirl.create(:user)
+	    op = CalendarApi.delete_event(hr1, id)
+	    (op).should eq(nil)
 		end
 	end
 
 	context "It should update events" do
-		it "updates events if user is invalid" do
+
+		it "returns nil if user is not valid" do
+			id = ""
+			event = {'start' => '2000/1/1'}
+			hr1 = FactoryGirl.create(:user)
+	    op = CalendarApi.update_event(hr1, id, event)
+	    (op).should eq(nil)
 		end
 
-		it "redirects if user is not valid" do
+		it "returns nil if the event is outdated" do
+			event = {'summary' => 'E1',
+							'start' => {'date' => '2000/1/1'}}
+  		hr1 = FactoryGirl.create(:hr)
+  		id = ""
+  		op = CalendarApi.update_event(hr1, id, event)
+	    (op).should eq(nil)
 		end
-
-		it "updates attendees to a particular event" do
-		end
-
-		it "should be able to modify date of an event" do
-		end
-
-		it "should be able to modify time of an event" do
-		end
-
 	end
 
 	context "It should LIST events" do
-		it "should list ALL events on calendar" do
-			let(:hr1) {FactoryGirl.create(:hr)}
-			op = CalendarApi.list_events(:hr1).data
-		end
-
-		it "should list events by date" do
-		end
-
-		it "should list all events for a particular user" do
+		it "returns nil if the user is invalid" do
+	    hr1 = FactoryGirl.create(:user)
+	    op = CalendarApi.list_events(hr1)
+	    (op).should eq(nil)
 		end
 	end
 
@@ -64,13 +84,13 @@ describe CalendarApi do
 		end
 
 		it "should fetch description of an event " do
-	    end
+	  end
 
-	    it "should fetch start-date of an event" do
-	    end
+	  it "should fetch start-date of an event" do
+	  end
 
-	    it "should fetch time of an event" do
-	    end
+	  it "should fetch time of an event" do
+	  end
 	end
 
 	it "should set transparency for an event: opaque or transparent" do
