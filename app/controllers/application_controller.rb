@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+  helper_method :current_user
+  helper_method :user_signed_in?
+  helper_method :correct_user?
+
   protect_from_forgery with: :exception
 
   before_filter :store_location
@@ -10,6 +14,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     session[:previous_url] || root_path
   end
+
 
 rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, :alert => exception.message

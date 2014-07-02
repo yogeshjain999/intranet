@@ -1,3 +1,4 @@
+require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe Schedule, :type => :model do

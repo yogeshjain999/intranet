@@ -20,4 +20,10 @@ FactoryGirl.define do
     sequence(:email) {|n| "admin#{n}@joshsoftware.com" }
     password "test123"
   end
+
+  factory :hr, class: User, parent: :user do |u|
+    role 'HR'
+    sequence(:email) {|n| "hrr#{n}@joshsoftware.com" }
+    password "test123"
+  end
 end

@@ -212,6 +212,7 @@ GEM
     kgio (2.9.2)
     launchy (2.4.2)
       addressable (~> 2.3)
+    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -285,6 +286,7 @@ GEM
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    ref (1.0.5)
     retriable (1.4.1)
     rmagick (2.13.2)
     rnotifier (0.1.5)
@@ -362,6 +364,9 @@ GEM
     stringex (2.5.2)
     temple (0.6.7)
     terminal-table (1.4.5)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -412,6 +417,7 @@ DEPENDENCIES
   colorbox-rails
   database_cleaner
   devise
+  execjs
   factory_girl_rails
   faker
   google-api-client
@@ -442,6 +448,7 @@ DEPENDENCIES
   simple_form!
   simplecov
   sinatra
+  therubyracer
   thin
   turbolinks
   twitter-bootstrap-rails

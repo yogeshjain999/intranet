@@ -99,3 +99,5 @@ gem 'authority'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+gem 'execjs'
+gem 'therubyracer', :platforms => :ruby

@@ -32,4 +32,6 @@
 *.bak
 *.csv
 .rvmrc
+*~
 
+.env
