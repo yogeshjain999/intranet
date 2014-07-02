@@ -1,0 +1,46 @@
+.form-horizontal
+  .form-heading
+    %h2
+      = @event["summary"]
+
+  .bullet
+    %table
+      %tr.spaceUnder
+        %td
+          
+          %i.icon-book
+          = @event["description"]
+      %tr.spaceUnder
+        %td
+          %i.icon-time
+          = @event["start"]["dateTime"]
+
+     
+      %tr.spaceUnder
+        %td
+          %i.icon-group
+      %tr
+        %td
+          %table.table.table-striped.table-bordered
+            %thead
+              %tr
+                %th Name
+                %th
+                %th Email
+                %th
+                %th Response Status
+            %tbody    
+              - @event["attendees"].each do |attendee|
+                %tr
+                  %td
+                    = attendee["displayName"]
+                  %td
+                  %td
+                    = attendee["email"]
+                  %td
+                  %td
+                    = attendee["responseStatus"]
+      %tr
+        %td
+          = link_to @event["htmlLink"] do
+            %i.icon-calendar             
