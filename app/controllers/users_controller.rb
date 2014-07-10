@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     update_profile(profile)
     load_emails_and_projects
     @user.attachments.first || @user.attachments.build
-       
+
   end
 
   def private_profile
