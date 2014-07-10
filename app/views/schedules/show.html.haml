@@ -19,6 +19,7 @@
       %tr.spaceUnder
         %td
           %i.icon-group
+          Interviewers:
       %tr
         %td
           %table.table.table-striped.table-bordered
@@ -31,15 +32,43 @@
                 %th Response Status
             %tbody    
               - @event["attendees"].each do |attendee|
-                %tr
-                  %td
-                    = attendee["displayName"]
-                  %td
-                  %td
-                    = attendee["email"]
-                  %td
-                  %td
-                    = attendee["responseStatus"]
+                - if attendee["email"].include? "joshsoftware.com"
+                  %tr
+                    %td
+                      = attendee["displayName"]
+                    %td
+                    %td
+                      = attendee["email"]
+                    %td
+                    %td
+                      = attendee["responseStatus"]
+      
+      %tr
+        %td 
+          Interviewee:          
+      %tr
+        %td
+          %table.table.table-striped.table-bordered
+            %thead
+              %tr
+                %th Name
+                %th
+                %th Email
+                %th
+                %th Response Status
+            %tbody    
+              - @event["attendees"].each do |attendee|
+                - if !(attendee["email"].include? "joshsoftware.com")
+                  %tr
+                    %td
+                      = attendee["displayName"]
+                    %td
+                    %td
+                      = attendee["email"]
+                    %td
+                    %td
+                      = attendee["responseStatus"]
+                
       %tr
         %td
           = link_to @event["htmlLink"] do
