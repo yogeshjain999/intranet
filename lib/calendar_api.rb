@@ -4,17 +4,18 @@ require 'client_builder'
 class CalendarApi
 
   def self.create_event(user,event)
-    if (event['start']['date']== nil || Date.parse(event['start']['date']) > Date.today)
+    p "DODO"
       if (user.role=='HR')
-
+        p "Dracula"
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
         result = client.execute(:api_method => service.events.insert,
                       :parameters => {'calendarId' => 'primary'},
                       :body_object => event,
                       :headers => {'Content-Type' => 'application/json'})
+       
       end
-    end
+  
   end
   
   def self.get_event(user, id)  
