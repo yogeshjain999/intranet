@@ -16,8 +16,8 @@
 %div.tabbable
   %ul.nav.nav-tabs
     %li.active.all-tab
-      %a{data: {toggle: 'tab'}, href: "#all"} 
-        All
+      %a{data: {toggle: 'tab'}, href: "#future"} 
+        Future
     %li.today-tab
       %a{data: {toggle: "tab"}, href: "#today" } 
         Today
@@ -25,17 +25,17 @@
       %a{data: {toggle: "tab"}, href: "#past"}
         Past
     %li.future-tab
-      %a{data: {toggle: "tab"}, href: "#future"}
-        Future
+      %a{data: {toggle: "tab"}, href: "#all"}
+        All
 
   .tab-content
-    .tab-pane.active#all
-      = render "schedules/index"
+    .tab-pane.active#future
+      = render "schedules/future"
     .tab-pane#today
       = render "schedules/today"
     .tab-pane#past
       = render "schedules/past"
-    .tab-pane#future
-      = render "schedules/future"
+    .tab-pane#all
+      = render "schedules/index"
 
 
