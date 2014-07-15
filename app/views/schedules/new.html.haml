@@ -7,6 +7,8 @@
       = schedule.input :interview_date,input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @schedule.interview_date.try(:strftime, "%d-%m-%Y")},label:"Date"
       = schedule.input :interview_time,input_html: {class: 'timepicker'},label: "Time"
       = schedule.input :interview_type, :collection => ['Skype','Telephonic','Face-to-Face'] , selected: "Skype" , :id => 'collect',label:"Type"
+      %h3 Add Resume
+      = schedule.file_field :file
     .span5.form-horizontal
       %h2 Candidate Details
       = schedule.fields_for :candidate_details do |c_d|
