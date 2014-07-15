@@ -42,7 +42,13 @@ Intranet::Application.routes.draw do
     end
   end
 
-  resources :schedules
+  resources :schedules do
+    member do
+      match :today, via: [:get, :put]
+      match :past, via: [:get, :put]
+      match :future, via: [:get, :put]
+    end
+  end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   resources :schedules

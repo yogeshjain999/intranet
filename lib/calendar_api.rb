@@ -1,5 +1,6 @@
 require 'google/api_client'
 require 'client_builder'
+require 'date.rb'
 
 class CalendarApi
 
@@ -58,7 +59,7 @@ class CalendarApi
   end
 
   def self.update_event(user,id,event)
-    if (event['start']['date']== nil || Date.parse(event['start']['date']) > Date.today)    
+       
       if (user.role== 'HR')
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
@@ -69,7 +70,33 @@ class CalendarApi
           :body_object => event,
           :headers => {'Content-Type' => 'application/json'},)
       end
+  end
+
+  def self.list_events_by_date(user, date2)
+    res= ""
+  
+    if (user.role== 'HR')
+      client = ClientBuilder.get_client(user)
+      date = Date.strptime(date2, "%m/%d/%Y")
+      dt = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone)
+
+      time_min = DateTime.parse(dt.strftime()).rfc3339
+      dt = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone)
+      time_max = DateTime.parse(dt.strftime()).rfc3339
+p "min time"
+p time_min
+p "max time"
+p time_max
+      service = client.discovered_api('calendar', 'v3')
+      result = client.execute(:api_method => service.events.list,
+       :parameters => {'calendarId' => 'primary', 
+      'timeMin' => time_min, 'timeMax' => time_max})
     end
+
+    if (result!= nil)
+      res= result.data
+    end
+    res
   end
 
   def self.list_events(user)
