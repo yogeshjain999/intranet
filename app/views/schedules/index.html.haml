@@ -2,10 +2,6 @@
   = text_field_tag :starts_at, params[:search]
   = submit_tag "Search", :name => nil
 
-= form_tag schedules_path, :method => 'get' do
-  = hidden_field_tag :starts_at, Date.today.strftime("%m/%d/%Y")
-  = submit_tag "Today", :name => nil
-
 :javascript
   $(function() {
     $( "#starts_at" ).datepicker();

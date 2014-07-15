@@ -5,10 +5,8 @@ class SchedulesController < ApplicationController
 
 	def index
 		if (!params[:starts_at])
-			p "i'm in if"
 			@events= CalendarApi.list_events(current_user)
 		else
-			p "i'm in else"
 			@events= CalendarApi.list_events_by_date(current_user,params[:starts_at])
 		end
 	end
@@ -115,7 +113,7 @@ class SchedulesController < ApplicationController
     redirect_to schedules_path
 	end
 
-  def allow_params
+  def allow_params?
   	puts	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :file, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], users_attributes: [:email => []])
  
  

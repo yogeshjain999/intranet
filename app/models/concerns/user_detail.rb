@@ -22,6 +22,10 @@ module UserDetail
       #user.access_token= auth[:credentials][:token] 
       #user.expires_at= auth[:credentials][:expires_at]
       #user.refresh_token= auth[:credentials][:refresh_token]
+      p "EXPIRES_AT"
+      p auth[:credentials][:expires_at]
+      p "TIME NOW"
+      p Time.now.to_i
       user.update_attributes(access_token: auth[:credentials][:token], expires_at: auth[:credentials][:expires_at], refresh_token: auth[:credentials][:refresh_token])
     end
 
