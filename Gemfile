@@ -71,7 +71,8 @@ group :production do
   #gem 'therubyracer'
 end
 
-gem 'simplecov', :require => false, :group => :test
+#gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', '~> 0.7.1'
 
 #BackGround Job processing instead of delayed_job
 gem 'sidekiq', '3.1.3'
