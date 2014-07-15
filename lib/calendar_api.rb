@@ -83,10 +83,7 @@ class CalendarApi
       time_min = DateTime.parse(dt.strftime()).rfc3339
       dt = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone)
       time_max = DateTime.parse(dt.strftime()).rfc3339
-p "min time"
-p time_min
-p "max time"
-p time_max
+
       service = client.discovered_api('calendar', 'v3')
       result = client.execute(:api_method => service.events.list,
        :parameters => {'calendarId' => 'primary', 
