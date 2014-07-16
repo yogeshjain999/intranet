@@ -5,9 +5,8 @@ require 'date.rb'
 class CalendarApi
 
   def self.create_event(user,event)
-    p "DODO"
+    if (event['start']['dateTime'] >= DateTime.now)
       if (user.role=='HR')
-        p "Dracula"
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
         result = client.execute(:api_method => service.events.insert,
@@ -16,7 +15,8 @@ class CalendarApi
                       :headers => {'Content-Type' => 'application/json'})
        
       end
-  
+    end
+    result
   end
   
   def self.get_event(user, id)  
@@ -59,7 +59,7 @@ class CalendarApi
   end
 
   def self.update_event(user,id,event)
-       
+    if (event['start']['dateTime'] >= DateTime.now)
       if (user.role== 'HR')
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
@@ -70,11 +70,11 @@ class CalendarApi
           :body_object => event,
           :headers => {'Content-Type' => 'application/json'},)
       end
+    end
   end
 
   def self.list_events_by_date(user, date2)
-    res= ""
-  
+    
     if (user.role== 'HR')
       client = ClientBuilder.get_client(user)
       date = Date.strptime(date2, "%m/%d/%Y")
@@ -97,16 +97,16 @@ class CalendarApi
   end
 
   def self.list_events(user)
-    res= ""
     if (user.role== 'HR')
   	  client = ClientBuilder.get_client(user)
 
       service = client.discovered_api('calendar', 'v3')
       result = client.execute(:api_method => service.events.list,
        :parameters => {'calendarId' => 'primary'}, )
-    end
+    
     if (result!= nil)
       res= result.data
+    end
     end
     res
   end

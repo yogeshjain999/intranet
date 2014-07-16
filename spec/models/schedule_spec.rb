@@ -1,12 +1,17 @@
 require 'rails_helper'
 require 'spec_helper'
+require 'time'
+require 'date'
 
 RSpec.describe Schedule, :type => :model do
 
   context "check time format" do
     it "should have correct time format" do
       schedule = FactoryGirl.create(:schedule)
-      schedule.interview_time.should match(/(([0-1][0-9])|(2[0-3])){1}(:([0-5][0-9])){2}/)
+      b= schedule.interview_time
+      p b.class
+      p "cuuuuckkkkoooooooooooooo"
+      schedule.interview_time.class.should eq(ActiveSupport::TimeWithZone)
     end
 
     it "should not have incorrect time format" do
@@ -124,8 +129,11 @@ RSpec.describe Schedule, :type => :model do
 
     it "should not have non registered email" do
       user = FactoryGirl.build(:user)
-      schedule = FactoryGirl.create(:schedule,:users=>[user])
+      schedule = FactoryGirl.build(:schedule,:users=>[user])
       email = schedule.users.first.email
+      p "pppppp"
+      p email
+      p "pppppp"
       User.where(email:email).last.should eq(nil)
     end
   end

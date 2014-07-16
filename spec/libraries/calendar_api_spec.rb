@@ -4,8 +4,10 @@ describe CalendarApi do
 	context "It should create events" do
 
 		it "returns nil if user is invalid" do
-			event= {'summary' => 'E1', 
-							'start' => {'date' => '2000/1/1'}}
+	event = {
+			'summary'=> "Silly Event",
+			'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },
+		}
 			hr1 = FactoryGirl.create(:user)
 	    op = CalendarApi.create_event(hr1, event)
 	    (op).should eq(nil)
@@ -13,15 +15,17 @@ describe CalendarApi do
 
 		it "returns nil if event does not have a summary" do
 			event = {'location' => 'l1', 
-							'start' => {'date' => '2000/1/1'}}
+							'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },}
 			hr1 = FactoryGirl.create(:user)
 	    op = CalendarApi.create_event(hr1, event)
 	    (op).should eq(nil)
 		end
 
 		it "returns nil if event is outdated" do
-			event = {'summary' => 'E1',
-							'start' => {'date' => '2000/1/1'}}
+			event = {
+			'summary'=> "Silly Event",
+			'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },
+		}
   		hr1 = FactoryGirl.create(:hr)
   		id = ""
   		op = CalendarApi.create_event(hr1, event)
@@ -44,15 +48,20 @@ describe CalendarApi do
 
 		it "returns nil if user is not valid" do
 			id = ""
-			event = {'start' => '2000/1/1'}
+		event = {
+			'summary'=> "Silly Event",
+			'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },
+		}
 			hr1 = FactoryGirl.create(:user)
 	    op = CalendarApi.update_event(hr1, id, event)
 	    (op).should eq(nil)
 		end
 
 		it "returns nil if the event is outdated" do
-			event = {'summary' => 'E1',
-							'start' => {'date' => '2000/1/1'}}
+			event = {
+			'summary'=> "Silly Event",
+			'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },
+		}
   		hr1 = FactoryGirl.create(:hr)
   		id = ""
   		op = CalendarApi.update_event(hr1, id, event)

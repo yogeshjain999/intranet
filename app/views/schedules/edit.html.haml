@@ -19,10 +19,11 @@
   .row
     .span10.form-horizontal
       %h2 Interviewer Details
-      = schedule.fields_for :users do |u|
-        = u.input :email, input_html: {class: "typeahead", multiple: true},:required => false
-        = u.input :_id, as: 'hidden', input_html: {class: "hid"}
-      = schedule.link_to_add "Add Interviewer", :users , id:"id1",class: 'btn controls'
+      .control-group
+        = label_tag "Interviewer Emails", nil, class: 'control-label'
+        .controls
+          = select_tag 'user[email]', options_for_select(@emails), class: 'emails', multiple: true, style: "width: 340px;", "data-placeholder"=> "You can add multiple emails", :include_blank => false
+  
   = schedule.submit :save, class: "btn"
 
 :javascript
@@ -31,6 +32,7 @@
       $('.tt-hint').hide();
     });
     $('.timepicker').timepicker();
+    $(".emails").select2();
 
   });
   $("[data-behaviour~=datepicker]").datepicker({

@@ -7,8 +7,7 @@ FactoryGirl.define do
   factory :schedule do
     users {[FactoryGirl.create(:user)]}
     random_object = Random.new
-    time = Time.at(random_object.rand(1234675678))
-    interview_time time.to_datetime.strftime("%H:%M:%S").to_s   
+    interview_time Time.at(random_object.rand(1234675678))   
     interview_date "23/2/2015"
     candidate_details do
       {

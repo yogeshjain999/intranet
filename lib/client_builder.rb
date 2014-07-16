@@ -19,7 +19,7 @@ class ClientBuilder
      re= client.authorization.fetch_access_token!
 
      user.access_token= re['access_token']
-     user.expires_at= Time.now.to_i + re['expires_in'].second
+     user.expires_at= Time.now.to_i + re['expires_in']
      user.save
 
     end

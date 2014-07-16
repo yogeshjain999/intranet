@@ -23,13 +23,14 @@ describe LeaveApplication do
     it 'end date can be equal to start date' do
       date = Date.today
       leave_application = FactoryGirl.build(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: @leave_type.id, start_at: date, end_at: date)
-      leave_application.valid?.should be_true
+      
+      expect(leave_application.valid?).to eq(true)
     end
 
     it 'end date should be less than start date' do
       date = Date.today
       leave_application = FactoryGirl.build(:leave_application, user_id: @user.id, number_of_days: 2, leave_type_id: @leave_type.id, start_at: date, end_at: (date - 1.day))
-      leave_application.valid?.should be_false
+      expect(leave_application.valid?).to eq(false)
       leave_application.errors[:end_at].should be_present
     end
 

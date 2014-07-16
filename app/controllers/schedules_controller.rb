@@ -16,11 +16,14 @@ class SchedulesController < ApplicationController
 	end
 
 	def new
+
 		@schedule= Schedule.new
+		@emails = User.all.collect {|p| [p.email]}
 	end
 
 	def create
-		@schedule= Schedule.new(params2)
+		user= params[:user]
+		@schedule= Schedule.new(allow_params)
 		time = @schedule.interview_time.to_s		
 
 		#TimePicker returns today's date along with time. Hence manipulating string to take only time
@@ -29,7 +32,8 @@ class SchedulesController < ApplicationController
 		tempdatetime= DateTime.parse(dt).rfc3339
 		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
 		params= allow_params()
-		interviewers= params["users_attributes"].collect{|k| k.last["email"]}
+		interviewers= user["email"]
+
 		event = {
 			'summary'=> @schedule.summary,
 			'description'=> @schedule.description,
@@ -44,7 +48,7 @@ class SchedulesController < ApplicationController
 		}
 
 		interviewers.each do |interviewer|
-			user= User.any_of(:email=>interviewer[0]).to_a
+			user= User.any_of(:email=>interviewer).to_a
 			@schedule.users << user
 			event["attendees"].push('email' => interviewer)
 		end
@@ -68,17 +72,19 @@ class SchedulesController < ApplicationController
 
 	def edit
 		@schedule= Schedule.where(google_id: params[:id]).first
+		@emails = User.all.collect {|p| [p.email]}
 	end
 
 	def update
+		user= params[:user]
 		@schedule= Schedule.where(google_id: params[:id]).first
-		@schedule.summary = (params2[:summary])
-		@schedule.description = (params2[:description])
-		@schedule.interview_date= (params2[:interview_date])
-		@schedule.interview_time= (params2[:interview_time])
-		@schedule.interview_type= (params2[:interview_type])
-		@schedule.candidate_details= (params2[:candidate_details])
-		@schedule.public_profile= (params2[:public_profile])
+		@schedule.summary = (allow_params[:summary])
+		@schedule.description = (allow_params[:description])
+		@schedule.interview_date= (allow_params[:interview_date])
+		@schedule.interview_time= (allow_params[:interview_time])
+		@schedule.interview_type= (allow_params[:interview_type])
+		@schedule.candidate_details= (allow_params[:candidate_details])
+		@schedule.public_profile= (allow_params[:public_profile])
 
 		time = @schedule.interview_time.to_s		
 
@@ -88,7 +94,7 @@ class SchedulesController < ApplicationController
 		tempdatetime= DateTime.parse(dt).rfc3339
 		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
 		params= allow_params()
-		interviewers= params["users_attributes"].collect{|k| k.last["email"]}
+		interviewers= user["email"]
 		event = {
 			'summary'=> @schedule.summary,
 			'description'=> @schedule.description,
@@ -103,7 +109,7 @@ class SchedulesController < ApplicationController
 		}
 
 		interviewers.each do |interviewer|
-			user= User.any_of(:email=>interviewer[0]).to_a
+			user= User.any_of(:email=>interviewer).to_a
 			@schedule.users << user
 			event["attendees"].push('email' => interviewer)
 		end
@@ -113,14 +119,8 @@ class SchedulesController < ApplicationController
     redirect_to schedules_path
 	end
 
-  def allow_params?
-  	puts	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :file, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], users_attributes: [:email => []])
- 
- 
-  	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], users_attributes: [ :_id, :email => []])
+  def allow_params
+  	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin])
   end
 
-  def params2
-		params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :file, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin])
-  end
 end

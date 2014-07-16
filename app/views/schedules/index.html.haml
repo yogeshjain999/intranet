@@ -1,6 +1,8 @@
-= form_tag schedules_path, :method => 'get' do
-  = text_field_tag :starts_at, params[:search]
-  = submit_tag "Search", :name => nil
+.form-horizontal
+  %h4 Search by Date
+  = form_tag schedules_path, :method => 'get' do
+    = text_field_tag :starts_at, params[:search]
+    = submit_tag "Search", :name => nil
 
 :javascript
   $(function() {
