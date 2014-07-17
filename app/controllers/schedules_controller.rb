@@ -39,6 +39,7 @@ class SchedulesController < ApplicationController
 			'description'=> @schedule.description,
 			'start'=> {'dateTime' => datetime },
 			'end' => {'dateTime' => datetime },
+			'sendNotifications' => true,
 				'attendees'=> [
 			    {
 			      'email'=> @schedule.candidate_details[:email],
@@ -100,6 +101,23 @@ class SchedulesController < ApplicationController
 			'description'=> @schedule.description,
 			'start'=> {'dateTime' => datetime },
 			'end' => {'dateTime' => datetime },
+			'sendNotifications' => true,
+			'reminders.useDefault' => true,
+			'defaultReminders'=> [
+    {
+      'method'=> "email",
+      'minutes'=> 1440
+    }
+  ],
+  'notificationSettings'=> {
+    'notifications'=> [
+      {
+        'type'=> 'eventCreation',
+        'method'=> 'email'
+      }
+    ]
+  },
+
 				'attendees'=> [
 			    {
 			      'email'=> @schedule.candidate_details[:email],

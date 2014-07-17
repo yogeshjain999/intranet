@@ -1,6 +1,10 @@
 -#= image_tag current_user.public_profile.image.thumb.url, class: 'img-rounded'
 = link_to current_user.public_profile.name, '#', 'data-toggle' => "dropdown", class: "dropdown-toggle user-name"
 %ul.dropdown-menu.drop
+  
+  - if current_user.role == "HR"
+    %li
+      = link_to "Schedules", schedules_path
   - if can? :invite_user, User
     %li
       = link_to "Invite Employee", invite_user_path
