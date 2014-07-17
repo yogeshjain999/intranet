@@ -77,11 +77,6 @@ describe CalendarApi do
 		end
 	end
 
-	context "It should LIST attendees" do
-		it "should list ALL attendees to a particular event" do
-		end
-	end
-
 	context "It should SHOW event" do
 		it "should fetch response of an attendee to an event" do
 		end

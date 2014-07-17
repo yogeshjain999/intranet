@@ -8,9 +8,6 @@ RSpec.describe Schedule, :type => :model do
   context "check time format" do
     it "should have correct time format" do
       schedule = FactoryGirl.create(:schedule)
-      b= schedule.interview_time
-      p b.class
-      p "cuuuuckkkkoooooooooooooo"
       schedule.interview_time.class.should eq(ActiveSupport::TimeWithZone)
     end
 

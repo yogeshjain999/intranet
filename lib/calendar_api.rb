@@ -14,6 +14,8 @@ class CalendarApi
                       :body_object => event,
                       :headers => {'Content-Type' => 'application/json'})
        
+      p "DRACOOOO!!! result"
+      p result
       end
     end
     result
