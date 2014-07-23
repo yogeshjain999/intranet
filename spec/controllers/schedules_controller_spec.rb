@@ -1,5 +1,5 @@
 require 'spec_helper'
-=begin
+
 RSpec.describe SchedulesController, :type => :controller do
   context "GET index" do
     user= FactoryGirl.create(:user)
@@ -12,15 +12,26 @@ RSpec.describe SchedulesController, :type => :controller do
     end
   end
 
-  context "GET show" do
+  context "GET edit" do
     user= FactoryGirl.create(:user)
     
     it "shows details of event" do
     	e1= FactoryGirl.create(:schedule)
       @request.env["devise.mapping"] = :user
       sign_in FactoryGirl.create(:user)
-      get :show, {id: e1.id}
-      expect(response).to render_template("show")
+      get :edit, {id: e1.id}
+      expect(response).to render_template("edit")
+    end
+  end
+
+  context "GET new" do
+    user= FactoryGirl.create(:user)
+    
+    it "shows details of event" do
+      @request.env["devise.mapping"] = :user
+      sign_in FactoryGirl.create(:user)
+      get :new
+      expect(response).to render_template("new")
     end
   end
 
@@ -36,4 +47,4 @@ RSpec.describe SchedulesController, :type => :controller do
     end
   end
 end
-=end
+
