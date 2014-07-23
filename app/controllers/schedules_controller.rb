@@ -4,10 +4,15 @@ require 'date.rb'
 class SchedulesController < ApplicationController
 
 	def index
-		if (!params[:starts_at])
-			@events= CalendarApi.list_events(current_user)
-		else
-			@events= CalendarApi.list_events_by_date(current_user,params[:starts_at])
+		if current_user.role == 'HR'
+			#if (@events!= nil)
+
+				if (!params[:starts_at])
+					@events= CalendarApi.list_events(current_user)
+				else
+					@events= CalendarApi.list_events_between_dates(current_user,params[:starts_at],params[:ends_at])
+				end
+			#end
 		end
 	end
 
@@ -24,6 +29,7 @@ class SchedulesController < ApplicationController
 	def create
 		user= params[:user]
 		@schedule= Schedule.new(allow_params)
+		@schedule.status= "confirmed"
 		time = @schedule.interview_time.to_s		
 
 		#TimePicker returns today's date along with time. Hence manipulating string to take only time
@@ -68,6 +74,10 @@ class SchedulesController < ApplicationController
 	end
 
 	def show
+		@schedule= Schedule.where(google_id: params[:id]).first
+		p "Helloooooooo schedule"
+		p @schedule.feedback["Amoolya Kumar"]
+		p "Llllllllllllll"
 		@event= CalendarApi.get_event(current_user, params[:id])
 	end
 
@@ -135,6 +145,38 @@ class SchedulesController < ApplicationController
 		@schedule.save
 		CalendarApi.update_event(current_user, @schedule.google_id, event)
     redirect_to schedules_path
+	end
+
+	def get_event_status
+
+		@schedule= Schedule.find(params[:schedule_id])
+		p params
+		@schedule.status= (params[:status])
+		@schedule.save
+		p @schedule
+		redirect_to schedules_path		
+	end
+
+	def event_status
+		@schedule= Schedule.find(params[:schedule_id])		
+	end
+
+	def feedback
+		p "Arrived Safely"
+		p params[:google_id]
+		p params[:attendee_email]
+		p params[:comment]
+		@schedule= Schedule.where(google_id: params[:google_id]).first
+
+		 a
+		@schedule.feedback[params["attendee_name"]]= params[:comment]	
+		p "llll"
+		p @schedule.feedback
+		p "llll"
+		p @schedule.save		
+		p @schedule				 
+		#CalendarApi.add_comment(current_user, params[:google_id], params[:attendee_email], params[:comment])
+		redirect_to schedule_path(params[:google_id])
 	end
 
   def allow_params

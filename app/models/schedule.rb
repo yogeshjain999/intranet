@@ -8,7 +8,9 @@ class Schedule
   field :public_profile,           :type => Hash
   field :summary, 								 :type => String
   field :description, 						 :type => String
+  field :status,                   :type => String
   field :google_id,                :type => String
+  field :feedback,                 :type => Hash, :default=>{}
 
   mount_uploader :file, FileUploader
   has_and_belongs_to_many :users
