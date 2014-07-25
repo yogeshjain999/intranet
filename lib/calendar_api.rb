@@ -65,12 +65,11 @@ class CalendarApi
       if (user.role== 'HR')
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
-        result = client.execute(:api_method => service.events.get,
-          :parameters => {'calendarId' => 'primary','eventId' => id},)
         result = client.execute(:api_method => service.events.update,
           :parameters => {'calendarId' => 'primary', 'eventId' => id}, 
           :body_object => event,
           :headers => {'Content-Type' => 'application/json'},)
+
       end
     end
   end
@@ -83,6 +82,30 @@ class CalendarApi
       dt = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone)
 
       time_min = DateTime.parse(dt.strftime()).rfc3339
+      dt = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone)
+      time_max = DateTime.parse(dt.strftime()).rfc3339
+
+      service = client.discovered_api('calendar', 'v3')
+      result = client.execute(:api_method => service.events.list,
+       :parameters => {'calendarId' => 'primary', 
+      'timeMin' => time_min, 'timeMax' => time_max})
+    end
+
+    if (result!= nil)
+      res= result.data
+    end
+    res
+  end
+
+    def self.list_events_between_dates(user, date2, date3)
+    
+    if (user.role== 'HR')
+      client = ClientBuilder.get_client(user)
+      date = Date.strptime(date2, "%m/%d/%Y")
+      dt = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone)
+      time_min = DateTime.parse(dt.strftime()).rfc3339
+
+      date = Date.strptime(date3, "%m/%d/%Y")
       dt = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone)
       time_max = DateTime.parse(dt.strftime()).rfc3339
 
@@ -123,6 +146,21 @@ class CalendarApi
       res= result.data
     end
     res
+  end
+
+  def self.add_comment(user, event_id, attendee_email, comment)
+    client = ClientBuilder.get_client(user)
+    service = client.discovered_api('calendar', 'v3')
+    result = client.execute(:api_method => service.events.get, 
+      :parameters => {'calendarId' => 'primary','eventId' => event_id},)
+    p "PRINTING EVENT ATTENDEES"
+    result.data["attendees"].each do |result_attendee|
+      p result_attendee["email"]
+        if (result_attendee["email"]== attendee_email)
+          result_attendee["comment"]= comment
+        end
+    update_event(user, event_id, result.data)
+    end
   end
 
 end

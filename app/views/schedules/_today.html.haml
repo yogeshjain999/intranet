@@ -34,7 +34,7 @@
                 
               %td
                 - if can? :edit, Schedule
-                  = link_to "", edit_schedule_path(event["id"]), class: "icon-edit"
+                  = link_to "", edit_schedule_path(schedule.id), class: "icon-edit"
                 - if can? :delete, Schedule           
                   = link_to schedule_path(event["id"]), html_options= {method: :delete} do
                     %i.icon-remove

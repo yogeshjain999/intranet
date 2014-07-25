@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
@@ -22,5 +23,6 @@
 //= require colorbox-rails
 //= require jquery.timepicker.js
 //= require twitter/typeahead
+//= require jquery.validate.min.js
 //= require_tree .
 

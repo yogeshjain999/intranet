@@ -75,20 +75,23 @@ class SchedulesController < ApplicationController
 
 	def show
 		@schedule= Schedule.where(google_id: params[:id]).first
-		p "Helloooooooo schedule"
-		p @schedule.feedback["Amoolya Kumar"]
-		p "Llllllllllllll"
+
 		@event= CalendarApi.get_event(current_user, params[:id])
 	end
 
 	def edit
-		@schedule= Schedule.where(google_id: params[:id]).first
-		@emails = User.all.collect {|p| [p.email]}
+		
+		@schedule= Schedule.find(params[:id])
+		#@schedule= Schedule.where(google_id: params[:id]).first
+		@emails = User.all.collect {|user| user.email}
 	end
 
 	def update
+
+	
 		user= params[:user]
 		@schedule= Schedule.where(google_id: params[:id]).first
+		@schedule.users=[]
 		@schedule.summary = (allow_params[:summary])
 		@schedule.description = (allow_params[:description])
 		@schedule.interview_date= (allow_params[:interview_date])
@@ -98,6 +101,7 @@ class SchedulesController < ApplicationController
 		@schedule.public_profile= (allow_params[:public_profile])
 
 		time = @schedule.interview_time.to_s		
+		#CalendarApi.remove_attendees(current_user, @schedule.google_id)
 
 		#TimePicker returns today's date along with time. Hence manipulating string to take only time
 		dt= @schedule.interview_date.to_s + time[10, time.length]
@@ -105,7 +109,7 @@ class SchedulesController < ApplicationController
 		tempdatetime= DateTime.parse(dt).rfc3339
 		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
 		params= allow_params()
-		interviewers= user["email"]
+		interviewers= allow_params[:user_ids]
 		event = {
 			'summary'=> @schedule.summary,
 			'description'=> @schedule.description,
@@ -124,22 +128,23 @@ class SchedulesController < ApplicationController
       {
         'type'=> 'eventCreation',
         'method'=> 'email'
-      }
+      }      
     ]
   },
 
 				'attendees'=> [
 			    {
 			      'email'=> @schedule.candidate_details[:email],
-			      'displayName'=> "Interviewee",
 			    },
 			  ] 			
 		}
-
+		
 		interviewers.each do |interviewer|
-			user= User.any_of(:email=>interviewer).to_a
-			@schedule.users << user
-			event["attendees"].push('email' => interviewer)
+			if (interviewer!= "")
+				user= User.any_of(:email=>interviewer).to_a
+				@schedule.users << user
+				event["attendees"].push('email' => interviewer)
+			end
 		end
 
 		@schedule.save
@@ -150,10 +155,10 @@ class SchedulesController < ApplicationController
 	def get_event_status
 
 		@schedule= Schedule.find(params[:schedule_id])
-		p params
+
 		@schedule.status= (params[:status])
 		@schedule.save
-		p @schedule
+	
 		redirect_to schedules_path		
 	end
 
@@ -162,25 +167,17 @@ class SchedulesController < ApplicationController
 	end
 
 	def feedback
-		p "Arrived Safely"
-		p params[:google_id]
-		p params[:attendee_email]
-		p params[:comment]
-		@schedule= Schedule.where(google_id: params[:google_id]).first
 
-		 a
+	
+		@schedule= Schedule.where(google_id: params[:google_id]).first
 		@schedule.feedback[params["attendee_name"]]= params[:comment]	
-		p "llll"
-		p @schedule.feedback
-		p "llll"
-		p @schedule.save		
-		p @schedule				 
+		 
 		#CalendarApi.add_comment(current_user, params[:google_id], params[:attendee_email], params[:comment])
 		redirect_to schedule_path(params[:google_id])
 	end
 
   def allow_params
-  	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin])
+  	params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin],:user_ids =>[])
   end
 
 end
