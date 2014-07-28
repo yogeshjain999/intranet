@@ -28,12 +28,18 @@ class LeaveDetail
     ((self.user.private_profile.date_of_joining.month == Date.today.prev_month.month) && (self.user.private_profile.date_of_joining.day <= 15))
   end 
 
+  def validate_doj_year
+    self.user.private_profile.date_of_joining != Date.today.year
+  end
+
   def monthly_paid_leave
-    if validate_doj_month || validate_doj_days
-      self.available_leave["CurrentPrivilege"] = (self.available_leave["CurrentPrivilege"].to_d + 1.5).to_s
-      self.available_leave["TotalPrivilege"] =  (self.available_leave["TotalPrivilege"].to_d + 1.5).to_s
-    end
+    increament_monthly_paid_leave if validate_doj_year || validate_doj_month || validate_doj_days
     self 
+  end
+
+  def increament_monthly_paid_leave
+    self.available_leave["CurrentPrivilege"] = (self.available_leave["CurrentPrivilege"].to_d + 1.5).to_s
+    self.available_leave["TotalPrivilege"] =  (self.available_leave["TotalPrivilege"].to_d + 1.5).to_s
   end
 
   def validate_leave(name, number_of_day)
