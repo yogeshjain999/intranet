@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby "2.1.0"
+ruby "2.1.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
 gem 'devise'
@@ -25,9 +25,11 @@ gem 'google_drive'
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
+gem 'twitter-typeahead-rails', :git => "git://github.com/yourabi/twitter-typeahead-rails.git"
 
 #mongoid-history
 gem 'mongoid-history', github: 'aq1018/mongoid-history'
+gem 'jquery-timepicker-rails'
 
 #sinatra 
 gem 'sinatra'
@@ -56,6 +58,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'database_cleaner'
+  gem 'faker'
 end
 
 group :development do
@@ -68,7 +71,8 @@ group :production do
   #gem 'therubyracer'
 end
 
-gem 'simplecov', :require => false, :group => :test
+#gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', '~> 0.7.1'
 
 #BackGround Job processing instead of delayed_job
 gem 'sidekiq', '3.1.3'
@@ -96,3 +100,5 @@ gem 'authority'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+gem 'execjs'
+gem 'therubyracer', :platforms => :ruby

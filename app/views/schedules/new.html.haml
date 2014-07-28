@@ -1,0 +1,105 @@
+= simple_nested_form_for @schedule, :url => schedules_path, :html => {multipart: true,id: "Form"} do |schedule|
+  .row
+    .span5.form-horizontal
+      %h2 Interview Details
+      = schedule.input :summary 
+      = schedule.input :description,as: :text
+      = schedule.input :interview_date,input_html: {class: 'datepicker', 'data-behaviour' => 'datepicker', value: @schedule.interview_date.try(:strftime, "%d-%m-%Y")},label:"Date"
+      = schedule.input :interview_time,input_html: {class: 'timepicker'},label: "Time",:required=>true
+      = schedule.input :interview_type, :collection => ['Skype','Telephonic','Face-to-Face'] , selected: "Skype" , :id => 'collect',label:"Type"
+      %h3 Add Resume
+      = schedule.file_field :file
+    .span5.form-horizontal
+      %h2 Candidate Details
+      = schedule.fields_for :candidate_details do |c_d|
+        = c_d.input :email,:email=>true,:required=>true
+        = c_d.input :telephone,:required=>false
+        = c_d.input :skype_id,:required => false
+      = schedule.fields_for :public_profile do |f|
+        = f.input :git, :required => false
+        = f.input :linkedin, :required => false
+  .row
+    .span10.form-horizontal
+      %h2 Interviewer Details
+      .control-group
+        = label_tag "Interviewer Emails", nil, class: 'control-label'
+        .controls
+          = select_tag 'user[email]', options_for_select(@emails), class: 'emails', multiple: true, style: "width: 340px;", "data-placeholder"=> "You can add multiple emails", :include_blank => false,:required => true
+  
+  = schedule.submit :save, class: "btn"
+
+:javascript
+  function LoadFunction() {
+    $.validator.addMethod("skype_tip", function(value) {     
+      if($('#schedule_interview_type').val()=='Skype')
+          return value!="";
+      else
+          return true;
+    }, "Please insert skype id");
+
+    $.validator.addMethod("email_tip", function(value) {
+      if($('#schedule_interview_type').val()=='Telephonic')
+          return value!="";
+       else
+          return true;
+    }, "Please insert phone number");
+
+    $.validator.addMethod("extension_check", function(value) {
+      
+      var allowedExtension = ["pdf", "doc", "odf", "txt", "docx"];
+      var extName;
+      extName = $("#schedule_file").val().split('.').pop();
+      if ($.inArray(extName, allowedExtension) == -1 && $("#schedule_file").val()!= '') 
+        return false;
+      else
+        return true
+
+    }, "Valid extensions: pdf, doc, odf, txt, docx");
+
+
+    $.validator.addMethod("date_check", function(value) {
+      var d = new Date();
+      x = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+      from = $("#schedule_interview_date").val().split("-");
+      f = new Date(from[2], from[1] - 1, from[0]);
+      x2= f.getDate() + '-' + (f.getMonth() + 1) + '-' + f.getFullYear();
+
+      if(x > x2)
+          return false;
+       else
+          return true;
+    }, "Please enter future date");
+    
+    $("#Form").validate({ 
+      rules: {
+        "schedule[summary]": {
+            required: true
+          },
+        "schedule[candidate_details][telephone]": {
+          email_tip:true
+        },
+        "schedule[candidate_details][skype_id]": {
+          skype_tip:true
+        },      
+        "schedule[file]": {
+          extension_check: true
+        },
+        "schedule[interview_date]": {
+          required: true,
+          date_check: true
+        }, 
+
+      },    
+    });
+
+    $('.timepicker').timepicker();
+    
+    $(".emails").select2();
+    
+    $("[data-behaviour~=datepicker]").datepicker({
+      format: "dd-mm-yyyy",
+      autoclose: true
+    }); 
+  }
+  $(document).on('page:load',LoadFunction); 
+  $(window).load(LoadFunction);

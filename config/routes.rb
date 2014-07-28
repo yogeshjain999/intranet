@@ -41,8 +41,14 @@ Intranet::Application.routes.draw do
       get :download_document
     end
   end
+
+  resources :schedules do
+      patch :get_event_status
+      patch :feedback
+  end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  resources :schedules
   root 'home#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,0 +1,153 @@
+.form-horizontal
+  .form-heading
+    %h2
+      = @event["summary"]
+
+  .bullet
+    %table
+      %tr.spaceUnder
+        %td
+          
+          %i.icon-book
+          = @event["description"]
+      %tr.spaceUnder
+        %td
+          %i.icon-time
+          = @event["start"]["dateTime"]
+
+     
+      %tr.spaceUnder
+        %td
+          %i.icon-group
+          Interviewers:
+      %tr
+        %td
+          %table.table.table-striped
+            %thead
+              %tr
+                %th Name
+                %th
+                %th Email
+                %th
+                %th Response Status
+                %th 
+                %th Feedback
+
+            %tbody    
+              - @event["attendees"].each_with_index do |attendee, i|
+                - if attendee["email"].include? "joshsoftware.com"
+                  %tr
+                    %td
+                      = attendee["displayName"]
+                    %td
+                    %td
+                      = attendee["email"]
+                    %td
+                    %td
+                      = attendee["responseStatus"]
+                    %td
+                    %td
+                      - b= attendee["displayName"]
+                      %button{"data-target" => "#modal-#{i}","data-toggle" => "modal", type: "button"} 
+                        %i.icon-edit
+                      .modal.fade{:id => "modal-#{i}","aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              %button.close{"data-dismiss" => "modal", type: "button"}
+                                %span{"aria-hidden" => "true"} ×
+                                %span.sr-only Close
+                              %h4#myModalLabel.modal-title Feedback
+                            .modal-body
+                              = form_tag schedule_feedback_path(params[:id]), :method => 'patch' do
+                                = text_area_tag :comment
+                                = hidden_field_tag "attendee_name",attendee["displayName"]
+                                = hidden_field_tag "google_id", params[:id]
+                                = submit_tag "Submit"
+
+
+                            
+                      %i.icon-info-sign.popper{"data-trigger" => "hover", "data-placement"=>"left","data-original-title"=>"Feedback"}
+                      %i.icon-info-sign.pop-over.hide
+                        = @schedule.feedback[b]
+
+      %tr
+        %td 
+          Interviewee:          
+      %tr
+        %td
+          %table.table.table-striped
+            %thead
+              %tr
+                %th Name
+                %th
+                %th Email
+                %th
+                %th Response Status
+                %th
+                %th Feedback
+            %tbody    
+              - @event["attendees"].each_with_index do |attendee, i|
+                - if !(attendee["email"].include? "joshsoftware.com")
+                  %tr
+                    %td
+                      = attendee["displayName"]
+                    %td
+                    %td
+                      = attendee["email"]
+                    %td
+                    %td
+                      = attendee["responseStatus"]
+                    %td
+                    %td
+                      - b= attendee["displayName"]
+                      %button{"data-target" => "#modal-#{i}","data-toggle" => "modal", type: "button"} 
+                        %i.icon-edit
+                      .modal.fade{:id => "modal-#{i}","aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              %button.close{"data-dismiss" => "modal", type: "button"}
+                                %span{"aria-hidden" => "true"} ×
+                                %span.sr-only Close
+                              %h4#myModalLabel.modal-title Feedback
+                            .modal-body
+                              = form_tag schedule_feedback_path(params[:id]), :method => 'patch' do
+                                = text_area_tag :comment
+                                = hidden_field_tag "attendee_name",attendee["displayName"]
+                                = hidden_field_tag "google_id", params[:id]
+                                = submit_tag "Submit"
+
+                            
+                      %i.icon-info-sign.popper{"data-trigger" => "hover", "data-placement"=>"bottom","data-original-title"=>"Feedback"}
+                      %i.icon-info-sign.pop-over.hide
+                        = @schedule.feedback[b]
+                
+      %tr
+        %td
+          = link_to @event["htmlLink"] do
+            %i.icon-calendar             
+
+:css
+  .popover
+  {
+    width: 600px;
+  }
+  .table td
+  {
+    width: 200px;
+  }
+
+  textarea#comment {
+    width:500px;
+    height:100px;
+  }
+
+:javascript
+  $('.popper').popover({
+      container: 'body',
+      html: true,
+      content: function () {
+          return $(this).next('.pop-over').html();
+      }
+  });

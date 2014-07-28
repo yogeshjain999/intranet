@@ -1,0 +1,49 @@
+- if current_user.role== 'HR'
+  .form-heading
+    %h2 Events
+
+  %div{:style => "float:right;"}
+    = form_tag schedules_path, :method => 'get' do
+      = text_field_tag :starts_at, "Start Date"
+      = text_field_tag :ends_at, "End Date"
+      = submit_tag "Search", class: "btn"
+
+
+  %div.tabbable
+    %ul.nav.nav-tabs
+      %li.active.all-tab
+        %a{data: {toggle: 'tab'}, href: "#future"} 
+          Future
+      %li.today-tab
+        %a{data: {toggle: "tab"}, href: "#today" } 
+          Today
+      %li.past-tab
+        %a{data: {toggle: "tab"}, href: "#past"}
+          Past
+      %li.future-tab
+        %a{data: {toggle: "tab"}, href: "#all"}
+          All
+
+    .tab-content
+      .tab-pane.active#future
+        = render "schedules/future"
+      .tab-pane#today
+        = render "schedules/today"
+      .tab-pane#past
+        = render "schedules/past"
+      .tab-pane#all
+        = render "schedules/index"
+
+
+  :javascript
+    document.getElementById("starts_at").type= "textfield"
+    document.getElementById("ends_at").type= "textfield"
+
+    $(function() {
+      $( "#starts_at" ).datepicker();
+    })
+    $(function() {
+      $( "#ends_at" ).datepicker();
+    })
+-else
+  YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE

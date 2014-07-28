@@ -129,14 +129,14 @@ describe User do
       hr_user = FactoryGirl.create(:user, role: "HR", email: "hr@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month, 19) - 10.month))
       admin_user = FactoryGirl.create(:user, role: "Admin", email: "admin@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month, 19) - 10.month))
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
-      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+      expect{@user.sent_mail_for_approval(leave_application)}.not_to raise_error
     end
 
     it "should send email if HR role is absent" do
       admin_user = FactoryGirl.create(:user, role: "Admin", email: "admin@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month, 19) - 10.month))
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
       User.where(role: 'HR').should eq([])
-      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+      expect{@user.sent_mail_for_approval(leave_application)}.not_to raise_error
     end
     
     it "should send email if admin role is absent" do
@@ -144,14 +144,14 @@ describe User do
       hr_user = FactoryGirl.create(:user, role: "HR", email: "hr@joshsoftware.com", password: "josh123", private_profile: FactoryGirl.build(:private_profile, date_of_joining: Date.new(Date.today.year, Date.today.month, 19) - 10.month))
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
       User.where(role: 'Admin').should eq([])
-      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+      expect{@user.sent_mail_for_approval(leave_application)}.not_to raise_error
     end
 
     it "should send email if hr and admin roles are absent" do
       leave_application = FactoryGirl.create(:leave_application, user_id: @user.id)
       User.where(role: 'Admin').should eq([])
       User.where(role: 'HR').should eq([])
-      @user.sent_mail_for_approval(leave_application).should_not raise_exception(NilClass)
+      expect{@user.sent_mail_for_approval(leave_application)}.not_to raise_error
     end
   end
 end

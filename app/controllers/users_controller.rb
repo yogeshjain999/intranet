@@ -8,7 +8,15 @@ class UsersController < ApplicationController
   after_action :notify_document_download, only: :download_document
 
   def index
-    @users = User.employees
+    if params[:query]
+     @users = User.any_of(:email=>Regexp.new(".*" +params[:query] +".*")).to_a
+    else
+     @users = User.all
+    end
+    respond_to do |format|  
+      format.html # index.html.erb
+      format.json { render json: @users }
+    end
   end
 
   def show
@@ -30,7 +38,8 @@ class UsersController < ApplicationController
     profile = params.has_key?("private_profile") ? "private_profile" : "public_profile"
     update_profile(profile)
     load_emails_and_projects
-    @user.attachments.first || @user.attachments.build  
+    @user.attachments.first || @user.attachments.build
+
   end
 
   def private_profile
