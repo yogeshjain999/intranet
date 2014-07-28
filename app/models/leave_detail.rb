@@ -33,7 +33,7 @@ class LeaveDetail
   end
 
   def monthly_paid_leave
-    increament_monthly_paid_leave if validate_doj_year || validate_doj_month || validate_doj_days
+    increament_monthly_paid_leave if validate_doj_month || validate_doj_days
     self 
   end
 
