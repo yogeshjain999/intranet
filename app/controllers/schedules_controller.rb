@@ -167,11 +167,12 @@ class SchedulesController < ApplicationController
 	end
 
 	def feedback
-
 	
 		@schedule= Schedule.where(google_id: params[:google_id]).first
 		@schedule.feedback[params["attendee_name"]]= params[:comment]	
-		 
+		@schedule.save
+		p "hellllooooooooooooooooooooooo"
+		p @schedule
 		#CalendarApi.add_comment(current_user, params[:google_id], params[:attendee_email], params[:comment])
 		redirect_to schedule_path(params[:google_id])
 	end
