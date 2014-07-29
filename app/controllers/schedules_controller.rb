@@ -33,7 +33,7 @@ class SchedulesController < ApplicationController
 			'start'=> {'dateTime' => datetime },
 			'end' => {'dateTime' => datetime },
 			'sendNotifications' => true,
-		
+
 				'attendees'=> [
 			    {
 			      'email'=> schedule.candidate_details[:email],
@@ -126,11 +126,6 @@ class SchedulesController < ApplicationController
 			end
 		end
 
-		p "HERE IS THE BLOODY EVENT THAT SHOULD CHANGE"
-		p event
-		p @schedule.google_id
-		p "come on change"
-
 		@schedule.save
 		CalendarApi.update_event(current_user, @schedule.google_id, event)
     redirect_to schedules_path
@@ -155,8 +150,7 @@ class SchedulesController < ApplicationController
 		@schedule= Schedule.where(google_id: params[:google_id]).first
 		@schedule.feedback[params["attendee_name"]]= params[:comment]	
 		@schedule.save
-		p "hellllooooooooooooooooooooooo"
-		p @schedule
+
 		#CalendarApi.add_comment(current_user, params[:google_id], params[:attendee_email], params[:comment])
 		redirect_to schedule_path(params[:google_id])
 	end
