@@ -56,16 +56,7 @@ class SchedulesController < ApplicationController
 		datetime
 	end
 
-	def create
-		user= params[:user]
-		@schedule= Schedule.new(allow_params)
-		@schedule.status= "confirmed"
-
-		#params= allow_params()
-		interviewers= user["email"]
-		datetime= convert_into_rfc3339(@schedule)
-		event= make_event(@schedule, datetime)
-
+	def get_interviewers(event, interviewers)
 		interviewers.each do |interviewer|
 			if (interviewer!= "")
 				user= User.any_of(:email=>interviewer).to_a
@@ -73,6 +64,18 @@ class SchedulesController < ApplicationController
 				event["attendees"].push('email' => interviewer)
 			end
 		end
+		event
+	end
+
+	def create
+		user= params[:user]
+		@schedule= Schedule.new(allow_params)
+		@schedule.status= "confirmed"
+
+		interviewers= user["email"]
+		datetime= convert_into_rfc3339(@schedule)
+		event= make_event(@schedule, datetime)
+		event= get_interviewers(event, interviewers)
 
 		CalendarApi.create_event(current_user, event)
 		id = CalendarApi.fetch_event(current_user, @schedule.summary)
@@ -89,7 +92,6 @@ class SchedulesController < ApplicationController
 
 	def show
 		@schedule= Schedule.where(google_id: params[:id]).first
-
 		@event= CalendarApi.get_event(current_user, params[:id])
 	end
 
@@ -105,26 +107,12 @@ class SchedulesController < ApplicationController
 		user= params[:user]
 		@schedule= Schedule.where(google_id: params[:id]).first
 		@schedule.users=[]
-		@schedule.summary = (allow_params[:summary])
-		@schedule.description = (allow_params[:description])
-		@schedule.interview_date= (allow_params[:interview_date])
-		@schedule.interview_time= (allow_params[:interview_time])
-		@schedule.interview_type= (allow_params[:interview_type])
-		@schedule.candidate_details= (allow_params[:candidate_details])
-		@schedule.public_profile= (allow_params[:public_profile])
-
-		datetime= convert_into_rfc3339(@schedule)
-		event= make_event(@schedule, datetime)
+		@schedule.update_attributes(summary: allow_params[:summary], description: allow_params[:description], interview_date: allow_params[:interview_date], interview_time: allow_params[:interview_time], interview_type: allow_params[:interview_type], candidate_details: allow_params[:candidate_details], public_profile: allow_params[:public_profile])
 
 		interviewers= allow_params[:user_ids]
-		
-		interviewers.each do |interviewer|
-			if (interviewer!= "")
-				user= User.any_of(:email=>interviewer).to_a
-				@schedule.users << user
-				event["attendees"].push('email' => interviewer)
-			end
-		end
+		datetime= convert_into_rfc3339(@schedule)
+		event= make_event(@schedule, datetime)
+		event= get_interviewers(event, interviewers)
 
 		@schedule.save
 		CalendarApi.update_event(current_user, @schedule.google_id, event)
