@@ -70,7 +70,7 @@ class CalendarApi
         service = client.discovered_api('calendar', 'v3')
          
         
-result = client.execute(:api_method => service.events.update,
+        result = client.execute(:api_method => service.events.update,
                         :parameters => {'calendarId' => 'primary', 'eventId' => id},
                         :body_object => event,
                         :headers => {'Content-Type' => 'application/json'})
