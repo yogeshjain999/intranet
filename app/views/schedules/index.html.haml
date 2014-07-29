@@ -4,8 +4,8 @@
 
   %div{:style => "float:right;"}
     = form_tag schedules_path, :method => 'get' do
-      = text_field_tag :starts_at, "Start Date"
-      = text_field_tag :ends_at, "End Date"
+      = date_field_tag :starts_at, "Start Date"
+      = date_field_tag :ends_at, "End Date"
       = submit_tag "Search", class: "btn"
 
 

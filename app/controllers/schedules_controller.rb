@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
 	end
 
 	def today
-		@events= CalendarApi.list_events_by_date(current_user, Date.today.strftime("%m/%d/%Y"))
+		@events= CalendarApi.list_events_between_dates(current_user, Date.today.strftime("%m/%d/%Y"), Date.today.strftime("%m/%d/%Y"))
 	end
 
 	def new
