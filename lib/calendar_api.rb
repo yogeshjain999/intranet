@@ -72,22 +72,25 @@ class CalendarApi
 
   end
 
-  def self.start_date(date2)
+  def self.get_date(date2, flag)
     date = Date.strptime(date2, "%m/%d/%Y")
-    time_min = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone).rfc3339
-  end
+    
+    if (flag== 0)
+    time = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone).rfc3339
+    end
+    if (flag == 1)
+    time = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone).rfc3339
+    end
 
-  def self.end_date(date3)
-    date = Date.strptime(date3, "%m/%d/%Y")
-    time_max = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone).rfc3339
+    time
   end
 
   def self.list_events_between_dates(user, date2, date3)
 
     if (user.role== 'HR')
       CalendarApi.establish(user)
-      time_min= CalendarApi.start_date(date2)
-      time_max= CalendarApi.end_date(date3)
+      time_min= CalendarApi.get_date(date2, 0)
+      time_max= CalendarApi.get_date(date3, 1)
       result = @client.execute(:api_method => @service.events.list,
        :parameters => {'calendarId' => 'primary', 
       'timeMin' => time_min, 'timeMax' => time_max})
