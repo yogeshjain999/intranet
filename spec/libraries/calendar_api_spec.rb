@@ -57,16 +57,7 @@ describe CalendarApi do
 	    (op).should eq(nil)
 		end
 
-		it "returns nil if the event is outdated" do
-			event = {
-			'summary'=> "Silly Event",
-			'start'=> {'dateTime' => "2011-06-03T10:00:00.000-07:00" },
-		}
-  		hr1 = FactoryGirl.create(:hr)
-  		id = ""
-  		op = CalendarApi.update_event(hr1, id, event)
-	    (op).should eq(nil)
-		end
+		
 	end
 
 	context "It should LIST events" do

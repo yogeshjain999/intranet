@@ -26,38 +26,52 @@ class SchedulesController < ApplicationController
 		@emails = User.all.collect {|p| [p.email]}
 	end
 
-	def create
-		user= params[:user]
-		@schedule= Schedule.new(allow_params)
-		@schedule.status= "confirmed"
-		time = @schedule.interview_time.to_s		
-
-		#TimePicker returns today's date along with time. Hence manipulating string to take only time
-		dt= @schedule.interview_date.to_s + time[10, time.length]
-		#DateTime getting parsed in GMT. Hence manipulating string into IST.
-		tempdatetime= DateTime.parse(dt).rfc3339
-		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
-		params= allow_params()
-		interviewers= user["email"]
-
+	def make_event(schedule, datetime)
 		event = {
-			'summary'=> @schedule.summary,
-			'description'=> @schedule.description,
+			'summary'=> schedule.summary,
+			'description'=> schedule.description,
 			'start'=> {'dateTime' => datetime },
 			'end' => {'dateTime' => datetime },
 			'sendNotifications' => true,
+		
 				'attendees'=> [
 			    {
-			      'email'=> @schedule.candidate_details[:email],
+			      'email'=> schedule.candidate_details[:email],
 			      'displayName'=> "Interviewee",
 			    },
 			  ] 			
 		}
+		event
+	end
+
+	def convert_into_rfc3339(schedule)
+		time = schedule.interview_time.to_s		
+
+		#TimePicker returns today's date along with time. Hence manipulating string to take only time
+		dt= schedule.interview_date.to_s + time[10, time.length]
+		#DateTime getting parsed in GMT. Hence manipulating string into IST.
+		tempdatetime= DateTime.parse(dt).rfc3339
+		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
+
+		datetime
+	end
+
+	def create
+		user= params[:user]
+		@schedule= Schedule.new(allow_params)
+		@schedule.status= "confirmed"
+
+		#params= allow_params()
+		interviewers= user["email"]
+		datetime= convert_into_rfc3339(@schedule)
+		event= make_event(@schedule, datetime)
 
 		interviewers.each do |interviewer|
-			user= User.any_of(:email=>interviewer).to_a
-			@schedule.users << user
-			event["attendees"].push('email' => interviewer)
+			if (interviewer!= "")
+				user= User.any_of(:email=>interviewer).to_a
+				@schedule.users << user
+				event["attendees"].push('email' => interviewer)
+			end
 		end
 
 		CalendarApi.create_event(current_user, event)
@@ -88,7 +102,6 @@ class SchedulesController < ApplicationController
 
 	def update
 
-	
 		user= params[:user]
 		@schedule= Schedule.where(google_id: params[:id]).first
 		@schedule.users=[]
@@ -100,44 +113,10 @@ class SchedulesController < ApplicationController
 		@schedule.candidate_details= (allow_params[:candidate_details])
 		@schedule.public_profile= (allow_params[:public_profile])
 
-		time = @schedule.interview_time.to_s		
-		#CalendarApi.remove_attendees(current_user, @schedule.google_id)
+		datetime= convert_into_rfc3339(@schedule)
+		event= make_event(@schedule, datetime)
 
-		#TimePicker returns today's date along with time. Hence manipulating string to take only time
-		dt= @schedule.interview_date.to_s + time[10, time.length]
-		#DateTime getting parsed in GMT. Hence manipulating string into IST.
-		tempdatetime= DateTime.parse(dt).rfc3339
-		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
-		params= allow_params()
 		interviewers= allow_params[:user_ids]
-		event = {
-			'summary'=> @schedule.summary,
-			'description'=> @schedule.description,
-			'start'=> {'dateTime' => datetime },
-			'end' => {'dateTime' => datetime },
-			'sendNotifications' => true,
-			'reminders.useDefault' => true,
-			'defaultReminders'=> [
-    {
-      'method'=> "email",
-      'minutes'=> 1440
-    }
-  ],
-  'notificationSettings'=> {
-    'notifications'=> [
-      {
-        'type'=> 'eventCreation',
-        'method'=> 'email'
-      }      
-    ]
-  },
-
-				'attendees'=> [
-			    {
-			      'email'=> @schedule.candidate_details[:email],
-			    },
-			  ] 			
-		}
 		
 		interviewers.each do |interviewer|
 			if (interviewer!= "")
@@ -146,6 +125,11 @@ class SchedulesController < ApplicationController
 				event["attendees"].push('email' => interviewer)
 			end
 		end
+
+		p "HERE IS THE BLOODY EVENT THAT SHOULD CHANGE"
+		p event
+		p @schedule.google_id
+		p "come on change"
 
 		@schedule.save
 		CalendarApi.update_event(current_user, @schedule.google_id, event)

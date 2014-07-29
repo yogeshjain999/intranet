@@ -61,17 +61,24 @@ class CalendarApi
   end
 
   def self.update_event(user,id,event)
-    if (event['start']['dateTime'] >= DateTime.now)
+    p "PRINTING ID AND EVENT"
+    p id
+    p event
+    
       if (user.role== 'HR')
         client = ClientBuilder.get_client(user)
         service = client.discovered_api('calendar', 'v3')
-        result = client.execute(:api_method => service.events.update,
-          :parameters => {'calendarId' => 'primary', 'eventId' => id}, 
-          :body_object => event,
-          :headers => {'Content-Type' => 'application/json'},)
+         
+        
+result = client.execute(:api_method => service.events.update,
+                        :parameters => {'calendarId' => 'primary', 'eventId' => id},
+                        :body_object => event,
+                        :headers => {'Content-Type' => 'application/json'})
 
+p "GOOOGLE STATUS REPORT"
+p result
       end
-    end
+
   end
 
   def self.list_events_between_dates(user, date2, date3)
