@@ -74,30 +74,7 @@ class CalendarApi
     end
   end
 
-  def self.list_events_by_date(user, date2)
-    
-    if (user.role== 'HR')
-      client = ClientBuilder.get_client(user)
-      date = Date.strptime(date2, "%m/%d/%Y")
-      dt = DateTime.new(date.year, date.month, date.day, 0, 0, 0, Time.now.zone)
-
-      time_min = DateTime.parse(dt.strftime()).rfc3339
-      dt = DateTime.new(date.year, date.month, date.day, 23, 59,59 , Time.now.zone)
-      time_max = DateTime.parse(dt.strftime()).rfc3339
-
-      service = client.discovered_api('calendar', 'v3')
-      result = client.execute(:api_method => service.events.list,
-       :parameters => {'calendarId' => 'primary', 
-      'timeMin' => time_min, 'timeMax' => time_max})
-    end
-
-    if (result!= nil)
-      res= result.data
-    end
-    res
-  end
-
-    def self.list_events_between_dates(user, date2, date3)
+  def self.list_events_between_dates(user, date2, date3)
     
     if (user.role== 'HR')
       client = ClientBuilder.get_client(user)
