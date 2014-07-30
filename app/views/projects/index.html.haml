@@ -17,7 +17,9 @@
         %tr
           %td= i+1
           %td=link_to p.name, project_path(p)
-          %td=raw p.code_climate_snippet
+          %td
+            =raw p.code_climate_snippet
+            =raw p.code_climate_coverage_snippet
           %th
             - status_class = p.is_active ? 'label-success' : 'label-warning'
             .label{class: status_class}
