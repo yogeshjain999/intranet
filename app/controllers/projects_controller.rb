@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
 
   private
   def safe_params
-    params.require(:project).permit(:name, :code_climate_id, :code_climate_snippet, :is_active)
+    params.require(:project).permit(:name, :code_climate_id, :code_climate_snippet, :code_climate_coverage_snippet, :is_active)
   end
 
   def load_project
