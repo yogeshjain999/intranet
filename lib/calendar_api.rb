@@ -27,7 +27,6 @@ class CalendarApi
   def self.get_event(user, id)  
     if (user.role== 'HR')
       CalendarApi.establish(user)
-      p "fetching"
       result = @client.execute(:api_method => @service.events.get,
         :parameters => {'calendarId' => 'primary', 'eventId' => id})
     end
