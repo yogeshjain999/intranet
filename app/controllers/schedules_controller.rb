@@ -1,5 +1,6 @@
 require 'calendar_api.rb'
 require 'date.rb'
+require 'schedule_helper.rb'
 
 class SchedulesController < ApplicationController
 
@@ -23,36 +24,6 @@ class SchedulesController < ApplicationController
 		@emails = User.all.collect {|p| [p.email]}
 	end
 
-	def make_event(schedule, datetime)
-		event = {
-			'summary'=> schedule.summary,
-			'description'=> schedule.description,
-			'start'=> {'dateTime' => datetime },
-			'end' => {'dateTime' => datetime },
-			'sendNotifications' => true,
-
-				'attendees'=> [
-			    {
-			      'email'=> schedule.candidate_details[:email],
-			      'displayName'=> "Interviewee",
-			    },
-			  ] 			
-		}
-		event
-	end
-
-	def convert_into_rfc3339(schedule)
-		time = schedule.interview_time.to_s		
-
-		#TimePicker returns today's date along with time. Hence manipulating string to take only time
-		dt= schedule.interview_date.to_s + time[10, time.length]
-		#DateTime getting parsed in GMT. Hence manipulating string into IST.
-		tempdatetime= DateTime.parse(dt).rfc3339
-		datetime =  tempdatetime[0,tempdatetime.length-5]+"05:30"
-
-		datetime
-	end
-
 	def get_interviewers(event, interviewers)
 		interviewers.each do |interviewer|
 			if (interviewer!= "")
@@ -70,8 +41,8 @@ class SchedulesController < ApplicationController
 		@schedule.status= "confirmed"
 
 		interviewers= user["email"]
-		datetime= convert_into_rfc3339(@schedule)
-		event= make_event(@schedule, datetime)
+		datetime= ScheduleHelper.convert_into_rfc3339(@schedule)
+		event= ScheduleHelper.make_event(@schedule, datetime)
 		event= get_interviewers(event, interviewers)
 
 		CalendarApi.create_event(current_user, event)
@@ -110,8 +81,8 @@ class SchedulesController < ApplicationController
 		@schedule= Schedule.where(google_id: params[:id]).first
 		update_schedule_in_database
 		interviewers= allow_params[:user_ids]
-		datetime= convert_into_rfc3339(@schedule)
-		event= make_event(@schedule, datetime)
+		datetime= ScheduleHelper.convert_into_rfc3339(@schedule)
+		event= ScheduleHelper.make_event(@schedule, datetime)
 		event= get_interviewers(event, interviewers)
 
 		@schedule.save
@@ -122,10 +93,8 @@ class SchedulesController < ApplicationController
 	def get_event_status
 
 		@schedule= Schedule.find(params[:schedule_id])
-
 		@schedule.status= (params[:status])
 		@schedule.save
-	
 		redirect_to schedules_path		
 	end
 
@@ -138,8 +107,6 @@ class SchedulesController < ApplicationController
 		@schedule= Schedule.where(google_id: params[:google_id]).first
 		@schedule.feedback[params["attendee_name"]]= params[:comment]	
 		@schedule.save
-
-		#CalendarApi.add_comment(current_user, params[:google_id], params[:attendee_email], params[:comment])
 		redirect_to schedule_path(params[:google_id])
 	end
 
