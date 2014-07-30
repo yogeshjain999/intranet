@@ -4,14 +4,12 @@ require 'date.rb'
 class SchedulesController < ApplicationController
 
 	def index
-		if user_signed_in? 
-			if current_user.role == 'HR'
+		if user_signed_in? && current_user.role == 'HR'
 				if (!params[:starts_at])
 					@events= CalendarApi.list_events(current_user)
 				else
 					@events= CalendarApi.list_events_between_dates(current_user,params[:starts_at],params[:ends_at])
 				end
-			end
 		end
 	end
 
@@ -105,6 +103,7 @@ class SchedulesController < ApplicationController
 	def update_schedule_in_database
 
 		@schedule= Schedule.where(google_id: params[:id]).first
+		@schedule.users=[]
 		@schedule.update_attributes(summary: allow_params[:summary], description: allow_params[:description], interview_date: allow_params[:interview_date], interview_time: allow_params[:interview_time], interview_type: allow_params[:interview_type], candidate_details: allow_params[:candidate_details], public_profile: allow_params[:public_profile])
 
 		@schedule
