@@ -1,4 +1,6 @@
+=begin
 class TimePickerInput < SimpleForm::Inputs::StringInput
+
   def input
     value = object.send(attribute_name) if object.respond_to? attribute_name
     display_pattern = I18n.t('timepicker.dformat', :default => '%R')
@@ -19,6 +21,7 @@ class TimePickerInput < SimpleForm::Inputs::StringInput
     end
   end
 end
+=end
 
 #class TimePickerInput < SimpleForm::Inputs::StringInput
 #  def input

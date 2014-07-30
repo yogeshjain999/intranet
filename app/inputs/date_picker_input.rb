@@ -1,3 +1,4 @@
+=begin
 class DatePickerInput < SimpleForm::Inputs::StringInput
   def input
     value = object.send(attribute_name) if object.respond_to? attribute_name
@@ -18,7 +19,9 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
       input
     end
   end
+
 end
+=end
 
 #class DatePickerInput < SimpleForm::Inputs::StringInput
 #  def input
