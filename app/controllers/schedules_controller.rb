@@ -4,7 +4,8 @@ require 'date.rb'
 class SchedulesController < ApplicationController
 
 	def index
-		if current_user.role == 'HR'
+		if user_signed_in? 
+			if current_user.role == 'HR'
 			#if (@events!= nil)
 
 				if (!params[:starts_at])
@@ -13,6 +14,7 @@ class SchedulesController < ApplicationController
 					@events= CalendarApi.list_events_between_dates(current_user,params[:starts_at],params[:ends_at])
 				end
 			#end
+			end
 		end
 	end
 
@@ -113,7 +115,6 @@ class SchedulesController < ApplicationController
 	end
 
 	def update
-
 		@schedule= update_schedule_in_database
 		interviewers= allow_params[:user_ids]
 		datetime= convert_into_rfc3339(@schedule)
