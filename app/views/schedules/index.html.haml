@@ -1,4 +1,4 @@
-- if current_user.role== 'HR'
+- if user_signed_in? && current_user.role== 'HR'
   .form-heading
     %h2 Events
 
@@ -46,4 +46,5 @@
       $( "#ends_at" ).datepicker();
     })
 -else
-  YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE
+  YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE. 
+  PLEASE SIGN IN AS HR
