@@ -102,15 +102,13 @@ class SchedulesController < ApplicationController
 
 	def update_schedule_in_database
 
-		@schedule= Schedule.where(google_id: params[:id]).first
-		@schedule.users=[]
 		@schedule.update_attributes(summary: allow_params[:summary], description: allow_params[:description], interview_date: allow_params[:interview_date], interview_time: allow_params[:interview_time], interview_type: allow_params[:interview_type], candidate_details: allow_params[:candidate_details], public_profile: allow_params[:public_profile])
 
-		@schedule
 	end
 
 	def update
-		@schedule= update_schedule_in_database
+		@schedule= Schedule.where(google_id: params[:id]).first
+		update_schedule_in_database
 		interviewers= allow_params[:user_ids]
 		datetime= convert_into_rfc3339(@schedule)
 		event= make_event(@schedule, datetime)
