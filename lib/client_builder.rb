@@ -12,8 +12,8 @@ class ClientBuilder
   def self.get_current_token(user)
     if (user.expires_at >Time.now.to_i) 
      client= Google::APIClient.new
-     client.authorization.client_id= GOOGLE_APP_ID
-     client.authorization.client_secret= GOOGLE_APP_SECRET
+     client.authorization.client_id= GOOGLE_API_CLIENT_ID
+     client.authorization.client_secret= GOOGLE_API_CLIENT_SECRET
      client.authorization.grant_type= 'refresh_token'
      client.authorization.refresh_token= user.refresh_token
      re= client.authorization.fetch_access_token!
