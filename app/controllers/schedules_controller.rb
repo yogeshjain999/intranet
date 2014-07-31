@@ -38,7 +38,7 @@ class SchedulesController < ApplicationController
 	def create
 		user= params[:user]
 		@schedule= Schedule.new(allow_params)
-		@schedule.status= "confirmed"
+		@schedule.status= "Scheduled"
 
 		interviewers= user["email"]
 		datetime= ScheduleHelper.convert_into_rfc3339(@schedule)
