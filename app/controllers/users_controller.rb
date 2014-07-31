@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
   before_action :load_user, only: [:edit, :update, :show, :public_profile, :private_profile]
   before_action :load_profiles, only: [:public_profile, :private_profile, :update, :edit]
   before_action :build_addresses, only: [:public_profile, :private_profile, :edit]
   before_action :authorize, only: [:public_profile, :edit]
   before_action :authorize_document_download, only: :download_document
   after_action :notify_document_download, only: :download_document
+
+  def user_create
+  end
 
   def index
     @users = User.employees

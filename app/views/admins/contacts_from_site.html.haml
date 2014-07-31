@@ -1,7 +1,18 @@
 .form-heading.row
   %h2 
-    .span3
+    .span4
       Contacts From Site
+.form-horizontal
+  = form_tag site_contacts_path, class: 'form-tag-horizontal' do 
+    .row
+      .span1
+        %label Start Date:
+      .span3= text_field_tag :start_at, nil, class: :datepicker, value: @start_date
+      .span1
+        %label End Date:
+      .span3= text_field_tag :end_at, nil, class: :datepicker, value: @end_date
+      .span1= submit_tag 'Apply', class: :btn
+      .span1= submit_tag 'Export to CSV', class: :btn
 .form-horizontal
   %table.table.table-hover#site_contacts
     %thead
@@ -23,7 +34,19 @@
 </tr>
 </script>
 
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load('visualization', '1', {packages: ['linechart']});
+</script>
+
 :javascript
+  $(document).ready(function(){
+      $('.datepicker').datepicker({
+      format: "dd/mm/yyyy",
+      autoclose: true
+    });
+  });
+   
   var template = Mustache.compile($.trim($("#template").html()));
 
   var view = function(record, index){

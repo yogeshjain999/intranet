@@ -12,7 +12,7 @@ Intranet::Application.routes.draw do
     match '/admin', to: 'devise/sessions#new', via: [:get]
   end
 
-  get 'contacts' => 'admins#contacts_from_site', as: 'site_contacts'
+  match 'contacts' => 'admins#contacts_from_site', as: 'site_contacts', via: [:get, :post]
 
   get 'calendar' => 'home#calendar', as: :calendar  
   resources :leave_applications, only: [:index, :edit, :update] 

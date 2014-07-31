@@ -337,7 +337,8 @@ describe LeaveApplicationsController do
       post :create, {user_id: @user.id, leave_application: @leave_application.attributes.merge(leave_type_id: leave_type.id, number_of_days: 3)}
       flash[:error].should eq('You have to submit medical certificate.')
     end
-
+ 
+    it "'Casual' then number of days are > 2 should not allow"
   end
 
   context 'Update', update_leave: true do

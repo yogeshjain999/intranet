@@ -27,7 +27,8 @@ end
 set :term_mode, nil
 set :domain, ip
 set :user, 'deploy'
-set :identity_file, 'doc/id_intranet_rsa'
+set :identity_file, "#{ENV['HOME']}/.ssh/id_joshsite_rsa"
+#set :identity_file, 'doc/id_joshsite_rsa'
 set :deploy_to, "/home/deploy/projects/intranet/#{env}"
 set :repository, 'git@github.com:joshsoftware/intranet.git'
 set :branch, branch
