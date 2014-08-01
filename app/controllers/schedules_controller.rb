@@ -3,7 +3,7 @@ require 'date.rb'
 require 'schedule_helper.rb'
 
 class SchedulesController < ApplicationController
-
+	load_and_authorize_resource 
 	def index
 		if user_signed_in? && current_user.role == 'HR'
 				if (!params[:starts_at])

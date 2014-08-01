@@ -44,28 +44,6 @@
                 = link_to schedule_path(event.google_id), html_options= {method: :delete} do
                   %i.icon-remove
 
-:css
-  .table td{ vertical-align: middle; }
-  .popover-content {
-    font-size: 15px;
-    font-family:"Times New Roman";
-  }
-  .popover-title
-  {
-    font-size: 25px;
-    font-family:"Times New Roman";
-  }
-  ul { list-style-type: none; }
-  li {padding:5px;}
-
-  .icon-edit 
-  {
-    color: #005580;
-  }
-  .icon-remove
-  {
-    color: #005580;
-  }
 
 :javascript
   $('.popper').popover({
