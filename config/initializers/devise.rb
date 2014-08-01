@@ -37,7 +37,7 @@ Devise.setup do |config|
   if Rails.env.test?
     config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_APP_SECRET'] 
   else
-    config.omniauth :google_oauth2, GOOGLE_API_CLIENT_ID, GOOGLE_API_CLIENT_SECRET, {scope: "userinfo.email userinfo.profile calendar", prompt: 'consent'}
+    config.omniauth :google_oauth2, GOOGLE_API_CLIENT_ID, GOOGLE_API_CLIENT_SECRET, {scope: "userinfo.email userinfo.profile calendar", prompt: 'consent', access_type: 'online'}
   end
   config.case_insensitive_keys = [ :email ]
 
