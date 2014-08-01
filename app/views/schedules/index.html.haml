@@ -1,13 +1,15 @@
 - if user_signed_in? && current_user.role== 'HR'
   .form-heading
-    %h2 Events
-
+    %h2 
+      Events
+      = link_to "", new_schedule_path,data: {'no-turbolink' =>  true}, "data-toggle" => "tooltip", title: "Add Schedule" , class: "icon-plus" ,style: "float:right;"
+  %br
+  %br
   %div{:style => "float:right;"}
     = form_tag schedules_path, :method => 'get' do
       = date_field_tag :starts_at, "Start Date"
       = date_field_tag :ends_at, "End Date"
       = submit_tag "Search", class: "btn"
-
 
   %div.tabbable
     %ul.nav.nav-tabs
@@ -24,15 +26,20 @@
         %a{data: {toggle: "tab"}, href: "#all"}
           All
 
+
     .tab-content
       .tab-pane.active#future
+        - @events= @future_events
         = render "schedules/future"
       .tab-pane#today
-        = render "schedules/today"
+        - @events = @today_events
+        = render "schedules/future"
       .tab-pane#past
-        = render "schedules/past"
+        - @events = @past_events
+        = render "schedules/future"
       .tab-pane#all
-        = render "schedules/index"
+        - @events = @all_events
+        = render "schedules/future"
 
 
   :javascript
@@ -48,3 +55,9 @@
 -else
   YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE. 
   PLEASE SIGN IN AS HR
+
+:css
+  .icon-plus
+  {
+    font-size:40px;
+  }
