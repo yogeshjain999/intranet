@@ -36,7 +36,7 @@ module LeaveAvailable
   end
   
   def assign_monthly_leave
-    available_leave = leave_details.where(year: Date.today.year).first
+    available_leave = leave_details.detect{|ld| ld.year == Date.today.year }
     if available_leave.present?
       available_leave.monthly_paid_leave()
       available_leave.save 
