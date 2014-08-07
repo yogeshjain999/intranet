@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
  
   def leaves_before_monthly_increment(remained_leaves_file_path)
     attachments["remaining_leaves_#{Time.now.strftime('%Y%m%d-%H%M')}.csv"] = File.read(remained_leaves_file_path)
-    mail(to: 'admin@joshsoftware.com', subject: "All user's remaining leaves by monthly increment-PFA EOM)", body: '')
+    mail(to: 'admin@joshsoftware.com', subject: "All user's remaining leaves by monthly increment-PFA EOM", body: '')
   end
 
   def invitation(sender_id, receiver_id)
