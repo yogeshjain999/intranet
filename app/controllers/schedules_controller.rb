@@ -24,69 +24,73 @@ class SchedulesController < ApplicationController
 	end
 
 	def new
-		@emails = User.all.collect(&:email)
+		@users = User.all
 	end
 
 
 	def create
 		@schedule.status= "Scheduled"
-		@emails = User.all.collect(&:email)
+		@users = User.all
 
-		interviewers = params[:user][:email]
-		#TODO interviewers << "hr@joshsoftware.com"		
-		datetime = ScheduleHelper.convert_into_rfc3339(@schedule)
-		event = ScheduleHelper.make_event(@schedule, datetime)
-		event = get_interviewers(event, interviewers)
-
-		result = CalendarApi.create_event(event)
-    if result && result.response.env.status == 200
+		result = CalendarApi.create_event(generate_event_body)
+    if result.response.env.status == 200
       body = JSON.load(result.response.env.body)
       @schedule.google_id = body['id']
-      @schedule.save
-      redirect_to schedules_path
+      
+      if @schedule.save
+        redirect_to schedules_path
+      else
+        flash[:error] = "Failed to create event"
+        render :new
+      end
     else
-      flash[:error] = "Failed to create event"
+      flash[:error] = "Failed due to : #{JSON.load(result.response.env.body)['error']['message']}"
       render :new
     end
   end
 
   def destroy
     result = CalendarApi.delete_event(@schedule.google_id)
-    if result && (result.response.env.status == 204 || result.response.env.status == 410)
+    
+    # remove event or already deleted event in google calendar
+    if result.response.env.status == 204 || result.response.env.status == 410
       @schedule.delete
       redirect_to schedules_path
     else
-      flash[:error] = "Failed to delete event"
+      flash[:error] = "Failed due to : #{JSON.load(result.response.env.body)['error']['message']}"
       redirect_to action: 'index'
     end
   end
 
   def show
     result = CalendarApi.get_event(@schedule.google_id)
-    if result && result.response.env.status == 200
+    if result.response.env.status == 200
       @event = JSON.load(result.response.env.body)
     else
-      flash[:error] = "Failed to load event"
+      flash[:error] = "Failed due to : #{JSON.load(result.response.env.body)['error']['message']}"
       redirect_to action: 'index'
     end
   end
 
   def edit
-    @schedule= Schedule.find(params[:id])
-    @emails = User.all.collect {|user| user.email}
+    @users = User.all
   end
 
   def update
-    @schedule= Schedule.where(google_id: params[:id]).first
-    @schedule.update_attributes(allow_params)
-    interviewers= allow_params[:user_ids]
-    datetime= ScheduleHelper.convert_into_rfc3339(@schedule)
-    event= ScheduleHelper.make_event(@schedule, datetime)
-    event= get_interviewers(event, interviewers)
+    @users = User.all
 
-    @schedule.save
-    CalendarApi.update_event(current_user, @schedule.google_id, event)
-    redirect_to schedules_path
+    if @schedule.update_attributes(schedule_params)
+      result = CalendarApi.update_event(@schedule.google_id, generate_event_body)
+      if result.response.env.status == 200
+        redirect_to schedules_path
+      else
+        flash[:error] = "Failed due to : #{JSON.load(result.response.env.body)['error']['message']}"
+        render :edit
+      end
+    else
+      flash[:error] = "Failed to update event"
+      render :edit
+    end
   end
 
   def get_event_status
@@ -110,15 +114,22 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], user: [email: []])
+    params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], interviewers: [])
+  end
+
+  def generate_event_body
+    interviewers = params[:interviewers]
+    datetime = ScheduleHelper.convert_into_rfc3339(@schedule)
+    event = ScheduleHelper.make_event(@schedule, datetime)
+    event = get_interviewers(event, interviewers)
   end
 
   def get_interviewers(event, interviewers)
     interviewers.each do |interviewer|
-      if (interviewer!= "")
-        user= User.any_of(:email=>interviewer).to_a
+      if interviewer.present?
+        user = User.find(interviewer)
         @schedule.users << user
-        event["attendees"].push('email' => interviewer)
+        event["attendees"].push('email' => user.email)
       end
     end
     event

@@ -31,16 +31,12 @@ class CalendarApi
                              :parameters => {'calendarId' => 'primary', 'eventId' => id})
   end
 
-  def self.update_event(user,id,event)
-
-    if (user.role== 'HR')
-      CalendarApi.establish(user)
-      result = @client.execute(:api_method => @service.events.update,
-                               :parameters => {'calendarId' => 'primary', 'eventId' => id},
-                               :body_object => event,
-                               :headers => {'Content-Type' => 'application/json'})
-    end
-
+  def self.update_event(id, event)
+    establish_client
+    result = @client.execute(:api_method => @service.events.update,
+                             :parameters => {'calendarId' => 'primary', 'eventId' => id},
+                             :body => JSON.dump(event),
+                             :headers => {'Content-Type' => 'application/json'})
   end
 
   def self.get_date(date2, x, y, z)
