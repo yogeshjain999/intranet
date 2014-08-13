@@ -3,7 +3,6 @@ Intranet::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  get '/auth/:provider/callback', to: "omniauth_callbacks#google_oauth2"
 
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'
