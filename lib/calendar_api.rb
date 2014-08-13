@@ -19,17 +19,10 @@ class CalendarApi
     result
   end
 
-  def self.get_event(user, id)  
-    if (user.role== 'HR')
-      CalendarApi.establish(user)
-      result = @client.execute(:api_method => @service.events.get,
-                               :parameters => {'calendarId' => 'primary', 'eventId' => id})
-    end
-
-    if (result!= nil)
-      res= result.data
-    end
-    res
+  def self.get_event(id)  
+    establish_client
+    result = @client.execute(:api_method => @service.events.get,
+                             :parameters => {'calendarId' => 'primary', 'eventId' => id})
   end
 
   def self.delete_event(id)

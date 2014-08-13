@@ -62,8 +62,13 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    @schedule= Schedule.where(google_id: params[:id]).first
-    @event= CalendarApi.get_event(current_user, params[:id])
+    result = CalendarApi.get_event(@schedule.google_id)
+    if result && result.response.env.status == 200
+      @event = JSON.load(result.response.env.body)
+    else
+      flash[:error] = "Failed to load event"
+      redirect_to action: 'index'
+    end
   end
 
   def edit

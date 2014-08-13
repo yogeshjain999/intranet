@@ -20,7 +20,7 @@
               - if (event.interview_type== "Face-to-Face")
                 %i.icon-user{style: "font-size:30px;"}
             %td.popper{"data-trigger" => "hover","data-placement"=>"bottom","data-original-title"=>"Interviewers"}
-              = link_to event.summary, schedule_path(event.google_id)
+              = link_to event.summary, schedule_path(event)
             %td.pop-over.hide
               %ul
                 - event.users.each do |user|
