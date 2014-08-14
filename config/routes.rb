@@ -44,12 +44,11 @@ Intranet::Application.routes.draw do
   end
 
   resources :schedules do
-      patch :get_event_status
-      patch :feedback
+    patch :get_event_status
+    patch :feedback
   end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  resources :schedules
   root 'home#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -85,7 +84,7 @@ Intranet::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

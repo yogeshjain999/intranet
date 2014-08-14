@@ -27,7 +27,6 @@ class SchedulesController < ApplicationController
 		@users = User.all
 	end
 
-
 	def create
 		@schedule.status= "Scheduled"
 		@users = User.all
@@ -78,9 +77,9 @@ class SchedulesController < ApplicationController
 
   def update
     @users = User.all
-
+    
+    result = CalendarApi.update_event(@schedule.google_id, generate_event_body)
     if @schedule.update_attributes(schedule_params)
-      result = CalendarApi.update_event(@schedule.google_id, generate_event_body)
       if result.response.env.status == 200
         redirect_to schedules_path
       else
@@ -94,7 +93,7 @@ class SchedulesController < ApplicationController
   end
 
   def get_event_status
-    @schedule= Schedule.find(params[:schedule_id])
+    @schedule = Schedule.find(params[:schedule_id])
     @schedule.status= (params[:status])
     @schedule.save
     redirect_to schedules_path		
@@ -105,10 +104,10 @@ class SchedulesController < ApplicationController
   end
 
   def feedback
-    @schedule= Schedule.where(google_id: params[:google_id]).first
-    @schedule.feedback[params["attendee_name"]]= params[:comment]	
+    @schedule = Schedule.find(params[:schedule_id])
+    @schedule.feedback[params["attendee_name"]] = params[:comment]	
     @schedule.save
-    redirect_to schedule_path(params[:google_id])
+    redirect_to schedule_path(@schedule)
   end
 
   private
@@ -125,6 +124,11 @@ class SchedulesController < ApplicationController
   end
 
   def get_interviewers(event, interviewers)
+    # add HR to interviewers if not present
+    hr = User.find_by(:email => 'hr@joshsoftware.com')
+    interviewers << hr.id unless interviewers.include?(hr.id.to_s)
+    
+    @schedule.users = []
     interviewers.each do |interviewer|
       if interviewer.present?
         user = User.find(interviewer)

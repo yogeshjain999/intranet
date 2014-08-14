@@ -7,7 +7,7 @@ class ClientBuilder
 
   def self.build_client
     @key = Google::APIClient::KeyUtils.load_from_pkcs12(KEY_FILE, KEY_SECRET)
-    @client = Google::APIClient.new
+    @client = Google::APIClient.new application_name: "Intranet", application_version: "0.0.1"
     authorize_client
     @client.authorization.fetch_access_token!
     @client
