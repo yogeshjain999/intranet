@@ -5,37 +5,34 @@ class SchedulesController < ApplicationController
 	load_and_authorize_resource
 	
   def index
-		if user_signed_in? && current_user.role == 'HR'
-				if (!params[:starts_at])
-					@future_events = Schedule.where(:interview_date.gt => Date.today)
-					@past_events = Schedule.where(:interview_date.lt => Date.today)
-					@today_events = Schedule.where(interview_date: Date.today)
-					@all_events = Schedule.all
-				else
+    if (!params[:starts_at])
+      @future_events = Schedule.where(:interview_date.gt => Date.today)
+      @past_events = Schedule.where(:interview_date.lt => Date.today)
+      @today_events = Schedule.where(interview_date: Date.today)
+      @all_events = Schedule.all
+    else
 
-					start_date = Date.strptime(params[:starts_at], "%m/%d/%Y")
-					end_date = Date.strptime(params[:ends_at], "%m/%d/%Y")
-					@future_events = Schedule.where(:interview_date.gt => Date.today).and(:interview_date.lte => end_date)
-					@today_events = Schedule.where(interview_date: Date.today).and(:interview_date.gte => start_date ).and(:interview_date.lte => end_date)
-					@past_events = Schedule.where(:interview_date.lt => Date.today).and(:interview_date.gte => start_date)
-					@all_events = Schedule.where(:interview_date.gte => start_date).and(:interview_date.lte => end_date)
-				end
-		end
-	end
+      start_date = Date.strptime(params[:starts_at], "%m/%d/%Y")
+      end_date = Date.strptime(params[:ends_at], "%m/%d/%Y")
+      @future_events = Schedule.where(:interview_date.gt => Date.today).and(:interview_date.lte => end_date)
+      @today_events = Schedule.where(interview_date: Date.today).and(:interview_date.gte => start_date ).and(:interview_date.lte => end_date)
+      @past_events = Schedule.where(:interview_date.lt => Date.today).and(:interview_date.gte => start_date)
+      @all_events = Schedule.where(:interview_date.gte => start_date).and(:interview_date.lte => end_date)
+    end
+  end
 
-	def new
-		@users = User.all
-	end
+  def new
+    @users = User.all
+  end
 
-	def create
-		@schedule.status= "Scheduled"
-		@users = User.all
+  def create
+    @schedule.status= "Scheduled"
+    @users = User.all
 
-		result = CalendarApi.create_event(generate_event_body)
+    result = CalendarApi.create_event(generate_event_body)
+    event_body = JSON.load(result.response.env.body)
     if result.response.env.status == 200
-      body = JSON.load(result.response.env.body)
-      @schedule.google_id = body['id']
-      
+      @schedule.event_id = event_body['id']
       if @schedule.save
         redirect_to schedules_path
       else
@@ -43,14 +40,14 @@ class SchedulesController < ApplicationController
         render :new
       end
     else
-      flash[:error] = "Failed due to : #{JSON.load(result.response.env.body)['error']['message']}"
+      flash[:error] = "Failed due to : #{event_body['error']['message']}"
       render :new
     end
   end
 
   def destroy
-    result = CalendarApi.delete_event(@schedule.google_id)
-    
+    result = CalendarApi.delete_event(@schedule.event_id)
+
     # remove event or already deleted event in google calendar
     if result.response.env.status == 204 || result.response.env.status == 410
       @schedule.delete
@@ -62,7 +59,7 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    result = CalendarApi.get_event(@schedule.google_id)
+    result = CalendarApi.get_event(@schedule.event_id)
     if result.response.env.status == 200
       @event = JSON.load(result.response.env.body)
     else
@@ -77,9 +74,11 @@ class SchedulesController < ApplicationController
 
   def update
     @users = User.all
-    
-    result = CalendarApi.update_event(@schedule.google_id, generate_event_body)
+
     if @schedule.update_attributes(schedule_params)
+      result = CalendarApi.update_event(@schedule.event_id, generate_event_body)
+      event_body = JSON.load(result.response.env.body)
+      
       if result.response.env.status == 200
         redirect_to schedules_path
       else
@@ -113,7 +112,7 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :google_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], interviewers: [])
+    params.require(:schedule).permit(:summary, :description, :interview_date, :interview_time, :interview_type, :event_id, candidate_details: [:name, :email, :telephone, :skype_id], public_profile: [:git, :linkedin], interviewers: [])
   end
 
   def generate_event_body
@@ -124,10 +123,6 @@ class SchedulesController < ApplicationController
   end
 
   def get_interviewers(event, interviewers)
-    # add HR to interviewers if not present
-    hr = User.find_by(:email => 'hr@joshsoftware.com')
-    interviewers << hr.id unless interviewers.include?(hr.id.to_s)
-    
     @schedule.users = []
     interviewers.each do |interviewer|
       if interviewer.present?

@@ -8,6 +8,22 @@ class CalendarApi
     @service = @client.discovered_api('calendar', 'v3')
   end
 
+  def self.share_calendar(email)
+    establish_client
+    body = {
+      'role' => 'owner',
+      'scope' => {
+        'type' => 'user',
+        'value' => email
+      }
+    }
+
+    result = @client.execute(:api_method => @service.acl.insert,
+                             :parameters => {'calendarId' => 'primary'},
+                             :body => JSON.dump(body),
+                             :headers => {'Content-Type' => 'application/json'})
+  end
+
   def self.create_event(event)
     if event['start']['dateTime'] >= DateTime.now
       establish_client
