@@ -3,7 +3,6 @@ Intranet::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  get '/auth/:provider/callback', to: "omniauth_callbacks#google_oauth2"
 
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'
@@ -45,12 +44,11 @@ Intranet::Application.routes.draw do
   end
 
   resources :schedules do
-      patch :get_event_status
-      patch :feedback
+    patch :get_event_status
+    patch :feedback
   end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  resources :schedules
   root 'home#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -86,7 +84,7 @@ Intranet::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'
